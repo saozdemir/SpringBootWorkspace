@@ -1,0 +1,17 @@
+|-----------------------------------------------------------------------------------|
+|------------------------------------SPRING BOOT------------------------------------|
+|-----------------------------------------------------------------------------------|
+Spring Nedir?
+    Bir framework'tür.
+    Kendi içinde parçalara ayrılır. Her parçanın bir görevi vardır ve ihtiyacımız olduğu kadarı projeye import edilir.
+    - Bir container oluşturup nesne tanımlamaya: Inversion of Control (IoC)
+    - Contaier dan nesne enjekte etmeye: Dependency Injection (DI)
+
+    Kaynak:
+        https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/overview.html
+
+ Microservice Nedir?
+    Projeyi bir bütün halinde değil küçük küçük parçalara bölmeye microservice mimarisi denir.
+
+    Kaynak:
+        https://spring.io/microservices
