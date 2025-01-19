@@ -54,3 +54,29 @@ Restful web servislerinin alternatifi soap (xml tabanlı) web servisleridir.
         502 Bad Gateway         : Sunucu, geçerli olmayan bir yanıt aldı (örneğin, başka bir sunucudan).
         503 Service Unavailable : Sunucu şu anda isteği işleyemiyor (örneğin, bakım nedeniyle).
         504 Gateway Timeout     : Sunucu, başka bir sunucudan yanıt beklerken zaman aşımına uğradı.
+
+
+KATMANLI MİMARİ
+    Spring Katmanlı Mimari yapısı
+        +------+    +----------+    +-------+    +----------------+    +--------+
+        |Client| => |Controller| => |Service| => |DAO (Repository)| => |DataBase|
+        +------+  ^ +----------+    +-------+    +----------------+    +--------+
+                JSON    API Layer   Business        Persistence
+                DTO's               Logic           Logic
+
+        Controller  : Gelen isteği karşılayan katman. Bir aksiyon oluştuğunda isteği alır servis katmanına gönderir. (Controller)
+                @RestController: Bu anotasyon ile controller katmanı olduğunu belirtiriz.
+        Service     : Kontrolleri gerçekleştirir. Lojik kontrollerin yapıldığı alandır. Dolu mu? Boş mu? vs. (Business)
+                @Service : Bu anotasyon ile service katmanı olduğu belirtilir.
+        Repository  : Veritabanına erişmek için kullanılan katmandır. (Persistence)
+                @Repository: Bu anotasyon ile persistence katmanı olduğu belirtilir.
+
+        Not: Spring context içinde @RestController, @Service ve @Repository anotasyonları ile de bean oluşturulur.
+
+       @AutoWired: Enjekte etmek anlamına gelir. Controller katmanına bu anotasyon eklenirde Spring Context içerisinde oluşturulan @Service bean'ini getirir.
+
+
+
+Context and Dependecy Injection
+    Inverion of Control (IoC): Bean oluşturmaya denir
+    Dependency Injection (DI): Bu bean'i kullanmaya denir.
