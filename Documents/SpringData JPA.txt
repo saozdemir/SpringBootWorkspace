@@ -24,10 +24,21 @@ https://www.enterprisedb.com/download-postgresql-binaries
 https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rights-on-windows/
 C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data
 
-initdb -D C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data -U postgres -E UTF8 --locale=C
+initdb -D C:\Users\xsaozdemir\Program Files\PostgreSQL\14\data -U postgres -E UTF8 --locale=C
+şifre sorarsa 1 gir. (geliştirme ortamı için)
+
+psql -U postgres -d postgres -h localhost -p 5432  1
 
 psql -U postgres -d postgres
 
+CREATE DATABASE postgres; -- Veritabanı adı
+CREATE USER postgres WITH PASSWORD '1'; -- Kullanıcı adı ve şifre.  KÖTÜ FİKİR!
+GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+
+psql -U postgres -d postgres -h localhost -p 5432
+Şifre sorarsa: 1
+
+----------------------------------------------------------------------------------
 CREATE DATABASE root;
 CREATE USER root WITH PASSWORD 'root'; -- Güvenlik nedeniyle root kullanımı ve bu kadar basit şifre önerilmez!
 GRANT ALL PRIVILEGES ON DATABASE root TO root;
