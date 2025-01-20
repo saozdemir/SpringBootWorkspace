@@ -1,0 +1,17 @@
+|----------------------------------------------------------------------------------------------------------------------|
+|---------------------------------------------------SPRING DATA JPA----------------------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------|
+     Spring Data JPA(Java Persistence Api) :
+        Spring Framwork'ün bir parçası olup ORM standartlarına sahip bir API'dır.
+        Spring Data JPA Hibernate altyapısını kullanmaktadır.
+
+    Hibernate ORM (Object Relational Mapping) :
+        Class ile DB Tablosunu mapleme işlemini gerçekleştirir.
+
+
+https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rights-on-windows/
+C:\Users\xsaozdemir\Program Files\PostgreSQL
+
+
+
+

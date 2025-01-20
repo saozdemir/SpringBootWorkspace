@@ -73,7 +73,7 @@
         Dependency Injection (DI): Bu bean'i kullanmaya denir.
 
 ------------------------------------------------------------------------------------------------------------------------
-ANNOTATION VE KULLANIMLARI
+    ANNOTATION VE KULLANIMLARI
 ------------------------------------------------------------------------------------------------------------------------
         @GetMapping : GET işlemi için kök url'e ekleme yapılarak sorgulama yapar
                         @GetMapping(path = "/list")

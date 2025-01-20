@@ -74,7 +74,7 @@ Ortak Versiyon Bilgileri
     Java        : 17.0.8
     Spring      : 3.4.1
     Maven       : 3.9.9 (Bundled)
-    PostgreSQL  : 16.2.1 (psql -V -> 16.2)
+    PostgreSQL  : 16.2.1 (psql -V -> 16.2) 16.6.3
 ------------------------------------------------------------------------------------------------------------------------
 
  https://github.com/saozdemir/SpringBootWorkspace.git
