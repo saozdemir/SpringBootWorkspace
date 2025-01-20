@@ -1,19 +1,79 @@
-|-----------------------------------------------------------------------------------|
-|------------------------------------SPRING BOOT------------------------------------|
-|-----------------------------------------------------------------------------------|
-Spring Nedir?
+|----------------------------------------------------------------------------------------------------------------------|
+|-----------------------------------------------------SPRING BOOT------------------------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------|
+    Spring Nedir?
     Bir framework'tür.
     Kendi içinde parçalara ayrılır. Her parçanın bir görevi vardır ve ihtiyacımız olduğu kadarı projeye import edilir.
     - Bir container oluşturup nesne tanımlamaya: Inversion of Control (IoC)
     - Contaier dan nesne enjekte etmeye: Dependency Injection (DI)
+------------------------------------------------------------------------------------------------------------------------
+        Dependencies:
+------------------------------------------------------------------------------------------------------------------------
+            Security: Güvenlik
+            JPA: JPA ile veritabanı işlemleri yapılacaksa
+            SQL Driver: Veritabanın türüne göre dirver eklemesi
+            Spring Web: REST API geliştirmeleri
 
-    Kaynak:
-        https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/overview.html
+------------------------------------------------------------------------------------------------------------------------
+        Kaynak:
+------------------------------------------------------------------------------------------------------------------------
+            https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/overview.html
 
- Microservice Nedir?
+------------------------------------------------------------------------------------------------------------------------
+    Microservice Nedir?
+------------------------------------------------------------------------------------------------------------------------
     Projeyi bir bütün halinde değil küçük küçük parçalara bölmeye microservice mimarisi denir.
 
     Kaynak:
         https://spring.io/microservices
 
- https://github.com/saozdemir/SpringBootWokspace.git
+------------------------------------------------------------------------------------------------------------------------
+    Spring Projesi Mimarisi
+------------------------------------------------------------------------------------------------------------------------
+    Application.java        => Spring uygulamasını ayağa kaldıran sınıftır.
+    application.properties  => Veritabanı ile çalışırken konfigürasyon ayarları buraya yazılır.
+
+------------------------------------------------------------------------------------------------------------------------
+    Maven
+------------------------------------------------------------------------------------------------------------------------
+    Bağımlıkıl yöneticisidir. Çalışma prensibi:
+    1- pom.xml dosyasındaki dependecyleri okur.
+    2- İlk önce maven local repoda arar ve bulursa alır.
+    3- Bulamazsa central repoya gidip buradan alır.
+    4- Eğer maen repoda da yoksa repositories altında tanımlanan repo varsa bu repolara gider.
+
+------------------------------------------------------------------------------------------------------------------------
+    Uygulama Sunucusu
+------------------------------------------------------------------------------------------------------------------------
+    Bir java EE uygulamasını ayağa kaldıran, kontol eden ve HTTP protokolü ile uygulamayı dışarı açar.
+    Ayrıca hata varsa bu hataları izleme imkanı sunar.
+    (Spring embedded Tomcat kullanıyor.)
+
+------------------------------------------------------------------------------------------------------------------------
+    Context ve Bean
+------------------------------------------------------------------------------------------------------------------------
+    Context bir kap ya da kase gibi düşünülürse, bean bu kase içindeki fasulye gibidir.
+        Context : @Bean anotasyonu eklenince context için bean sınıfı tanımanmış olur.
+        Bean    : Java Classları ortak kullanılan yapılar context içinde bean olarak tanımlanır ve ihtiyaç oldukça çağrılır.
+            * Bean Oluşturma Yöntemleri:
+                1- @Bean anotsyonu ile
+                2- sterotype (@Component > @Servie, @Repository, @Controller) ile oluşturma
+                3- Programmatically
+
+------------------------------------------------------------------------------------------------------------------------
+        Lombok
+------------------------------------------------------------------------------------------------------------------------
+    Anotasyon kullanarak getter setter ve constructor yazma zahmetinden kurtaran anotasyon üretme kütüphanesidir.
+    Kurulum:
+        1- Lombok sitesinden jar dosyasını indir ve kurulacak ide yi seçerek yükle.
+            (Idea da plugin olarak mevcut.)
+        2- Lombok kütüphanesini projeye ekle
+        3- Rebuild et
+------------------------------------------------------------------------------------------------------------------------
+Ortak Versiyon Bilgileri
+    Java    : 17.0.8
+    Spring  : 3.4.1
+    Maven   : 3.9.9 (Bundled)
+------------------------------------------------------------------------------------------------------------------------
+
+ https://github.com/saozdemir/SpringBootWorkspace.git

@@ -1,62 +1,66 @@
-REST API
+|----------------------------------------------------------------------------------------------------------------------|
+|-------------------------------------------------------REST API-------------------------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------|
+    Web tabanlı hizmetlerin diğer platformlarla iletişim kurmasını sağlar.
 
-Web tabanlı hizmetlerin diğer platformlarla iletişim kurmasını sağlar.
+    Client tarafı isteğini http protokolü üzerinden url adresi ile isteğini tetikler.
+    Gelen cevap JSON formatındadır.
+    Restful web servislerinin alternatifi soap (xml tabanlı) web servisleridir.
 
-Client tarafı isteğini http protokolü üzerinden url adresi ile isteğini tetikler.
-Gelen cevap JSON formatındadır.
-Restful web servislerinin alternatifi soap (xml tabanlı) web servisleridir.
+        HTTP Metotları
+            C => Create => POST
+            R => Read   => GET
+            U => Update => PUT
+            D => Delete => DELETE
 
-    HTTP Metotları
-        C => Create => POST
-        R => Read   => GET
-        U => Update => PUT
-        D => Delete => DELETE
+        HTTP Status Code
+            1XX => Informational (Bilgilendirme)
+            2XX => Success (Başarılı)
+            3XX => Redirection (Yönlendirme)
+            4XX => Client Error (Client tarafından yanlış istek atılmıştır.)
+            5XX => Server Error ()
+------------------------------------------------------------------------------------------------------------------------
+    HTTP STATUS CODES
+------------------------------------------------------------------------------------------------------------------------
+    1xx - Bilgilendirme (Informational)
+        Bu kodlar, istemcinin isteğinin alındığını ve işlenmekte olduğunu belirtir.
+            100 Continue            : İstemci isteğine devam edebilir. Sunucu, ilk kısmı aldı ve sorun olmadığını belirtti.
+            101 Switching Protocols : Sunucu, istemcinin protokol değiştirme isteğini kabul etti.
 
-    HTTP Status Code
-        1XX => Informational (Bilgilendirme)
-        2XX => Success (Başarılı)
-        3XX => Redirection (Yönlendirme)
-        4XX => Client Error (Client tarafından yanlış istek atılmıştır.)
-        5XX => Server Error ()
- -----------------------------------------------------------------------------------------------------------------------
-1xx - Bilgilendirme (Informational)
-    Bu kodlar, istemcinin isteğinin alındığını ve işlenmekte olduğunu belirtir.
-        100 Continue            : İstemci isteğine devam edebilir. Sunucu, ilk kısmı aldı ve sorun olmadığını belirtti.
-        101 Switching Protocols : Sunucu, istemcinin protokol değiştirme isteğini kabul etti.
+    2xx - Başarı (Success)
+        Bu kodlar, istemcinin isteğinin başarıyla alındığını ve işlendiğini belirtir.
+            200 OK                  : İstek başarılı oldu ve sunucu istenen bilgiyi döndürüyor.
+            201 Created             : İstek başarılı oldu ve sunucu bir kaynak oluşturdu.
+            202 Accepted            : İstek alındı ancak henüz işlenmedi.
+            204 No Content          : İstek başarılı ancak döndürülecek içerik yok.
 
-2xx - Başarı (Success)
-    Bu kodlar, istemcinin isteğinin başarıyla alındığını ve işlendiğini belirtir.
-        200 OK                  : İstek başarılı oldu ve sunucu istenen bilgiyi döndürüyor.
-        201 Created             : İstek başarılı oldu ve sunucu bir kaynak oluşturdu.
-        202 Accepted            : İstek alındı ancak henüz işlenmedi.
-        204 No Content          : İstek başarılı ancak döndürülecek içerik yok.
+    3xx - Yönlendirme (Redirection)
+        Bu kodlar, istemcinin isteğini tamamlamak için başka bir yere yönlendirilmesi gerektiğini belirtir.
+            301 Moved Permanently   : Kaynak kalıcı olarak başka bir URL'ye taşındı.
+            302 Found               : Kaynak geçici olarak başka bir URL'de bulunuyor.
+            303 See Other           : Kaynağa başka bir URL'den erişilmesi gerekiyor.
+            304 Not Modified        : Kaynak, son erişimden bu yana değişmedi (genellikle önbellekleme için kullanılır).
 
-3xx - Yönlendirme (Redirection)
-    Bu kodlar, istemcinin isteğini tamamlamak için başka bir yere yönlendirilmesi gerektiğini belirtir.
-        301 Moved Permanently   : Kaynak kalıcı olarak başka bir URL'ye taşındı.
-        302 Found               : Kaynak geçici olarak başka bir URL'de bulunuyor.
-        303 See Other           : Kaynağa başka bir URL'den erişilmesi gerekiyor.
-        304 Not Modified        : Kaynak, son erişimden bu yana değişmedi (genellikle önbellekleme için kullanılır).
+    4xx - İstemci Hatası (Client Error)
+        Bu kodlar, istemcinin isteğinin hatalı olduğunu belirtir.
+            400 Bad Request         : Sunucu, isteği anlayamadı (örneğin, bozuk bir veri formatı).
+            401 Unauthorized        : İstemci yetkilendirme gerektiriyor.
+            403 Forbidden           : İstemci, kaynağa erişim yetkisine sahip değil.
+            404 Not Found           : İstenen kaynak sunucuda bulunamadı.
+            405 Method Not Allowed  : İstek yöntemi (GET, POST, vb.) izin verilmiyor.
+            408 Request Timeout     : Sunucu, istemcinin isteği tamamlamasını çok uzun süre bekledi.
 
-4xx - İstemci Hatası (Client Error)
-    Bu kodlar, istemcinin isteğinin hatalı olduğunu belirtir.
-        400 Bad Request         : Sunucu, isteği anlayamadı (örneğin, bozuk bir veri formatı).
-        401 Unauthorized        : İstemci yetkilendirme gerektiriyor.
-        403 Forbidden           : İstemci, kaynağa erişim yetkisine sahip değil.
-        404 Not Found           : İstenen kaynak sunucuda bulunamadı.
-        405 Method Not Allowed  : İstek yöntemi (GET, POST, vb.) izin verilmiyor.
-        408 Request Timeout     : Sunucu, istemcinin isteği tamamlamasını çok uzun süre bekledi.
+    5xx - Sunucu Hatası (Server Error)
+        Bu kodlar, sunucunun istemcinin isteğini işleyemediğini belirtir.
+            500 Internal Server Error: Genel bir sunucu hatası.
+            501 Not Implemented     : Sunucu, istenen işlemi desteklemiyor.
+            502 Bad Gateway         : Sunucu, geçerli olmayan bir yanıt aldı (örneğin, başka bir sunucudan).
+            503 Service Unavailable : Sunucu şu anda isteği işleyemiyor (örneğin, bakım nedeniyle).
+            504 Gateway Timeout     : Sunucu, başka bir sunucudan yanıt beklerken zaman aşımına uğradı.
 
-5xx - Sunucu Hatası (Server Error)
-    Bu kodlar, sunucunun istemcinin isteğini işleyemediğini belirtir.
-        500 Internal Server Error: Genel bir sunucu hatası.
-        501 Not Implemented     : Sunucu, istenen işlemi desteklemiyor.
-        502 Bad Gateway         : Sunucu, geçerli olmayan bir yanıt aldı (örneğin, başka bir sunucudan).
-        503 Service Unavailable : Sunucu şu anda isteği işleyemiyor (örneğin, bakım nedeniyle).
-        504 Gateway Timeout     : Sunucu, başka bir sunucudan yanıt beklerken zaman aşımına uğradı.
-
-
-KATMANLI MİMARİ
+------------------------------------------------------------------------------------------------------------------------
+    KATMANLI MİMARİ
+------------------------------------------------------------------------------------------------------------------------
     Spring Katmanlı Mimari yapısı
         +------+    +----------+    +-------+    +----------------+    +--------+
         |Client| => |Controller| => |Service| => |DAO (Repository)| => |DataBase|
@@ -73,10 +77,9 @@ KATMANLI MİMARİ
 
         Not: Spring context içinde @RestController, @Service ve @Repository anotasyonları ile de bean oluşturulur.
 
-       @AutoWired: Enjekte etmek anlamına gelir. Controller katmanına bu anotasyon eklenirde Spring Context içerisinde oluşturulan @Service bean'ini getirir.
+       @AutoWired: Enjekte etmek anlamına gelir. Controller katmanına bu anotasyon eklenince Spring Context içerisinde oluşturulan @Service bean'ini getirir.
 
 
-
-Context and Dependecy Injection
-    Inverion of Control (IoC): Bean oluşturmaya denir
-    Dependency Injection (DI): Bu bean'i kullanmaya denir.
+    Context and Dependecy Injection
+        Inverion of Control (IoC): Bean oluşturmaya denir
+        Dependency Injection (DI): Bu bean'i kullanmaya denir.
