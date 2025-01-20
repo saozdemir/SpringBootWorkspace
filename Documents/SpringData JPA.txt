@@ -9,9 +9,29 @@
         Class ile DB Tablosunu mapleme işlemini gerçekleştirir.
 
 
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+POSTGER SQL Setup Olmadan Kurulum
+14.15.3
+postgres
+1
+
+
+https://www.enterprisedb.com/download-postgresql-binaries
 https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rights-on-windows/
-C:\Users\xsaozdemir\Program Files\PostgreSQL
+C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data
 
+initdb -D C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data -U postgres -E UTF8 --locale=C
 
+psql -U postgres -d postgres
+
+CREATE DATABASE root;
+CREATE USER root WITH PASSWORD 'root'; -- Güvenlik nedeniyle root kullanımı ve bu kadar basit şifre önerilmez!
+GRANT ALL PRIVILEGES ON DATABASE root TO root;
+
+psql -U root -d root
 
 
