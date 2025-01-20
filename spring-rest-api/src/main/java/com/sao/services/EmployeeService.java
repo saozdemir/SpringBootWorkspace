@@ -24,4 +24,24 @@ public class EmployeeService {
         // Logic ve null kontroller burada yapılacak.
         return employeeRepository.getAllEmployeList();
     }
+
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.getEmployeeById(id);
+    }
+
+    public List<Employee> getEmployeeWithParams(String name, String surname) {
+        return employeeRepository.getEmployeeWithParams(name, surname);
+    }
+
+    public Employee saveEmployee(Employee newEmployee) {
+        return employeeRepository.saveEmployee(newEmployee);
+    }
+
+    public boolean deleteEmployee(Long id) {
+        return employeeRepository.deleteEmployee(id);
+    }
+
+    public Employee updateEmployee(Long id, Employee updateEmployee) {
+        return employeeRepository.updateEmployee(id, updateEmployee);
+    }
 }

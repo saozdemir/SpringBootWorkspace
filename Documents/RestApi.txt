@@ -68,6 +68,33 @@
                 JSON    API Layer   Business        Persistence
                 DTO's               Logic           Logic
 
+    Context and Dependecy Injection
+        Inverion of Control (IoC): Bean oluşturmaya denir
+        Dependency Injection (DI): Bu bean'i kullanmaya denir.
+
+------------------------------------------------------------------------------------------------------------------------
+ANNOTATION VE KULLANIMLARI
+------------------------------------------------------------------------------------------------------------------------
+        @GetMapping : GET işlemi için kök url'e ekleme yapılarak sorgulama yapar
+                        @GetMapping(path = "/list")
+                        @GetMapping(path = "/list/{id}")
+        @PostMapping: POST işlemi ile yeni veri eklenirken kullanılır.
+
+        @DeleteMapping: DELETE işlemi için kullanılır.
+                            DELETE: http://localhost:8080/rest/api/employee/delete-employee/1
+                            @DeleteMapping(path = "/delete-employee/{id}")
+
+        @PutMapping : PUT işlemi (Update) için kullanılır.
+                            PUT: http://localhost:8080/rest/api/employee/update-employee/2
+                            {
+                                "id": 2,
+                                "name": "Seyit Ahmet",
+                                "surname": "ÖZDEMİR"
+                            }
+                            @PutMapping(path = "/update-employee/{id}")
+
+
+
         Controller  : Gelen isteği karşılayan katman. Bir aksiyon oluştuğunda isteği alır servis katmanına gönderir. (Controller)
                 @RestController: Bu anotasyon ile controller katmanı olduğunu belirtiriz.
         Service     : Kontrolleri gerçekleştirir. Lojik kontrollerin yapıldığı alandır. Dolu mu? Boş mu? vs. (Business)
@@ -80,6 +107,30 @@
        @AutoWired: Enjekte etmek anlamına gelir. Controller katmanına bu anotasyon eklenince Spring Context içerisinde oluşturulan @Service bean'ini getirir.
 
 
-    Context and Dependecy Injection
-        Inverion of Control (IoC): Bean oluşturmaya denir
-        Dependency Injection (DI): Bu bean'i kullanmaya denir.
+
+        @PathVariable   : Sorgu için gelen değeri kök url den ayırarak değişkene atamak için kullanılır.
+                            GET: http://localhost:8080/rest/api/employee-list/1
+
+                            @GetMapping(path = "/list/{id}")
+                            public Employee getEmployeeById(@PathVariable(name = "id", required = true) Long id) {
+                                return employeeService.getEmployeeById(id);
+                            }
+        @RequestParam   : Birden fazla kriter içren sorgular için kullanılır.
+                            GET: http://localhost:8080/rest/api/employee/with-params?name=Emir&surname=ÖZDEMİR
+
+                            @GetMapping(path = "/with-params")
+                            public List<Employee> getEmployeeWithParams(@RequestParam(name = "name", required = false) String name,
+                                                                        @RequestParam(name = "surname", required = false) String surname) {
+                                return employeeService.getEmployeeWithParams(name, surname);
+                            }
+        @RequestBody    : JSON formatında yeni ekleme yapılmak istendiğinde kullanılır.
+                            POST: http://localhost:8080/rest/api/employee/save-employee
+                                {
+                                    "id": 4,
+                                    "name": "Miray",
+                                    "surname": "ÖZDEMİR"
+                                }
+                            @PostMapping(path = "/save-employee")
+                            public Employee saveEmployee(@RequestBody Employee newEmployee){
+                                return employeeService.saveEmployee(newEmployee);
+                            }
