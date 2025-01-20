@@ -9,6 +9,8 @@
         Class ile DB Tablosunu mapleme işlemini gerçekleştirir.
 
 
+        https://www.javaguides.net/2020/10/defining-jpa-entity-entity-annotation.html
+        https://hackernoon.com/using-postgres-effectively-in-spring-boot-applications
 
 
 
