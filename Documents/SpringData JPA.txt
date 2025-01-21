@@ -18,7 +18,11 @@
         spring.jpa.hibernate.ddl-auto=<create | create-drop | update | validate | none>
         spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
-
+------------------------------------------------------------------------------------------------------------------------
+    Entity Class ve DTO Class
+------------------------------------------------------------------------------------------------------------------------
+        Entity Class: Tüm veri tabanı alanları ile eşleşen class'dır.
+        DTO Class   : Sadece istenilen fieldların dışarı verilmesini sağlar.
 ------------------------------------------------------------------------------------------------------------------------
 POSTGER SQL Setup Olmadan Kurulum
 14.15.3

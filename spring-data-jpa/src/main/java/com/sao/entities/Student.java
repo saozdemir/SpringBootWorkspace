@@ -1,9 +1,11 @@
 package com.sao.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -28,6 +30,8 @@ public class Student {
     private String name;
     @Column(name = "surname", nullable = false)
     private String surname;
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "birth_of_date", nullable = true)
     private Date birthOfDate;
 }

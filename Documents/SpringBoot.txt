@@ -76,6 +76,14 @@
             @Data               : getter ve setter her ikisini de ekler
             @NoArgsConstructor  : parametresiz constructor
             @AllArgsConstructor : parametre alan constructor.
+
+------------------------------------------------------------------------------------------------------------------------
+        Spring Application Starter Settings
+------------------------------------------------------------------------------------------------------------------------
+    Spring uygulaması ayağa kaldırılırken kullandığımız yeteneklere göre @SpringBootApplication anotasyonu ile işaretlenmiş starter classına aşağıdaki tanımlamaların yapılması gereklidir.
+        @EntityScan(basePackages = {"com.sao"})             : @Entity anotasyonu ile işaterli sınıfların spring uygulamasında görülmesini sağlar.
+        @ComponentScan(basePackages = {"com.sao"})          : @RestController, @Service ve @Repository anotasyonları ile işaterli sınıfların spring uygulamasında görülmesini sağlar.
+        @EnableJpaRepositories(basePackages = {"com.sao"})  : JpaRepositroy interface ini kullanırsak bu sınıfları görmesini sağlar.
 ------------------------------------------------------------------------------------------------------------------------
 Ortak Versiyon Bilgileri
     Java        : 17.0.8
