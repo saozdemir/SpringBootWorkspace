@@ -30,9 +30,23 @@ https://www.enterprisedb.com/download-postgresql-binaries
 https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rights-on-windows/
 C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data
 
+
+Kurulum
+    initdb -D C:\Users\xsaozdemir\pgdata -U postgres -E UTF8 --locale=C
+Sunucu Başlat
+    pg_ctl.exe start -D "C:\Users\xsaozdemir\pgdata" -l logfile.log
+
+Sunucuyu Durdur:
+    pg_ctl.exe stop -D "C:\Users\xsaozdemir\pgdata" -m smart
+
 initdb -D C:\Users\xsaozdemir\Program Files\PostgreSQL\14\data -U postgres -E UTF8 --locale=C
 şifre sorarsa 1 gir. (geliştirme ortamı için)
 
+pg_ctl.exe register -N "postgresql-x64-14" -D "C:\Users\xsaozdemir\pgdata" -U postgres -P "postgres_şifresi"
+
+ALTER ROLE postgres WITH PASSWORD 'yeni_şifre';
+
+-------------------------------------------------
 psql -U postgres -d postgres -h localhost -p 5432  1
 
 psql -U postgres -d postgres

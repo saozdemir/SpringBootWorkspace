@@ -69,6 +69,13 @@
             (Idea da plugin olarak mevcut.)
         2- Lombok kütüphanesini projeye ekle
         3- Rebuild et
+
+        Annotation
+            @Getter             : get metotlarını otomatik ekler.
+            @Setter             : set metotlarını otomatik ekler
+            @Data               : getter ve setter her ikisini de ekler
+            @NoArgsConstructor  : parametresiz constructor
+            @AllArgsConstructor : parametre alan constructor.
 ------------------------------------------------------------------------------------------------------------------------
 Ortak Versiyon Bilgileri
     Java        : 17.0.8
