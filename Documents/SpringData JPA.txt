@@ -4,25 +4,38 @@
      Spring Data JPA(Java Persistence Api) :
         Spring Framwork'ün bir parçası olup ORM standartlarına sahip bir API'dır.
         Spring Data JPA Hibernate altyapısını kullanmaktadır.
-
+------------------------------------------------------------------------------------------------------------------------
     Hibernate ORM (Object Relational Mapping) :
+------------------------------------------------------------------------------------------------------------------------
         Class ile DB Tablosunu mapleme işlemini gerçekleştirir.
 
+        HQL: Hibernate Query Language - Sınıf isimleri ve değişken isimleri ile sorgulama yapmak için kullanılır.
+        SQL: Tablo ismi ve tablo içerisindeki kolon isimleri ile sorgular yazılır.
+
+        HQL Sorgusu ile Kullanımı
+            nativeQuery default olarak false gelir ve HQL sorgusu yazacak şekilde kullanılır.
+                @Query(value = "from Student" , nativeQuery = false)
+
+        SQL Sorgusu ile Kullanımı
+            Eğer nativeQuery true ise norlam SQL sorgusu şeklinde veritabanında Tablo ve Colum adına göre sorgu yazılır.
+            @Query(value = "select  * from student.student" , nativeQuery = true)//student şemasındaki student tablosuna git
+
+
+    Kaynaklar:
 
         https://www.javaguides.net/2020/10/defining-jpa-entity-entity-annotation.html
         https://hackernoon.com/using-postgres-effectively-in-spring-boot-applications
+------------------------------------------------------------------------------------------------------------------------
 
-        spring.datasource.url=jdbc:postgresql://localhost:5432/<YOUR_DATABASE_NAME>
-        spring.datasource.username=<YOUR_USERNAME>
-        spring.datasource.password=<YOUR_PASSWORD>
-        spring.jpa.hibernate.ddl-auto=<create | create-drop | update | validate | none>
-        spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
 ------------------------------------------------------------------------------------------------------------------------
     Entity Class ve DTO Class
 ------------------------------------------------------------------------------------------------------------------------
         Entity Class: Tüm veri tabanı alanları ile eşleşen class'dır.
-        DTO Class   : Sadece istenilen fieldların dışarı verilmesini sağlar.
+        DTO Class   : Data Transfer Object.Sadece istenilen fieldların dışarı verilmesini sağlar.
+
+        Güvenlik nedeniyle @Entitiy anotasyonu ile işaretlenmiş sınıflar dışarıya açılmaz. Bunun yerine DTO sınıfları kullanılır.
+
 ------------------------------------------------------------------------------------------------------------------------
 POSTGER SQL Setup Olmadan Kurulum
 14.15.3

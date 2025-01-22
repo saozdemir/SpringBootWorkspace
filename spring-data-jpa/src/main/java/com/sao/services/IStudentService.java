@@ -1,5 +1,7 @@
 package com.sao.services;
 
+import com.sao.dto.StudentDto;
+import com.sao.dto.StudentDtoIU;
 import com.sao.entities.Student;
 
 import java.util.List;
@@ -12,9 +14,13 @@ import java.util.List;
  * @description:
  */
 public interface IStudentService {
-    public Student saveStudent(Student student);
+    public StudentDto saveStudent(StudentDtoIU studentDtoIU);
 
-    public List<Student> getAllStudents();
+    public List<StudentDto> getAllStudents();
 
-    public Student getStudentById(Integer id);
+    public StudentDto getStudentById(Integer id);
+
+    public boolean deleteStudent(Integer id);
+
+    public StudentDto updateStudent(Integer id, StudentDtoIU updatedStudent);
 }
