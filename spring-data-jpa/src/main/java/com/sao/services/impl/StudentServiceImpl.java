@@ -54,6 +54,8 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public StudentDto getStudentById(Integer id) {
         StudentDto dto = new StudentDto();
+        /** Aşağıdaki satır @Query anotasyonu ile yazılmış sorguyu test etmek için kullanıldı.*/
+//        Student testQueryStudent = studentRepository.findStudentById(id);
         Optional<Student> optional = studentRepository.findById(id);
         if (optional.isPresent()) { //!optional.isEmpty()
             Student dbStudent = optional.get();

@@ -84,7 +84,14 @@
         @EntityScan(basePackages = {"com.sao"})             : @Entity anotasyonu ile işaterli sınıfların spring uygulamasında görülmesini sağlar.
         @ComponentScan(basePackages = {"com.sao"})          : @RestController, @Service ve @Repository anotasyonları ile işaterli sınıfların spring uygulamasında görülmesini sağlar.
         @EnableJpaRepositories(basePackages = {"com.sao"})  : JpaRepositroy interface ini kullanırsak bu sınıfları görmesini sağlar.
+
 ------------------------------------------------------------------------------------------------------------------------
+        Spring Validations
+------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------------------
+
 Ortak Versiyon Bilgileri
     Java        : 17.0.8
     Spring      : 3.4.1
