@@ -18,4 +18,6 @@ public interface ITodoController {
     TodoDto addTodo(TodoDto addTodo);
 
     boolean deleteTodo(Integer id);
+
+    TodoDto updateTodo(Integer id, TodoDto newTodo);
 }

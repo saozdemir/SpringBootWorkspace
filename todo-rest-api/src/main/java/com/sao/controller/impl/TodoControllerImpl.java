@@ -39,4 +39,10 @@ public class TodoControllerImpl implements ITodoController {
     public boolean deleteTodo(@PathVariable(name = "id") Integer id) {
         return todoService.deleteTodo(id);
     }
+
+    @PutMapping(path = "/update/{id}")
+    @Override
+    public TodoDto updateTodo(@PathVariable(name = "id") Integer id, @RequestBody TodoDto newTodo) {
+        return todoService.updateTodo(id, newTodo);
+    }
 }

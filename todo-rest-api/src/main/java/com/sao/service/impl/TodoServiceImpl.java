@@ -31,7 +31,7 @@ public class TodoServiceImpl implements ITodoService {
     public List<TodoDto> getAllTodos() {
         List<TodoDto> dtoList = new ArrayList<>();
         List<Todo> dbList = todoRepository.findAll();
-        for (Todo todo : dbList){
+        for (Todo todo : dbList) {
             TodoDto dto = new TodoDto();
             BeanUtils.copyProperties(todo, dto);
             dtoList.add(dto);
@@ -46,17 +46,33 @@ public class TodoServiceImpl implements ITodoService {
         BeanUtils.copyProperties(addTodo, todo);
         todo.setCreateDate(new Date());
         todo = todoRepository.save(todo);
-        BeanUtils.copyProperties(todo,responseTodo);
+        BeanUtils.copyProperties(todo, responseTodo);
         return responseTodo;
     }
 
     @Override
     public boolean deleteTodo(Integer id) {
         Optional<Todo> optional = todoRepository.findById(id);
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
             todoRepository.delete(optional.get());
             return true;
         }
         return false;
+    }
+
+    @Override
+    public TodoDto updateTodo(Integer id, TodoDto newTodo) {
+        Optional<Todo> optional = todoRepository.findById(id);
+        Todo dbTodo = new Todo();
+        TodoDto responseTodo = new TodoDto();
+        if (optional.isPresent()) {
+            dbTodo = optional.get();
+            dbTodo.setContent(newTodo.getContent());
+            dbTodo.setCreateDate(new Date());
+            todoRepository.save(dbTodo);
+            BeanUtils.copyProperties(dbTodo,responseTodo);
+            return responseTodo;
+        }
+        return responseTodo;
     }
 }

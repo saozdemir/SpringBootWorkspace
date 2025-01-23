@@ -15,4 +15,5 @@ public interface ITodoService {
     List<TodoDto> getAllTodos();
     TodoDto addTodo (TodoDto addTodo);
     boolean deleteTodo (Integer id);
+    TodoDto updateTodo (Integer id, TodoDto newTodo);
 }

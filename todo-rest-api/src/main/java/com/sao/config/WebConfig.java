@@ -13,12 +13,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+    private final String[] allowedOrigins = {
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+    };
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:5173") // React uygulamasının URL'si
+                .allowedOrigins(allowedOrigins)//.allowedOrigins("http://localhost:5173") // React uygulamasının URL'si//127.0.0.1
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
+        //.allowedOrigins("*") // Tüm origin'lere izin verir
     }
 }
