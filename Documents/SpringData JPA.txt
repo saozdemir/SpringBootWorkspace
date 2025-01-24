@@ -48,6 +48,7 @@ https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rig
 C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data
 
 
+CMD Dizini: C:\Users\xsaozdemir\Program Files\PostgreSQL\14\bin
 Kurulum
     initdb -D C:\Users\xsaozdemir\pgdata -U postgres -E UTF8 --locale=C
 Sunucu Başlat

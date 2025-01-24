@@ -88,7 +88,40 @@
 ------------------------------------------------------------------------------------------------------------------------
         Spring Validations
 ------------------------------------------------------------------------------------------------------------------------
+    Spring validation bağımlılığı eklenerek kullanılır. (Annotationlar Jakarta olmalı)
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-validation</artifactId>
+                </dependency>
 
+    @NotNull    : Null olmasını istemdiğimiz alanlar için kullanılır.
+    @NotEmpty   : Null ve Empty olmasını istemediklerimiz için kullanılır.
+           Blank   : String name;       gibi tanımlanırsa.
+           Null    : String name=null;  gibi tanımlanırsa.
+           Empty   : String name="";    gibi tanımlanırsa.
+    @Size       : Minimum ve Maksimum değerleri kontorl eder.
+    @Min        : Sadece minimum değer kontrolü
+    @Max        : Sadece maksimum değer kontrolü
+    @Email      : Email formatında giriş yapılıp yapılmadığını kontrol eder.
+    @Valid      : DTO Sınıfında tanımlı valid anotasyonlarını aktif hale getirir.
+
+    DTO Class'da tanımlanan validasyonların çalışabilmesi için RestController de tanımlanan  alana @Valid anotasyonu eklenmelidir.
+                @NotNull(message = "İsim alanı boş bırakılamaz!")
+                private String name;
+               ------
+                @PostMapping("/save")
+                @Override                                  ------
+                public StudentDto saveStudent(@RequestBody @Valid StudentDtoIU studentDtoIU) {
+                                                           ------
+                    return studentService.saveStudent(studentDtoIU);
+                }
+
+------------------------------------------------------------------------------------------------------------------------
+        Exception Handling
+------------------------------------------------------------------------------------------------------------------------
+    @ControllerAdvice   : Bir sınıfın ExceptionHandler sınıfı olduğunu tanıtmak için kullanılır.
+    @ExceptionHandler   : Hanadle metodu üserinde tanımlanır. Metodun hangi exception u handle edeceğini belirtmek için:
+                            @ExceptionHandler(value = MethodArgumentNotValidException.class) şeklinde kullanılır.
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -97,6 +130,7 @@ Ortak Versiyon Bilgileri
     Spring      : 3.4.1
     Maven       : 3.9.9 (Bundled)
     PostgreSQL  : 16.2.1 (psql -V -> 16.2) 16.6.3
+                  14.15 (binary)
 ------------------------------------------------------------------------------------------------------------------------
 
  https://github.com/saozdemir/SpringBootWorkspace.git
