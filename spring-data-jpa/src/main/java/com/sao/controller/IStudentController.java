@@ -14,7 +14,7 @@ import java.util.List;
  * @description:
  */
 public interface IStudentController {
-    public StudentDto saveStudent(StudentDtoIU studentDtoUI);
+    public StudentDto saveStudent(StudentDtoIU studentDtoUI) throws Exception;
 
     public List<StudentDto> getAllStudents();
 

@@ -20,6 +20,26 @@
             Eğer nativeQuery true ise norlam SQL sorgusu şeklinde veritabanında Tablo ve Colum adına göre sorgu yazılır.
             @Query(value = "select  * from student.student" , nativeQuery = true)//student şemasındaki student tablosuna git
 
+        --------------------------
+           Anotasyonlar
+        --------------------------
+        @Entity     : Veritabanı nesnesi olduğu belirtmek için kullanılır.
+        @Table      : Veritabanındaki tablo ile map işlemi yapılır. (Ör. @Table(name = "student"))
+        @Column     : Tabloda bir sütun adı ile map işlemi için kullanılır. (Ör. @Column(name = "name", nullable = false))
+        @Id         : Entity'ye ait bir primary key tanımlanan alan için kullanılır.
+        @GeneratedValue(): Id üretme yöntemini belirler. (Ör. @GeneratedValue(strategy = GenerationType.IDENTITY))
+                            GenerationType.TABLE, SEQUENCE, IDENTITY, UUID, AUTO;
+
+
+        --------------------------
+            Relations
+        --------------------------
+        Entity arasındabi bağlantıları sağlamak için kullanılır.
+
+        @OneToOne   : Bir tablodaki her kayıt diğerinde sadece 1 kayıtla eşlenir. (Ör. Customer - IdCard)
+        @OneToMany  : Bir tabloda bulunan 1 kayıt, diğer tabloda bulunan birden fazla kayıt ile ilişkilidir. (Ör. Department - Employee)
+        @ManyToOne  : Bir tabloda bulunan kayıtlar diğer tablodaki 1 kayıt ile ilişkilidir. (Ör. Employee - Department)
+        @ManyToMany : Bir tabloda bulunan çok sayıda kayıt diğer tablodaki çok sayıda kayıt ile ilişkilidir. (Ör. Student - Course)
 
     Kaynaklar:
 
