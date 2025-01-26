@@ -30,6 +30,10 @@
         @GeneratedValue(): Id üretme yöntemini belirler. (Ör. @GeneratedValue(strategy = GenerationType.IDENTITY))
                             GenerationType.TABLE, SEQUENCE, IDENTITY, UUID, AUTO;
 
+            Kaynaklar:
+
+                   https://www.javaguides.net/2020/10/defining-jpa-entity-entity-annotation.html
+                   https://hackernoon.com/using-postgres-effectively-in-spring-boot-applications
 
         --------------------------
             Relations
@@ -41,10 +45,10 @@
         @ManyToOne  : Bir tabloda bulunan kayıtlar diğer tablodaki 1 kayıt ile ilişkilidir. (Ör. Employee - Department)
         @ManyToMany : Bir tabloda bulunan çok sayıda kayıt diğer tablodaki çok sayıda kayıt ile ilişkilidir. (Ör. Student - Course)
 
-    Kaynaklar:
+            Kaynaklar:
+                https://medium.com/@mericalkisla/spring-boot-ve-jpa-hibernate-ile-entity-i%CC%87li%C5%9Fkilerini-anlamak-a5a3190d213f
 
-        https://www.javaguides.net/2020/10/defining-jpa-entity-entity-annotation.html
-        https://hackernoon.com/using-postgres-effectively-in-spring-boot-applications
+
 ------------------------------------------------------------------------------------------------------------------------
 
 
