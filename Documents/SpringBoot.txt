@@ -77,6 +77,9 @@
             @NoArgsConstructor  : parametresiz constructor
             @AllArgsConstructor : parametre alan constructor.
 
+            FasterXML Kütüphanesi
+            @JsonInclude(JsonInclude.Include.NON_NULL)  : Bu anotasyon ile bir dataclass(dto) da boş alanlar varsa bunları dönmez.
+
 ------------------------------------------------------------------------------------------------------------------------
         Spring Application Starter Settings
 ------------------------------------------------------------------------------------------------------------------------

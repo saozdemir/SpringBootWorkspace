@@ -45,6 +45,8 @@
         @ManyToOne  : Bir tabloda bulunan kayıtlar diğer tablodaki 1 kayıt ile ilişkilidir. (Ör. Employee - Department)
         @ManyToMany : Bir tabloda bulunan çok sayıda kayıt diğer tablodaki çok sayıda kayıt ile ilişkilidir. (Ör. Student - Course)
 
+        mappedBy    : Relation bağlısını ifade etmek için kullanılır. Relationu asıl yönetenın bu sınf olmadığını belirtmek için
+
             Kaynaklar:
                 https://medium.com/@mericalkisla/spring-boot-ve-jpa-hibernate-ile-entity-i%CC%87li%C5%9Fkilerini-anlamak-a5a3190d213f
 
@@ -61,50 +63,50 @@
         Güvenlik nedeniyle @Entitiy anotasyonu ile işaretlenmiş sınıflar dışarıya açılmaz. Bunun yerine DTO sınıfları kullanılır.
 
 ------------------------------------------------------------------------------------------------------------------------
-POSTGER SQL Setup Olmadan Kurulum
-14.15.3
-postgres
-1
+    POSTGER SQL Setup Olmadan Kurulum
+    14.15.3
+    postgres
+    1
 
 
-https://www.enterprisedb.com/download-postgresql-binaries
-https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rights-on-windows/
-C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data
+    https://www.enterprisedb.com/download-postgresql-binaries
+    https://www.geeksforgeeks.org/postgresql-installing-postgresql-without-admin-rights-on-windows/
+    C:\Users\xsaozdemir\Program Files\PostgreSQL\16\data
 
 
-CMD Dizini: C:\Users\xsaozdemir\Program Files\PostgreSQL\14\bin
-Kurulum
-    initdb -D C:\Users\xsaozdemir\pgdata -U postgres -E UTF8 --locale=C
-Sunucu Başlat
-    pg_ctl.exe start -D "C:\Users\xsaozdemir\pgdata" -l logfile.log
+    CMD Dizini: C:\Users\xsaozdemir\Program Files\PostgreSQL\14\bin
+    Kurulum
+        initdb -D C:\Users\xsaozdemir\pgdata -U postgres -E UTF8 --locale=C
+    Sunucu Başlat
+        pg_ctl.exe start -D "C:\Users\xsaozdemir\pgdata" -l logfile.log
 
-Sunucuyu Durdur:
-    pg_ctl.exe stop -D "C:\Users\xsaozdemir\pgdata" -m smart
+    Sunucuyu Durdur:
+        pg_ctl.exe stop -D "C:\Users\xsaozdemir\pgdata" -m smart
 
-initdb -D C:\Users\xsaozdemir\Program Files\PostgreSQL\14\data -U postgres -E UTF8 --locale=C
-şifre sorarsa 1 gir. (geliştirme ortamı için)
+    initdb -D C:\Users\xsaozdemir\Program Files\PostgreSQL\14\data -U postgres -E UTF8 --locale=C
+    şifre sorarsa 1 gir. (geliştirme ortamı için)
 
-pg_ctl.exe register -N "postgresql-x64-14" -D "C:\Users\xsaozdemir\pgdata" -U postgres -P "postgres_şifresi"
+    pg_ctl.exe register -N "postgresql-x64-14" -D "C:\Users\xsaozdemir\pgdata" -U postgres -P "postgres_şifresi"
 
-ALTER ROLE postgres WITH PASSWORD 'yeni_şifre';
+    ALTER ROLE postgres WITH PASSWORD 'yeni_şifre';
 
--------------------------------------------------
-psql -U postgres -d postgres -h localhost -p 5432  1
+    -------------------------------------------------
+    psql -U postgres -d postgres -h localhost -p 5432  1
 
-psql -U postgres -d postgres
+    psql -U postgres -d postgres
 
-CREATE DATABASE postgres; -- Veritabanı adı
-CREATE USER postgres WITH PASSWORD '1'; -- Kullanıcı adı ve şifre.  KÖTÜ FİKİR!
-GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+    CREATE DATABASE postgres; -- Veritabanı adı
+    CREATE USER postgres WITH PASSWORD '1'; -- Kullanıcı adı ve şifre.  KÖTÜ FİKİR!
+    GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
 
-psql -U postgres -d postgres -h localhost -p 5432
-Şifre sorarsa: 1
+    psql -U postgres -d postgres -h localhost -p 5432
+    Şifre sorarsa: 1
 
-----------------------------------------------------------------------------------
-CREATE DATABASE root;
-CREATE USER root WITH PASSWORD 'root'; -- Güvenlik nedeniyle root kullanımı ve bu kadar basit şifre önerilmez!
-GRANT ALL PRIVILEGES ON DATABASE root TO root;
+    ----------------------------------------------------------------------------------
+    CREATE DATABASE root;
+    CREATE USER root WITH PASSWORD 'root'; -- Güvenlik nedeniyle root kullanımı ve bu kadar basit şifre önerilmez!
+    GRANT ALL PRIVILEGES ON DATABASE root TO root;
 
-psql -U root -d root
+    psql -U root -d root
 
 
