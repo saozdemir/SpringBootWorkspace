@@ -1,7 +1,6 @@
-package com.sao.services.impl;
+package com.sao.services;
 
 import com.sao.dto.CustomerDto;
-import com.sao.repository.CustomerRepository;
 
 /**
  * @author saozdemir

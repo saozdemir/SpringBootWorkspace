@@ -1,8 +1,8 @@
 package com.sao.controller.impl;
 
-import com.sao.controller.ICustomerController;
-import com.sao.dto.CustomerDto;
-import com.sao.services.ICustomerService;
+import com.sao.controller.IHomeController;
+import com.sao.dto.HomeDto;
+import com.sao.services.IHomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author saozdemir
  * @project SpringBootWorkspace
- * @date 28 Oca 2025
+ * @date 30 Oca 2025
  * <p>
  * @description:
  */
 @RestController
-@RequestMapping("/rest/api/customer")
-public class CustomerControllerImpl implements ICustomerController {
+@RequestMapping("/rest/api/home")
+public class HomeControllerImpl implements IHomeController {
 
     @Autowired
-    private ICustomerService customerService;
+    private IHomeService homeService;
 
-    @GetMapping(path = "/list/{id}")
+    @GetMapping(path = "/{id}")
     @Override
-    public CustomerDto findCustomerById(@PathVariable(name = "id") Long id) {
-        return customerService.findCustomerById(id);
+    public HomeDto findHomeById(@PathVariable(name = "id") Long id) {
+        return homeService.findHomeById(id);
     }
 }
