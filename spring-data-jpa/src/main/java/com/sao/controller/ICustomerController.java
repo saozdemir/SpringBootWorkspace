@@ -1,6 +1,9 @@
 package com.sao.controller;
 
 import com.sao.dto.CustomerDto;
+import com.sao.dto.CustomerDtoIU;
+
+import java.util.List;
 
 /**
  * @author saozdemir
@@ -10,5 +13,14 @@ import com.sao.dto.CustomerDto;
  * @description:
  */
 public interface ICustomerController {
+
+    List<CustomerDto> getAllCustomer();
+
     CustomerDto findCustomerById(Long id);
+
+    CustomerDto saveCustomer(CustomerDtoIU saveCustomer);
+
+    CustomerDto deleteCustomer(Long id);
+
+    CustomerDto updateCustomer(CustomerDtoIU updateCustomer, Long id);
 }

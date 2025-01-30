@@ -27,7 +27,8 @@ public class Customer {
     private String name;
 
     /** Relation sahibi */
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "address_id", referencedColumnName = "id", unique = true)
     private Address address;
 
 }
