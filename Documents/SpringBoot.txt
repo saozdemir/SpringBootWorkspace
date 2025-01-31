@@ -120,6 +120,23 @@
                 }
 
 ------------------------------------------------------------------------------------------------------------------------
+        Application Properties
+------------------------------------------------------------------------------------------------------------------------
+        Bunun benzeri .properties değil .yaml uzantılı dosyadır. Sadece farklı standarda sahiptir.
+        Spring uygulama ayağa kalkarken application.properties dosyasını okuyup buna göre ayarlamaları yapar.
+        Mevcut spring sabitleri yerine kendi değişken ayarlamalarımızı da tanımlayabiliriz.
+
+        @PropertySource : application.properties dosyasında farklı bir isim vermek istenirse, Spring Projesinini ayağa kaldırıldığı
+                        @SpringBootApplication anotasyonu ile işaretli sınıfa
+                        @PropertySource(value = "classpath:app.properties") anotasyon eklemesi yapılır.
+        @Value          : application.properties dosyasından veri çekmek için kullanılır. Bu yeteneği kullanabilmek için bu anotasyonun kullanıldığı sınıfa
+                        @Component anotasyonu eklenmelidir. Bu sayede Uygulama ayağa kalkardan @Value anotasyonu ile işaretlenen alanlar properties dosyasından doldurulur ve spring container da bean oluşur.
+
+
+        Kaynak:
+            https://medium.com/@sercan.bedir/spring-boot-application-properties-yap%C4%B1s%C4%B1-4027ba02bcce
+
+------------------------------------------------------------------------------------------------------------------------
         Exception Handling
 ------------------------------------------------------------------------------------------------------------------------
     @ControllerAdvice   : Bir sınıfın ExceptionHandler sınıfı olduğunu tanıtmak için kullanılır.
