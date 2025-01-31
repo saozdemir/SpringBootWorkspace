@@ -1,7 +1,9 @@
 package com.sao.services.impl;
 
+import com.sao.dto.CourseDto;
 import com.sao.dto.StudentDto;
 import com.sao.dto.StudentDtoIU;
+import com.sao.entities.Course;
 import com.sao.entities.Student;
 import com.sao.repository.StudentRepository;
 import com.sao.services.IStudentService;
@@ -60,6 +62,15 @@ public class StudentServiceImpl implements IStudentService {
         if (optional.isPresent()) { //!optional.isEmpty()
             Student dbStudent = optional.get();
             BeanUtils.copyProperties(dbStudent,dto);
+
+            if(dbStudent.getCourses() != null && !dbStudent.getCourses().isEmpty()) {
+                for (Course course : dbStudent.getCourses()) {
+                    CourseDto courseDto = new CourseDto();
+                    BeanUtils.copyProperties(course, courseDto);
+                    dto.getCourses().add(courseDto);
+                }
+            }
+
             return dto;
         }
         return null;

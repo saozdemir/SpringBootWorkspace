@@ -41,13 +41,31 @@
         Entity arasındabi bağlantıları sağlamak için kullanılır.
 
         @OneToOne   : Bir tablodaki her kayıt diğerinde sadece 1 kayıtla eşlenir. (Ör. Customer - IdCard)
+                      Yeni br kolon açarak ilişkilendirir.
         @OneToMany  : Bir tabloda bulunan 1 kayıt, diğer tabloda bulunan birden fazla kayıt ile ilişkilidir. (Ör. Department - Employee)
+                      Yeni bir tablo açarak ilişkilendirir.
         @ManyToOne  : Bir tabloda bulunan kayıtlar diğer tablodaki 1 kayıt ile ilişkilidir. (Ör. Employee - Department)
+                      Yeni br kolon açarak ilişkilendirir.
         @ManyToMany : Bir tabloda bulunan çok sayıda kayıt diğer tablodaki çok sayıda kayıt ile ilişkilidir. (Ör. Student - Course)
-
+                      Yeni bir tablo açarak ilişkilendirir.
         mappedBy    : Relation bağlısını ifade etmek için kullanılır. Relationu asıl yönetenın bu sınf olmadığını belirtmek için
 
         @Transactional  : Aynı entity üzerinde işlem yapılmasını engeller. Metodu atomic hale getirir.
+
+        @JoinTable      : İki tabloyu birleştirerek üçüncü bir tabloda eşleşen verileri tutmak için kullanılır.
+            name                : Yeni Tablo adı
+            joinColumns         : Bulunduğumuz entity den yeni tabloya eklenecek column.
+                                @JoinColumn anotasyonu ile kullanılır. name ile aydığı değer yeni tablodaki column adıdır.
+            inverseJoinColumns  : İlişki kurduğumuz entityden tabloya eklenecek column.
+                                @JoinColumn anotasyonu ile kullanılır. name ile aydığı değer yeni tablodaki column adıdır.
+
+                    @JoinTable(name = "student_course", joinColumns = @JoinColumn(name="student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+                        Yukarıdaki tabloda student_course adında yeni tablo oluşturur.
+                        Student tablosundan aldığı id değerini student_id sütunununda,
+                        Course tablosundan aldığı id değerini course_id sütununda tutar.
+
+
+
 
             Kaynaklar:
                 https://medium.com/@mericalkisla/spring-boot-ve-jpa-hibernate-ile-entity-i%CC%87li%C5%9Fkilerini-anlamak-a5a3190d213f
