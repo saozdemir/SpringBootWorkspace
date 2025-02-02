@@ -132,6 +132,14 @@
         @Value          : application.properties dosyasından veri çekmek için kullanılır. Bu yeteneği kullanabilmek için bu anotasyonun kullanıldığı sınıfa
                         @Component anotasyonu eklenmelidir. Bu sayede Uygulama ayağa kalkardan @Value anotasyonu ile işaretlenen alanlar properties dosyasından doldurulur ve spring container da bean oluşur.
 
+        @ConfigurationProperties    : @Value anotasyonu ile daha hızlı ve tek veriler okunurken @ConfigurationProperties
+                                    iç içe geçmiş daha karmaşık yapıları java class'ı gibi okumayı sağlar.
+                                    1- Bir Class oluşturularak başına @ConfigurationProperties anotasyonu eklenir.
+                                    2- @ConfigurationProperties(prefix = "app") prefix özelliği ile request mapping path özelliği gibi bir base eklenir.
+                                       Eklenen bu base application.properties dosyasında ortak olan key kısmını ifade eder.
+                                    3- class'da alanlara verilen isimler ile application.properties dosyasındaki alanlar aynı olmalıdır.
+                                    4- Kullanabilmek için SpringBoot projesini ayağa kaldıran sınıfa
+                                    @EnableConfigurationProperties(value = GlobalPropertiesConfig.class) anotasyonu eklenmelidir.
 
         Kaynak:
             https://medium.com/@sercan.bedir/spring-boot-application-properties-yap%C4%B1s%C4%B1-4027ba02bcce
