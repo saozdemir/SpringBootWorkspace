@@ -147,10 +147,14 @@
 ------------------------------------------------------------------------------------------------------------------------
         Exception Handling
 ------------------------------------------------------------------------------------------------------------------------
+
+
     @ControllerAdvice   : Bir sınıfın ExceptionHandler sınıfı olduğunu tanıtmak için kullanılır.
     @ExceptionHandler   : Hanadle metodu üserinde tanımlanır. Metodun hangi exception u handle edeceğini belirtmek için:
                             @ExceptionHandler(value = MethodArgumentNotValidException.class) şeklinde kullanılır.
 
+        Kaynak:
+            https://dincdev.medium.com/exception-handling-in-java-ceaf264bef25
 ------------------------------------------------------------------------------------------------------------------------
 
 Ortak Versiyon Bilgileri
