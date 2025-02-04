@@ -155,6 +155,15 @@
 
         Kaynak:
             https://dincdev.medium.com/exception-handling-in-java-ceaf264bef25
+
+------------------------------------------------------------------------------------------------------------------------
+        Scheduled
+------------------------------------------------------------------------------------------------------------------------
+        Bir servis yazıldığında beli bir saat ve zamanda çalışması isteniyorsa @Scheduled anatosyonu kullanılarak bu işlem yapılabilir.
+
+
+        Kaynak:
+            https://www.baeldung.com/spring-scheduled-tasks
 ------------------------------------------------------------------------------------------------------------------------
 
 Ortak Versiyon Bilgileri
