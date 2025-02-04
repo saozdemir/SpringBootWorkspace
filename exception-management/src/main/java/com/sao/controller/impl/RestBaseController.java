@@ -15,7 +15,7 @@ public class RestBaseController {
         return RootEntity.ok(data);
     }
 
-    public <T> RootEntity<T> error(String errorMessage) {
+    public <T> RootEntity<T> error(T errorMessage) {
         return RootEntity.error(errorMessage);
     }
 }

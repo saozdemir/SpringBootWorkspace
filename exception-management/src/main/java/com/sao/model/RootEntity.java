@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class RootEntity<T> {
     boolean result;
 
-    private String errorMessage;
+    private T errorMessage;
 
     private T data;
 
@@ -53,7 +53,7 @@ public class RootEntity<T> {
      * @param <T>
      * @return
      */
-    public static  <T> RootEntity<T> error(String errorMessage) {
+    public static  <T> RootEntity<T> error(T errorMessage) {
         RootEntity<T> rootEntity = new RootEntity<>();
         rootEntity.setData(null);
         rootEntity.setErrorMessage(errorMessage);

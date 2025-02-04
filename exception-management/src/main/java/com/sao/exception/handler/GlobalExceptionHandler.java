@@ -26,14 +26,16 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     /**
-     * Standart hata mesajı üretmek için oluşturulan ApiError türünde ResponseEntitiy döner.
+     * Standart hata mesajı üretmek için oluşturulan ApiError türünde ResponseEntitiy dönüyordu.
+     * Generic bir kullanım için RootEntity türünde dönmesini sağladık
      * @param exception
      * @param request
      * @return
      */
     @ExceptionHandler(value = {BaseException.class})
-    public ResponseEntity<ApiError> handleBaseException(BaseException exception, WebRequest request) {
-        return ResponseEntity.badRequest().body(createApiError(exception.getMessage(), request));
+    public ResponseEntity<RootEntity> handleBaseException(BaseException exception, WebRequest request) {
+        return ResponseEntity.badRequest().body(RootEntity.error(createApiError(exception.getMessage(), request)));
+//        return ResponseEntity.badRequest().body(createApiError(exception.getMessage(), request));
     }
 
     /**
