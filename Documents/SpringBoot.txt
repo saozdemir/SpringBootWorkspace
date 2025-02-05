@@ -161,9 +161,60 @@
 ------------------------------------------------------------------------------------------------------------------------
         Bir servis yazıldığında beli bir saat ve zamanda çalışması isteniyorsa @Scheduled anatosyonu kullanılarak bu işlem yapılabilir.
 
+        İlk önce Scheduled altyapısını kullanmak için @SpringBootApplication anotasyonu ile işaterli
+        starter sınıfına @EnableScheduling anotasyonu eklenerek scheduling aktif hale getirilir.
+
+        Scheduling altyapısını kullanacak metot @Scheduled anotasyonu ile işaretlenir. Metotların bulunduğu sınıfın SpringContainer'da
+        bean oluşturması için @Component anotasyonu ya da benzerleri(@Service, @Bean vb.) eklenmelidir.
+        @Scheduled anotasyonu içine parametre alarak özel planlamalar yapılabilir.
+
+            fixedRate       : Belirtilen milisaniye aralıklarla metodu çalıştırır. Önceki çalışmanın bitiş zamanı dikkate alınmaz, belirtilen aralıkta bir sonraki çalışma başlatılır.
+                                @Scheduled(fixedRate = 5000) // Her 5 saniyede bir çalışır
+
+            fixedDelay      : Önceki çalışmanın bitiş zamanından itibaren belirtilen milisaniye gecikmeyle metodu çalıştırır. Bir çalışmanın uzun sürmesi bir sonraki çalışmanın başlangıç zamanını etkiler.
+                                @Scheduled(fixedDelay = 5000) // Önceki görev bittikten 5 saniye sonra çalışır
+
+            cron            : Cron ifadesi, saniye, dakika, saat, gün, ay ve haftanın günü gibi zaman birimlerini belirten altı veya yedi alandan oluşur.
+                            "*" tüm olası değerleri ifade eder. "?" ise belirtilmemiş anlamına gelir ve yalnızca haftanın günü (day-of-week) veya gün (day-of-month) alanlarında kullanılır.
+                            İki alanı aynı anda kullanamazsınız. Birini belirtirseniz, diğerini ? ile belirtmeniz gerekir.
+                                @Scheduled(cron = "0 0 * * * *") // Her saat başı çalışır
+                                @Scheduled(cron = "0 15 10 * * ?") // Her gün saat 10:15'te
+                                    Özetle, 0 15 10 * * ? ifadesi şu anlama gelir:
+                                    0: Saniye (0. saniye)
+                                    15: Dakika (15. dakika)
+                                    10: Saat (10. saat)
+                                    *: Her gün
+                                    *: Her ay
+                                    ?: Haftanın günü belirtilmemiş (çünkü gün alanı zaten belirtilmiş)
+                                @Scheduled(cron = "0 0/5 * * * ?") // Her 5 dakikada bir çalışır
+
+            initialDelay    : Görevin ilk çalışması için bir gecikme süresi belirtir. fixedRate, fixedDelay veya cron ile birlikte kullanılabilir.
+                                @Scheduled(fixedRate = 5000, initialDelay = 10000) // 10 saniye sonra başlar ve her 5 saniyede bir çalışır
+
+            zone            : Varsayılan olarak sunucunun zaman dilimi kullanılır. Farklı bir zaman dilimi belirtmek için zone özelliği kullanılabilir.
+                                @Scheduled(cron = "0 0 10 * * ?", zone = "Europe/Istanbul") // Her gün saat 10:00'da İstanbul zaman diliminde çalışır
+
+
 
         Kaynak:
             https://www.baeldung.com/spring-scheduled-tasks
+
+------------------------------------------------------------------------------------------------------------------------
+        Unit Test(JUnit)
+------------------------------------------------------------------------------------------------------------------------
+        Test sınıfları src>test>java altına yazılır.
+        @SpringBootTest(classes = {ExceptionManagementStarter.class}) ile uygulamanın ayağa kaldırılacağı sınıf gösterilir.
+        Test metotları her zaman void yazılır ve @Test anotasyonu ile işaretlenir.
+        Test yazılırken controller katmanı için yazılmaz service katmanından başlanır.
+
+       @BeforeEach: Test metotlarından önce çalışır.
+       @AfterEach : Test metotlarından sonra çalışır.
+
+        Kaynak:
+            https://semihsaydam.medium.com/unit-test-1-d96ec30a33c7
+            https://semihsaydam.medium.com/unit-test-2-48e332106ab
+            https://semihsaydam.medium.com/unit-test-3-junit-da1a6497c83b
+
 ------------------------------------------------------------------------------------------------------------------------
 
 Ortak Versiyon Bilgileri

@@ -1,0 +1,27 @@
+|----------------------------------------------------------------------------------------------------------------------|
+|---------------------------------------------------JWT + SECURITY-----------------------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------|
+    JWT (JSON Web Token)
+        Web servis içindeki metotları kullanmak için yetki oluşturmak için kullanılır.
+        Bir JWT 3 parçadan oluşur. Token "." işaretleri ile parçalanmıştır.
+            Header              : Token'ın şifrelendiği algoritma bilgisinin tutulduğu alandır.
+            Payload             : Data'nın tutulduğu alandır. Kullanıcı adı, oluşturma tarihi yetkileri içerir.
+            Verify Signature    : İmza bölümü, belirli bir imza ile kriptolama işlemini yapar.
+                                Bir secret ket oluşturarak token oluşturup çözülür.
+
+
+            Authentication  : Kimlik doğrulama
+            Authorization   : Sisteme giriş yetki kontrolü
+
+             +------+    +------+    +----------+    +-------+    +----------------+    +--------+
+             |Filter| => |Client| => |Controller| => |Service| => |DAO (Repository)| => |DataBase|
+             +------+    +------+    +----------+    +-------+    +----------------+    +--------+
+
+            Filter: Token isteğinin doğrulandığı alandır. Kriterden geçerse controllere geçer.
+            Başarılı ise isteğe cevap verir. Başarısız ise cevap vermez.
+
+
+        Kaynak:
+            https://jwt.io/
+            https://tugrulbayrak.medium.com/jwt-json-web-tokens-nedir-nasil-calisir-5ca6ebc1584a
+            https://tugrulbayrak.medium.com/jwt-json-web-tokens-ile-express-rest-api-g%C3%BCvenli%C4%9Fi-2-517cc44e846c
