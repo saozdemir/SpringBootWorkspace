@@ -21,6 +21,9 @@
             Başarılı ise isteğe cevap verir. Başarısız ise cevap vermez. Bu sayede yetkisiz kullanıcıların
             sisteme girişine izin verilmez.
 
+------------------------------------------------------------------------------------------------------------------------
+        JWT Mimarisinin Kurulması İçin İzlenecek Adımlar
+------------------------------------------------------------------------------------------------------------------------
         1- JwtService adında token üretip parse edebilen bir servis yazıldı.
         Spring container da nesnesi oluşması için @Comonent anotasyonu ile işaretlendi.
 
@@ -33,6 +36,13 @@
         password encoding işlemlerinin yapılması ve authenticationProvider metodu ile kullanıcı kontrolleri yapıldı.
         AppConfig sınıfının bir konfigürasyon sınıfı olduğunu spring context de tanımlamak için
         @Configuration anotasyonu ile işaretlendi.
+
+        4- SecurityConfig adında bir sınıf oluşturularak @Copmonent ile spring container da bean oluşturması sağlandı.
+        @EnableWebSecurity ile bu sınıfın web security yeteneği aktif edildi.
+        Bu sınıf bize "/authenticate" ve "/register" path i ile gelen http requestlerinin controller katmanına erişimine izin vererek
+        kullanıcı yetki kontrolü ve yeni kayıtlarda http isteklerinin filtrelenmesini engeller.
+        "/authenticate" ve "/register" haricinde gelen isteklerin tamamını filter katmanında yetki kontrollerine tabi tutar.
+
 
         Secret Key Generator:
             https://8gwifi.org/jwsgen.jsp
