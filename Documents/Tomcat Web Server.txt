@@ -1,0 +1,77 @@
+|----------------------------------------------------------------------------------------------------------------------|
+|---------------------------------------------APACHE TOMCAT SERVER KURULUM---------------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------|
+
+------------------------------------------------------------------------------------------------------------------------
+    Ortam Değişkenleri Ayarları
+------------------------------------------------------------------------------------------------------------------------
+setenv.bat
+set JAVA_HOME="C:\Program Files\Java\jdk-17"  (Java JDK'nızın yolu - versiyonunuza göre ayarlayın)
+set CATALINA_HOME="%~dp0.."  (Tomcat'in ana dizini)
+
+    Örnek olarak:
+        set JAVA_HOME="C:\Users\xsaozdemir\Java\jdk-17.0.8"
+        set "CATALINA_HOME=C:\Users\xsaozdemir\Downloads\apache-tomcat-10.1.34-windows-x64\apache-tomcat-10.1.34"
+
+------------------------------------------------------------------------------------------------------------------------
+    Sucunu Başlatıp Durdurma
+------------------------------------------------------------------------------------------------------------------------
+    Ortam değişkenleri ayarlandıktan sonra
+        Başlatma    : startup.bat
+        Durdurma    : shutdown.bat
+
+------------------------------------------------------------------------------------------------------------------------
+    Kullanıcı Oluşturma
+------------------------------------------------------------------------------------------------------------------------
+    conf/tomcat-users.xml altına eklenir.
+        Kullanıcı adı: admin
+        Şifre        : admin
+
+        <tomcat-users>
+          <role rolename="manager-gui"/>
+          <user username="admin" password="admin" roles="manager-gui"/>
+        </tomcat-users>
+
+
+------------------------------------------------------------------------------------------------------------------------
+    Erişim Yetkisi Verme
+------------------------------------------------------------------------------------------------------------------------
+    conf/Catalina/localhost/manager.xml içine dosya var sa aşağıdaki satırlar eklenir. Yoksa xml dosyası oluşturulur.
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Context privileged="true" antiResourceLocking="false" antiJARLocking="false" docBase="${catalina.home}/webapps/manager">
+          <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+                 allow="127\.0\.0\.1|::1|0:0:0:0:0:0:0:1" />
+        </Context>
+
+------------------------------------------------------------------------------------------------------------------------
+    War Dosyası Oluşturma
+------------------------------------------------------------------------------------------------------------------------
+    pom.xml e aşağıdaki alan eklenir.
+        <packaging>war</packaging>
+
+    Spring Boot'un embedded Tomcat bağımlılığını provided scope olarak ayarlayın:
+    Bu sayede uygulama WAR dosyasına dahil edilmez ve sunucunun Tomcat'ini kullanır.
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    SpringBootServletInitializer sınıfını oluşturun:
+    Bu sınıf, uygulamayı Tomcat'e deploy etmek için gerekli olan Servlet 3.0 API'sini kullanır.
+    Genellikle proje ana sınıfının bulunduğu pakette oluşturulur.
+        import org.springframework.boot.builder.SpringApplicationBuilder;
+        import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+        public class ServletInitializer extends SpringBootServletInitializer {
+
+            @Override
+            protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+                return application.sources(YourMainApplicationClass.class); // YourMainApplicationClass yerine ana sınıfınızın adını yazın
+            }
+
+        }
+
+        Admin Console Adresi:
+            http://localhost:8080/manager/html
