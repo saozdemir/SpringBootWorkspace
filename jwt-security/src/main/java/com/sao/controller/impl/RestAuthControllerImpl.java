@@ -2,6 +2,7 @@ package com.sao.controller.impl;
 
 import com.sao.controller.IRestAuthController;
 import com.sao.jwt.AuthRequest;
+import com.sao.jwt.AuthResponse;
 import com.sao.model.dto.UserDto;
 import com.sao.service.IAuthService;
 import jakarta.validation.Valid;
@@ -27,5 +28,11 @@ public class RestAuthControllerImpl implements IRestAuthController {
     @Override
     public UserDto register(@Valid @RequestBody AuthRequest request) {
         return authService.register(request);
+    }
+
+    @PostMapping("/authenticate")
+    @Override
+    public AuthResponse authenticate(@Valid @RequestBody AuthRequest request) {
+        return authService.authenticate(request);
     }
 }

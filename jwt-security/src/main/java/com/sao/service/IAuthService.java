@@ -1,6 +1,7 @@
 package com.sao.service;
 
 import com.sao.jwt.AuthRequest;
+import com.sao.jwt.AuthResponse;
 import com.sao.model.dto.UserDto;
 
 /**
@@ -11,5 +12,7 @@ import com.sao.model.dto.UserDto;
  * @description:
  */
 public interface IAuthService {
-    UserDto register (AuthRequest request);
+    UserDto register(AuthRequest request);
+
+    AuthResponse authenticate(AuthRequest request);
 }

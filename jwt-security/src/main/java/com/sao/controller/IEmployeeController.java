@@ -1,6 +1,8 @@
 package com.sao.controller;
 
 import com.sao.model.dto.EmployeeDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author saozdemir
@@ -10,5 +12,5 @@ import com.sao.model.dto.EmployeeDto;
  * @description:
  */
 public interface IEmployeeController {
-    EmployeeDto findEmployeeById(Long id);
+    EmployeeDto findEmployeeById(@Valid @NotNull Long id);
 }

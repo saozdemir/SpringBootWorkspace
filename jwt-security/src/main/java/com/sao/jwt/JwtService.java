@@ -43,11 +43,11 @@ public class JwtService {
      */
     public String generateToken(UserDetails userDetails) {
         /** setClaims metodu ile map oluşturup yetki tanımlarını bu map ile gönderebiliriz.*/
-        Map<String, String> claimsMap = new HashMap<>();
-        claimsMap.put("role", "ADMIN");
+//        Map<String, String> claimsMap = new HashMap<>();
+//        claimsMap.put("role", "ADMIN");
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setClaims(claimsMap)
+//                .setClaims(claimsMap)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
                 .signWith(getKey(), SignatureAlgorithm.HS256)

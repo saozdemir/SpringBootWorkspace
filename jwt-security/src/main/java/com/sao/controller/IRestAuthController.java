@@ -1,6 +1,7 @@
 package com.sao.controller;
 
 import com.sao.jwt.AuthRequest;
+import com.sao.jwt.AuthResponse;
 import com.sao.model.dto.UserDto;
 
 /**
@@ -12,4 +13,6 @@ import com.sao.model.dto.UserDto;
  */
 public interface IRestAuthController {
     UserDto register(AuthRequest request);
+
+    AuthResponse authenticate(AuthRequest request);
 }
