@@ -43,15 +43,37 @@ public class JwtService {
      */
     public String generateToken(UserDetails userDetails) {
         /** setClaims metodu ile map oluşturup yetki tanımlarını bu map ile gönderebiliriz.*/
-//        Map<String, String> claimsMap = new HashMap<>();
-//        claimsMap.put("role", "ADMIN");
+        Map<String, Object> claimsMap = new HashMap<>();
+        claimsMap.put("role", "ADMIN");
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-//                .setClaims(claimsMap)
+                .setSubject(userDetails.getUsername()) /** Kullanıcı adı*/
+                .addClaims(claimsMap) /** Token içine rol değerini almak için kullanıldı.*/
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    /**
+     * Claims içinden getKey değeri ile key değerine karşılık tanımlanan value değerini döndürür.
+     * Uygulamada role key'ine karşılık ADMIM valuesini döndü.
+     * @param token
+     * @param key
+     * @return
+     */
+    public Object getClaimsByKey(String token, String key) {
+        Claims claims = getClaims(token);
+        return claims.get(key);
+
+    }
+
+    public Claims getClaims(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getKey())
+                .build()
+                .parseClaimsJws(token).getBody();
+
+        return claims;
     }
 
     /**
@@ -65,11 +87,7 @@ public class JwtService {
      * @param <T>
      */
     public <T> T exportToken(String token, Function<Claims, T> claimsFunction) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getKey())
-                .build()
-                .parseClaimsJws(token).getBody();
-
+        Claims claims = getClaims(token);
         return claimsFunction.apply(claims);
     }
 
