@@ -1,5 +1,6 @@
 package com.sao.config;
 
+import com.sao.jwt.AuthEntryPoint;
 import com.sao.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,12 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
+     * Yetki ile ilgili hata anlınması durumunda kullanılacak
+     */
+    @Autowired
+    private AuthEntryPoint authEntryPoint;
+
+    /**
      * "/authenticate" ve "/register" path ine bir istek gelirse filter katmanını geçip conroller katmanına erişmesi gerekiyor.
      * Bu metot ile bu işlemi yaptırıyoruz.
      * Bu adımın nedeni kullanıcı adı ve şifre doğrulamasına göre bir token üretecek olmamız.
@@ -57,7 +64,10 @@ public class SecurityConfig {
                                 .authenticated()) /** Yukarıda tanımlanan iki istisna haricindeki istekleri filter katmanında yetki kontrollerini yap*/
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider) /** AppConfig içinde oluşturulan AuthenticationPorvider buraya verildi.*/
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); /**JwtAuthenticationFilter sınıfını enjekte ederek filter katmanının önüne koyduk.*/
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) /**JwtAuthenticationFilter sınıfını enjekte ederek filter katmanının önüne koyduk.*/
+                .exceptionHandling(exception->{
+                    exception.authenticationEntryPoint(authEntryPoint); /** Yetki ile ilgili hata alınırsa AuthEntryConfig sınıfı içinde commence metoduna git.*/
+                });
         return http.build();
     }
 }
