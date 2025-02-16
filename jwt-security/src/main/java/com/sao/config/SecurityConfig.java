@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     public static final String AUTHENTICATE = "/authenticate";
     public static final String REGISTER = "/register";
+    public static final String REFRESH_TOKEN = "/refreshToken";
 
     /**
      * AppConfig sınıfında bu bean tanımlanmıştı burada enjekte edildi.
@@ -58,7 +59,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(AUTHENTICATE, REGISTER)
+                        request.requestMatchers(AUTHENTICATE, REGISTER, REFRESH_TOKEN)
                                 .permitAll() /** "/authenticate" ve "/register"  adreslerine istek gelirse es geç filter'a gimesin.*/
                                 .anyRequest()
                                 .authenticated()) /** Yukarıda tanımlanan iki istisna haricindeki istekleri filter katmanında yetki kontrollerini yap*/

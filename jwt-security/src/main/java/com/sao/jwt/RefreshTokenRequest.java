@@ -7,16 +7,13 @@ import lombok.NoArgsConstructor;
 /**
  * @author saozdemir
  * @project SpringBootWorkspace
- * @date 07 Şub 2025
+ * @date 16 Şub 2025
  * <p>
- * @description: Bu sınıfta kullnaıcıya token dönerken hem access token hem de oturum yenilemede kullanılacak
- * refresh token gönderildi.
+ * @description:
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-    private String accessToken;
-
+public class RefreshTokenRequest {
     private String refreshToken;
 }

@@ -4,9 +4,12 @@ import com.sao.jwt.AuthRequest;
 import com.sao.jwt.AuthResponse;
 import com.sao.jwt.JwtService;
 import com.sao.model.dto.UserDto;
+import com.sao.model.entity.RefreshToken;
 import com.sao.model.entity.User;
+import com.sao.repository.RefreshTokenRepository;
 import com.sao.repository.UserRepository;
 import com.sao.service.IAuthService;
+import com.sao.service.IRefreshTokenService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -41,6 +44,9 @@ public class AuthServiceImpl implements IAuthService {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private IRefreshTokenService refreshTokenService;
+
     @Override
     public UserDto register(AuthRequest request) {
         UserDto userDto = new UserDto();
@@ -74,8 +80,13 @@ public class AuthServiceImpl implements IAuthService {
             Optional<User> optionalUser = userRepository.findByUsername(request.getUsername());
 
             /** generateToken metodu bizden UserDetails sınıfından nesne ister. User sınıfı UserDetails'i extend ettiği için yerine kullandık.*/
-            String token = jwtService.generateToken(optionalUser.get());
-            return new AuthResponse(token);
+            String accessToken = jwtService.generateToken(optionalUser.get());
+
+            /** Oturum yenilenemsi için kullanılacak refresh token ayarlandı*/
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(optionalUser.get());
+            refreshTokenService.saveRefreshToken(refreshToken);
+
+            return new AuthResponse(accessToken, refreshToken.getRefreshToken());
         } catch (Exception e) {
             System.out.println("Kullanıcı adı veya şifre hatalı " + e.getMessage());
         }

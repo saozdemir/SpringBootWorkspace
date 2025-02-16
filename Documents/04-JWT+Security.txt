@@ -43,6 +43,22 @@
         kullanıcı yetki kontrolü ve yeni kayıtlarda http isteklerinin filtrelenmesini engeller.
         "/authenticate" ve "/register" haricinde gelen isteklerin tamamını filter katmanında yetki kontrollerine tabi tutar.
 
+        5- AuthServiceImpl sınıfı ile AuthRequest nesnesi ile alınan kullanıcı adı şifre ile register ve authenticate işlemleri yaptırıldı.
+
+        6- JwtService adında bir sınıf oluşturuldu ve kullanıcının oturum süresinin açık kalacağı süre için geçerli olacak token üretildi.
+        AuthRequest sınıfı ile tanımlanan username ve password AuthServiceImpl sınıfında doğrulanarak  AuthResponse ile token frontend e gönderildi.
+
+        7- Kullanıcının oturumu zaman aşımına uğradığı durumlar için refresh token service ve repository sınıfları oluşturuldu.
+        Controller RestAuthControllerImpl altında olacak şekilde yazıldı.
+        Refresh token access token zaman aşımına ugradığında oturumu yenilemek için kullanılacak.
+
+        8- Bu url isteği de "/authenticate" ve "/register" gibi filter katmanını bypass edecek. bu nedenle SecurityConfin içine tanımlamalar yapıldı.
+
+        9- Access token expire olduğunda AuthResponse da bulunan refresh token ile yeni token isteğinde bulunuyor ve hem access token hem de refresh token yenileniyor.
+
+        10- Frontend de refresh token storage da ya da farklı teknolojiler ile saklanır.
+
+
 
         Secret Key Generator:
             https://8gwifi.org/jwsgen.jsp
