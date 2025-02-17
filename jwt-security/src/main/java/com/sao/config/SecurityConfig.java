@@ -27,6 +27,11 @@ public class SecurityConfig {
     public static final String AUTHENTICATE = "/authenticate";
     public static final String REGISTER = "/register";
     public static final String REFRESH_TOKEN = "/refreshToken";
+    public static final String[] SWAGGER_PATH = {
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html"
+    };
 
     /**
      * AppConfig sınıfında bu bean tanımlanmıştı burada enjekte edildi.
@@ -60,7 +65,8 @@ public class SecurityConfig {
         http.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(AUTHENTICATE, REGISTER, REFRESH_TOKEN)
-                                .permitAll() /** "/authenticate" ve "/register"  adreslerine istek gelirse es geç filter'a gimesin.*/
+                                .permitAll()/** "/authenticate" ve "/register"  adreslerine istek gelirse es geç filter'a gimesin.*/
+                                .requestMatchers(SWAGGER_PATH).permitAll()/** Swagger adresine token olmadan erişime izin ver*/
                                 .anyRequest()
                                 .authenticated()) /** Yukarıda tanımlanan iki istisna haricindeki istekleri filter katmanında yetki kontrollerini yap*/
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -216,6 +216,17 @@
             https://semihsaydam.medium.com/unit-test-3-junit-da1a6497c83b
 
 ------------------------------------------------------------------------------------------------------------------------
+        Swagger Kullanımı
+------------------------------------------------------------------------------------------------------------------------
+        Yazılan servislerinin dokümantsayonunu otomatik olarak üretmek için kullanılır.
+        Yazılan servisleri controller controller olarak böler, servisler,metotlar, metotların tiplerini bize sunmaya yarar.
+        El ile bu dokümantasyonun oluşturulup güncel tutulması zordur. Swagger bunu bizim yerimize yapmaktadır.
+
+        http://localhost:8080/swagger-ui.html
+
+        Kaynak:
+            https://medium.com/android-t%C3%BCrkiye/swagger-nedir-ne-i%CC%87%C5%9Fe-yarar-e8c12a9e9e7f
+------------------------------------------------------------------------------------------------------------------------
 
 Ortak Versiyon Bilgileri
     Java        : 17.0.8
