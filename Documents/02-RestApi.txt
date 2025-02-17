@@ -93,6 +93,9 @@
                             }
                             @PutMapping(path = "/update-employee/{id}")
 
+        @ModelAttribute: Request param ile çok sayıda değer aldığımızda kalabalık olmaması için kullanılır.
+                        RequestParam olarak verilecek değerler bir class ile tanımlanarak maplenir.
+
 
 
         Controller  : Gelen isteği karşılayan katman. Bir aksiyon oluştuğunda isteği alır servis katmanına gönderir. (Controller)

@@ -228,8 +228,13 @@
             https://medium.com/android-t%C3%BCrkiye/swagger-nedir-ne-i%CC%87%C5%9Fe-yarar-e8c12a9e9e7f
 
 ------------------------------------------------------------------------------------------------------------------------
-        Pagination Kullanımı
+        Pagination & Sorting Kullanımı
 ------------------------------------------------------------------------------------------------------------------------
+        Sorgulama yaparken bir anda tüm listeyi çekmek yerine sayfa başına gösterilecek veri miktarını ayarlayarak performans artırmaya yarar.
+        Sayfa numaraları 0'dan başlar.
+
+        Kaynak:
+            https://medium.com/@humeyrakoseogluu/java-spring-boot-pagination-5840603a65db
 
 ------------------------------------------------------------------------------------------------------------------------
 
