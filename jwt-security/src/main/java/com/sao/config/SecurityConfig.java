@@ -29,6 +29,7 @@ public class SecurityConfig {
     public static final String REFRESH_TOKEN = "/refreshToken";
     public static final String[] SWAGGER_PATH = {
             "/swagger-ui/**",
+            "/doc-my-rest-api/**",
             "/v3/api-docs/**",
             "/swagger-ui.html"
     };
