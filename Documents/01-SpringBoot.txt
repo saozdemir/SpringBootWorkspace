@@ -76,6 +76,7 @@
             @Data               : getter ve setter her ikisini de ekler
             @NoArgsConstructor  : parametresiz constructor
             @AllArgsConstructor : parametre alan constructor.
+            @UtilityClass       : sınıfın nesnesi üretilmez tüm metotlar statik olur.
 
             FasterXML Kütüphanesi
             @JsonInclude(JsonInclude.Include.NON_NULL)  : Bu anotasyon ile bir dataclass(dto) da boş alanlar varsa bunları dönmez.

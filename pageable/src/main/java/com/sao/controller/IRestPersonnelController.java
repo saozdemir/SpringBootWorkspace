@@ -1,7 +1,10 @@
 package com.sao.controller;
 
+import com.sao.model.dto.PersonnelDto;
 import com.sao.model.entity.Personnel;
+import com.sao.utils.RestPageableEntity;
 import com.sao.utils.RestPageableRequest;
+import com.sao.utils.RestRootEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,5 +18,6 @@ import org.springframework.data.domain.Pageable;
 public interface IRestPersonnelController {
 
     //Page<Personnel> findAllPageable(int pageNumber, int pageSize);
-    Page<Personnel> findAllPageable(RestPageableRequest pageableRequest);
+    //RestPageableEntity<PersonnelDto> findAllPageable(RestPageableRequest pageableRequest);
+    RestRootEntity<RestPageableEntity<PersonnelDto>> findAllPageable(RestPageableRequest pageableRequest);
 }
