@@ -7,9 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author saozdemir
  * @project SpringBootWorkspace
- * @date 22 Oca 2025
+ * @date 22 Şub 2025
  * <p>
- * @description: https://chatgpt.com/share/67915bcc-3eb4-8011-becb-5336ab171942
+ * @description:
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

@@ -15,6 +15,7 @@ import java.util.List;
  * <p>
  * @description:
  */
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rest/api/todo-app")
 public class TodoControllerImpl implements ITodoController {

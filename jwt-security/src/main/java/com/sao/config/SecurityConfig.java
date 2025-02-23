@@ -27,6 +27,8 @@ public class SecurityConfig {
     public static final String AUTHENTICATE = "/authenticate";
     public static final String REGISTER = "/register";
     public static final String REFRESH_TOKEN = "/refreshToken";
+    public static final String SERVER_STATUS = "/status";
+    public static final String MESSAGE = "/message";
     public static final String[] SWAGGER_PATH = {
             "/swagger-ui/**",
             "/doc-my-rest-api/**",
@@ -65,7 +67,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(AUTHENTICATE, REGISTER, REFRESH_TOKEN)
+                        request.requestMatchers(AUTHENTICATE, REGISTER, REFRESH_TOKEN, MESSAGE, SERVER_STATUS)
                                 .permitAll()/** "/authenticate" ve "/register"  adreslerine istek gelirse es geç filter'a gimesin.*/
                                 .requestMatchers(SWAGGER_PATH).permitAll()/** Swagger adresine token olmadan erişime izin ver*/
                                 .anyRequest()
