@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Konsola log yazan appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- Sentry appender -->
+        <Sentry name="SentryAppender" level="debug"  minimumEventLevel="info" minimumBreadcrumbLevel="debug" >
+            <dsn>https://190715c453c0c45b36be3359d3063dfa@o4509184650379264.ingest.de.sentry.io/4509196735348816</dsn>
+<!--            <dsn>${env:SENTRY_DSN}</dsn>-->
+        </Sentry>
+    </Appenders>
+
+    <Loggers>
+        <!-- Uygulama logger'ı -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="SentryAppender"/>
+        </Root>
+
+        <!-- Daha detaylı log isteyen package özel tanım -->
+        <Logger name="com.example" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="SentryAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

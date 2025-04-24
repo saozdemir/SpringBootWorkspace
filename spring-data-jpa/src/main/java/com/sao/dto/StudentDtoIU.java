@@ -20,20 +20,20 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDtoIU {
-    @NotEmpty(message = "İsim alanı boş bırakılamaz!")
-    @Min(value = 3)
-    @Max(value = 10)
+//    @NotEmpty(message = "İsim alanı boş bırakılamaz!")
+//    @Min(value = 3)
+//    @Max(value = 10)
     private String name;
 
-    @Size(min = 2, max = 10)
+//    @Size(min = 2, max = 10)
     private String surname;
 
     private Date birthOfDate;
 
-    @Email(message = "Email formatında bir adres giriniz!")
+//    @Email(message = "Email formatında bir adres giriniz!")
     private String email;
 
-    @Size(min = 11, max = 11, message = "TCKN 11 karakter olmalıdır.")
-    @NotEmpty
+//    @Size(min = 11, max = 11, message = "TCKN 11 karakter olmalıdır.")
+//    @NotEmpty
     private String tckn;
 }

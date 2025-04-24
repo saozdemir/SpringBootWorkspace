@@ -10,4 +10,5 @@ package com.sao.sentryio.controller;
 public interface ISentryController {
     String testSentry();
     String testSentryError() throws Exception;
+    String testSentryLoggerWithLog4j();
 }
