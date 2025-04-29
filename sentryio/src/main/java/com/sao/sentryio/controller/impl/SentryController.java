@@ -46,6 +46,7 @@ public class SentryController implements ISentryController {
             logger.error("Test Exception for Logger CAPTURED!");
             logger.info("Sentry INFO message");
             logger.warn("Sentry WARN message");
+            
             throw new RuntimeException(e);
         }
     }

@@ -1,6 +1,7 @@
 package com.sao.controller;
 
 import com.sao.dto.TodoDto;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface ITodoController {
     boolean deleteTodo(Integer id);
 
     TodoDto updateTodo(Integer id, TodoDto newTodo);
+
+    SseEmitter streamTodos();
 }
