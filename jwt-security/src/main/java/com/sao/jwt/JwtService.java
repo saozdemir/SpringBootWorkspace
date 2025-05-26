@@ -49,7 +49,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername()) /** Kullanıcı adı*/
                 .addClaims(claimsMap) /** Token içine rol değerini almak için kullanıldı.*/
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 *60))// 2 Saat: 1000 * 60 * 60 * 2
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))// 2 Saat: 1000 * 60 * 60 * 2
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
