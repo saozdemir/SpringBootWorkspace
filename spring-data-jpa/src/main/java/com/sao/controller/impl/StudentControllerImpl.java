@@ -39,7 +39,13 @@ public class StudentControllerImpl implements IStudentController {
     @GetMapping(path = "/list/{id}")
     @Override
     public StudentDto getStudentById(@PathVariable(name = "id") Integer id) {
-        return studentService.getStudentById(id);
+        long startTime;
+        long endTime;
+        startTime = System.currentTimeMillis();
+        StudentDto studentDto = studentService.getStudentById(id);
+        endTime = System.currentTimeMillis();
+        System.out.println("Virtual Thread Performance Time: " + (endTime - startTime));
+        return studentDto;
     }
 
     @DeleteMapping(path = "/delete/{id}")
