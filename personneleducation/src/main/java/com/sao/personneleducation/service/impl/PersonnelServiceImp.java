@@ -1,5 +1,6 @@
 package com.sao.personneleducation.service.impl;
 
+import com.sao.personneleducation.dto.EducationDto;
 import com.sao.personneleducation.dto.PersonnelDto;
 import com.sao.personneleducation.dto.TaskDto;
 import com.sao.personneleducation.entity.Education;
@@ -50,8 +51,21 @@ public class PersonnelServiceImp implements IPersonnelService {
     }
 
     @Override
-    public List<Education> getEducationsByPersonnelId(Long personnelId) {
-        return personnelRepository.findEducationsByPersonnelId(personnelId);
+    public PersonnelDto getEducationsByPersonnelId(Long personnelId) {
+        Personnel personnel = personnelRepository.findById(personnelId).orElse(null);
+        PersonnelDto personnelDto = new PersonnelDto();
+        if(personnel != null) {
+            List<Education> educations = personnelRepository.findEducationsByPersonnelId(personnelId);
+            List<EducationDto> educationDtoList = new ArrayList<>();
+            BeanUtils.copyProperties(personnel, personnelDto);
+            for (Education education : educations) {
+                EducationDto educationDto = new EducationDto();
+                BeanUtils.copyProperties(education, educationDto);
+                educationDtoList.add(educationDto);
+            }
+            personnelDto.setEducations(educationDtoList);
+        }
+        return personnelDto;
     }
 
     @Override
@@ -61,9 +75,9 @@ public class PersonnelServiceImp implements IPersonnelService {
 
     @Override
     public PersonnelDto getPersonnelDtoById(Long personnelId) {
-        Personnel personnel = personnelRepository.findById(personnelId).orElse(null);
+        Personnel personnel = getPersonnelById(personnelId);
         PersonnelDto personnelDto = new PersonnelDto();
-        if(personnel != null){
+        if (personnel != null) {
             List<TaskDto> tasks = taskWebService.getTaskByPersonnelId(personnelId);
             BeanUtils.copyProperties(personnel, personnelDto);
             personnelDto.setTasks(tasks);

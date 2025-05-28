@@ -1,6 +1,7 @@
 package com.sao.personneleducation.controller.impl;
 
 import com.sao.personneleducation.controller.IPersonnelController;
+import com.sao.personneleducation.dto.EducationDto;
 import com.sao.personneleducation.dto.PersonnelDto;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.entity.Personnel;
@@ -24,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/personnel")
 @Tag(name = "Personel", description = "Personel yönetim API")
-public class PersonnelController implements IPersonnelController {
+public class PersonnelControllerImpl implements IPersonnelController {
     @Autowired
     private IPersonnelService personnelService;
 
@@ -64,7 +65,7 @@ public class PersonnelController implements IPersonnelController {
                     @ApiResponse(responseCode = "404", description = "Personnel bulunamadı")
             })
     @Override
-    public List<Education> getPersonnelEducations(
+    public PersonnelDto getPersonnelEducations(
             @Parameter(description = "Personnel ID", example = "1")
             @PathVariable Long personnelId) {
         return personnelService.getEducationsByPersonnelId(personnelId);

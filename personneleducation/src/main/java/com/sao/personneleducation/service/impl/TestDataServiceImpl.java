@@ -73,7 +73,7 @@ public class TestDataServiceImpl implements ITestDataService {
         /** Create Personnel and assign random educations*/
         String[] firstNames = {"Ahmet", "Mehmet", "Ayşe", "Fatma", "Mustafa",
                 "Emine", "Ali", "Zeynep", "Hüseyin", "Elif"};
-        String[] lastNames = {"Yılmaz", "Kaya", "Demir", "Çelik", "Şahin",
+        String[] lastNames = {"Özdemir", "Kaya", "Demir", "Çelik", "Şahin",
                 "Arslan", "Koç", "Yıldız", "Aksoy", "Öztürk"};
 
         List<Personnel> personnelList = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.sao.personneleducation.controller;
 
+import com.sao.personneleducation.dto.EducationDto;
 import com.sao.personneleducation.dto.PersonnelDto;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.entity.Personnel;
@@ -21,7 +22,7 @@ public interface IPersonnelController {
 
     Personnel getPersonnelById(Long id);
 
-    List<Education> getPersonnelEducations(Long personnelId);
+    PersonnelDto getPersonnelEducations(Long personnelId);
 
     List<Personnel> searchPersonnel(String name, String surname);
 

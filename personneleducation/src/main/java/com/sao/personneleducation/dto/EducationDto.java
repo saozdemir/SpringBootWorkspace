@@ -1,8 +1,9 @@
 package com.sao.personneleducation.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sao.personneleducation.entity.Experience;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL) /** Bu sınıf içinde null set edilen alan varsa geri null geri dönme*/
-public class PersonnelDto {
+public class EducationDto {
     private Long id;
 
     private String name;
 
-    private String surname;
-
-    private List<TaskDto> tasks;
-
-    private List<EducationDto> educations;
+    private List<Experience> experiences;
 }
