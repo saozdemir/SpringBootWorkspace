@@ -1,6 +1,7 @@
 package com.sao.personneleducation.controller.impl;
 
 import com.sao.personneleducation.controller.IPersonnelController;
+import com.sao.personneleducation.dto.PersonnelDto;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.entity.Personnel;
 import com.sao.personneleducation.service.IPersonnelService;
@@ -92,5 +93,11 @@ public class PersonnelController implements IPersonnelController {
             @RequestParam(required = false) String surname) {
 
         return personnelService.searchPersonnel(name, surname);
+    }
+
+    @GetMapping("/{personnelId}/tasks")
+    @Override
+    public PersonnelDto getPersonnelDtoById(@PathVariable Long personnelId) {
+        return personnelService.getPersonnelDtoById(personnelId);
     }
 }

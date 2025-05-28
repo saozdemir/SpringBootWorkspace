@@ -1,12 +1,17 @@
 package com.sao.personneleducation.service.impl;
 
+import com.sao.personneleducation.dto.PersonnelDto;
+import com.sao.personneleducation.dto.TaskDto;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.entity.Personnel;
+import com.sao.personneleducation.integration.ITaskWebService;
 import com.sao.personneleducation.repository.PersonnelRepository;
 import com.sao.personneleducation.service.IPersonnelService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +25,9 @@ import java.util.List;
 public class PersonnelServiceImp implements IPersonnelService {
     @Autowired
     private PersonnelRepository personnelRepository;
+
+    @Autowired
+    private ITaskWebService taskWebService;
 
     @Override
     public Personnel savePersonnel(Personnel personnel) {
@@ -49,5 +57,18 @@ public class PersonnelServiceImp implements IPersonnelService {
     @Override
     public List<Personnel> searchPersonnel(String name, String surname) {
         return personnelRepository.findByNameAndSurname(name, surname);
+    }
+
+    @Override
+    public PersonnelDto getPersonnelDtoById(Long personnelId) {
+        Personnel personnel = personnelRepository.findById(personnelId).orElse(null);
+        PersonnelDto personnelDto = new PersonnelDto();
+        if(personnel != null){
+            List<TaskDto> tasks = taskWebService.getTaskByPersonnelId(personnelId);
+            BeanUtils.copyProperties(personnel, personnelDto);
+            personnelDto.setTasks(tasks);
+        }
+
+        return personnelDto;
     }
 }

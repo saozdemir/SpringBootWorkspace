@@ -1,5 +1,6 @@
 package com.sao.personneleducation.service;
 
+import com.sao.personneleducation.dto.PersonnelDto;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.entity.Personnel;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,6 @@ public interface IPersonnelService {
     List<Education> getEducationsByPersonnelId(Long personnelId);
 
     List<Personnel> searchPersonnel(String name, String surname);
+
+    PersonnelDto getPersonnelDtoById(Long personnelId);
 }
