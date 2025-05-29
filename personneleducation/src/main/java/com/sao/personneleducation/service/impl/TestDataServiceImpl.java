@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -108,7 +109,7 @@ public class TestDataServiceImpl implements ITestDataService {
         clearExistingData();
 
         /** Sahte veriler oluştur.*/
-        Faker faker = new Faker();
+        Faker faker = new Faker(new Locale("tr"));
 
         /** Create Educations: 200 tane eğitim programı oluştur.*/
         List<Education> educations = new ArrayList<>();
