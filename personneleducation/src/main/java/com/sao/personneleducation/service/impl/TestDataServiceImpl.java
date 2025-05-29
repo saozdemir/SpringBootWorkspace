@@ -1,5 +1,6 @@
 package com.sao.personneleducation.service.impl;
 
+import com.github.javafaker.Faker;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.entity.Experience;
 import com.sao.personneleducation.entity.Personnel;
@@ -98,6 +99,70 @@ public class TestDataServiceImpl implements ITestDataService {
 
         return "Test data generated successfully: " +
                 "10 Personnel, " + educations.size() + " Education, " +
+                allExperiences.size() + " Experience records created.";
+    }
+
+    @Override
+    public String generateLoadTestData() {
+        /** Eski verileri temizle*/
+        clearExistingData();
+
+        /** Sahte veriler oluştur.*/
+        Faker faker = new Faker();
+
+        /** Create Educations: 200 tane eğitim programı oluştur.*/
+        List<Education> educations = new ArrayList<>();
+        for (int i = 0; i < 200; i++) {
+            Education education = new Education();
+            education.setName(faker.job().title());
+            educations.add(education);
+        }
+        educationRepository.saveAll(educations);
+
+        /**Create Experiences for each Education*/
+        Random random = new Random();
+        List<Experience> allExperiences = new ArrayList<>();
+        for (Education education : educations) {
+            int minExpCount = 90;
+            int maxExpCount = 100;
+            int expCount = (int) (Math.random() * (maxExpCount - minExpCount + 1)) + minExpCount; // Each education will have 90 or 100 experiences
+            for (int i = 0; i < expCount; i++) {
+                int score = 1 + random.nextInt(100); // Random score between 1-100
+                Experience experience = new Experience();
+                experience.setName(faker.educator().course());
+                experience.setScore(score);
+                experience.setEducation(education);
+                allExperiences.add(experience);
+            }
+        }
+        experienceRepository.saveAll(allExperiences);
+
+        /** Create Personnel and assign random educations*/
+
+        List<Personnel> personnelList = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            Personnel personnel = new Personnel();
+            personnel.setName(faker.name().firstName());
+            personnel.setSurname(faker.name().lastName());
+
+            // Assign 40 or 50 random educations to each personnel
+            int minEduCount = 40;
+            int maxEduCount = 50;
+            int educationCount = (int) (Math.random() * (maxEduCount - minEduCount + 1)) + minEduCount;
+            List<Education> assignedEducations = new ArrayList<>();
+            for (int j = 0; j < educationCount; j++) {
+                Education randomEdu = educations.get(random.nextInt(educations.size()));
+                if (!assignedEducations.contains(randomEdu)) {
+                    assignedEducations.add(randomEdu);
+                }
+            }
+            personnel.setEducations(assignedEducations);
+            personnelList.add(personnel);
+        }
+        personnelRepository.saveAll(personnelList);
+
+        return "Create Load Test Data successfully: " +
+                "1000 Personnel, " + educations.size() + " Education, " +
                 allExperiences.size() + " Experience records created.";
     }
 

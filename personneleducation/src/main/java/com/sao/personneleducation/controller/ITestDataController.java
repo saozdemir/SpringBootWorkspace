@@ -11,4 +11,6 @@ public interface ITestDataController {
 
     String generateTestData();
 
+    String generateLoadTestData();
+
 }

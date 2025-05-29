@@ -11,4 +11,6 @@ public interface ITestDataService {
 
     String generateTestData();
 
+    String generateLoadTestData();
+
 }

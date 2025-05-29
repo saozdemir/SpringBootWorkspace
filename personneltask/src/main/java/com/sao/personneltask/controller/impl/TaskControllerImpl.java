@@ -4,11 +4,9 @@ import com.sao.personneltask.controller.ITaskController;
 import com.sao.personneltask.entity.Task;
 import com.sao.personneltask.service.ITaskService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,11 @@ public class TaskControllerImpl implements ITaskController {
     @Override
     public List<Task> getTaskByPersonnelId(@PathVariable Long personnelId) {
         return taskService.getTaskByPersonnelId(personnelId);
+    }
+
+    @PostMapping(path = "/generate-load-test-data")
+    @Override
+    public String generateLoadTestData() {
+        return taskService.generateLoadTestData();
     }
 }

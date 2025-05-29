@@ -30,4 +30,12 @@ public class TestDataControllerImpl implements ITestDataController {
     public String generateTestData() {
         return testDataService.generateTestData();
     }
+
+    @PostMapping("/generate-load-test-data")
+    @Operation(summary = "Yük Testi verilerini oluştur",
+            description = "1000 Personnel, 100 Education ve 100 Experience kaydı oluşturur")
+    @Override
+    public String generateLoadTestData() {
+        return testDataService.generateLoadTestData();
+    }
 }

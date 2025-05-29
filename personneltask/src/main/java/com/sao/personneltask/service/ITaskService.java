@@ -15,4 +15,6 @@ public interface ITaskService {
 
     List<Task> getTaskByPersonnelId(Long personnelId);
 
+    String generateLoadTestData();
+
 }

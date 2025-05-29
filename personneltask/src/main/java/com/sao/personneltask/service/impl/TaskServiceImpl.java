@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author saozdemir
@@ -24,5 +25,23 @@ public class TaskServiceImpl implements ITaskService {
     @Override
     public List<Task> getTaskByPersonnelId(Long personnelId) {
         return taskRepository.findByPersonnelId(personnelId);
+    }
+
+    @Override
+    public String generateLoadTestData() {
+
+        for (int i = 11; i < 1011; i++) {
+            // Assign 40 or 50 random educations to each personnel
+            int minTask = 20;
+            int maxTask = 50;
+            int taskCount = (int) (Math.random() * (maxTask - minTask + 1)) + minTask;
+//            Task task = new Task();
+//            task.setPersonnelId((long) personId);
+//            task.setTaskName("Task " + i);
+//            task.setDescription("Description for task " + i);
+//            task.setStatus("Pending");
+//            taskRepository.save(task);
+        }
+        return "";
     }
 }
