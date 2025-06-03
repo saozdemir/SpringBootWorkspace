@@ -1,0 +1,13 @@
+|----------------------------------------------------------------------------------------------------------------------|
+|---------------------------------------------------JASPER REPORT------------------------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------|
+    Şablon oluşturmak için Jasper Report Studio kullanılır.
+        https://community.jaspersoft.com/download-jaspersoft/community-edition/
+        Jasper Report Studio (7.0.3) kurulumu yapıldı.
+    Jasper Report Studio ile rapor tasarımı yapıldıktan sonra raporun çıktısı alınır.
+        Rapor tasarımı için:
+            1- Yeni bir rapor oluşturulur.
+            2- Veri kaynağı tanımlanır.
+            3- Rapor tasarımı yapılır.
+            4- Rapor çıktısı alınır.
+
