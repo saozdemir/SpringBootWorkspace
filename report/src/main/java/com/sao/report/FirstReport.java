@@ -2,6 +2,11 @@ package com.sao.report;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +23,8 @@ import java.util.Map;
 public class FirstReport {
     public static void main(String[] args) {
         try {
-            String filePath = "C:\\Users\\hvl\\home\\SpringBootWorkspace\\report\\src\\main\\resources\\FirstReport.jrxml";
+            String filePath = String.valueOf(FirstReport.class.getClassLoader().getResource("FirstReport.jrxml").getPath());
+            String projectDir = System.getProperty("user.dir");
 
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("studentName", "Ahmet");
@@ -44,9 +50,25 @@ public class FirstReport {
             JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
 
             /** Raporu PDF formatında dışa aktarıyor. */
-            JasperExportManager.exportReportToPdfFile(print, "C:\\Users\\hvl\\home\\SpringBootWorkspace\\report\\src\\main\\resources\\FirstReport.pdf");
-
+            JasperExportManager.exportReportToPdfFile(print, projectDir + "/report/src/main/resources/FirstReport.pdf");
             System.out.println("Rapor başarıyla oluşturuldu: FirstReport.pdf");
+
+            /** Raporu PDF formatında dışa aktarıyor. */
+            JRXlsxExporter exporter = new JRXlsxExporter ();
+            exporter.setExporterInput(new SimpleExporterInput(print));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(projectDir + "/report/src/main/resources/FirstReport.xlsx"));
+            SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+            configuration.setDetectCellType(true);           // Hücre türünü otomatik algıla
+            configuration.setCollapseRowSpan(true);          // Satırları birleştir
+            configuration.setOnePagePerSheet(false);         // Tek sayfaya yaz
+            configuration.setWhitePageBackground(false);     // Boş arka planı kaldır
+            configuration.setRemoveEmptySpaceBetweenRows(true); // Gereksiz boşlukları kaldır
+            configuration.setIgnoreGraphics(false);          // Grafik (çizgi vs) kaybı yaşanmasın
+
+            exporter.setConfiguration(configuration);
+            exporter.exportReport();
+
+            System.out.println("Rapor başarıyla oluşturuldu: FirstReport.xlsx");
 
 
         } catch (Exception e) {
