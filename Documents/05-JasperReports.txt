@@ -17,5 +17,29 @@
     Design  : Rapor tasarımının yapıldığı alandır.
     Source  : Raporun veri kaynağının tanımlandığı alandır.(XML Formatında)
     Preview : Raporun önizlemesinin yapıldığı alandır.
-            
+|----------------------------------------------------------------------------------------------------------------------|
+|    Basic Elements                                                                                                    |
+|----------------------------------------------------------------------------------------------------------------------|
+    Static Texts    : Rapor oluştururken değişmeyen metinler için kullanılır.
+    Text Fields     : Rapor oluştururken değişen metinler için kullanılır.
+    Image           : Rapor içinde resim göstermek için kullanılır.
+    Line            : Rapor içinde çizgi çizmek için kullanılır.
+    Rectangle       : Rapor içinde dikdörtgen çizmek için kullanılır.
+    Chart           : Rapor içinde grafik göstermek için kullanılır.
 
+|----------------------------------------------------------------------------------------------------------------------|
+|    Parameters, Fields ve Variables                                                                                   |
+|----------------------------------------------------------------------------------------------------------------------|
+    Java uygulamasından dolan Jasper Report alanlarının değerlerini dinamik olarak değiştirmek için kullanılır.
+    Parameter   : $P{} : Raporda tek değer kullanılacak alanlardır. Tüm rapor boyunca tek değere sahiptir.
+    Field       : $F{} : Raporun veri kaynağından gelen birden fazla değeri göstermek için kullanılır. Tablo gibi.
+    Variable    : $V{} : Raporun veri kaynağından gelen birden fazla değeri hesaplamak için kullanılır. Örneğin, toplam, ortalama gibi.
+
+    ---------
+     Outline
+    ---------
+        Parametes   : Jasper Report içinde tanımlanan parametrelerin listelendiği alandır.
+                    New parameter ile yeni parametre tanımlanabilir. Java kodunda parametre değerleri ne ise o tanımlanır.
+                    TextField içinde Expression kısmına $P{parameterName} şeklinde eklenir ve bağlanmış olur.
+        Fields      : Jasper Report içinde tanımlanan alanların listelendiği alandır.
+        Variables   : Jasper Report içinde tanımlanan değişkenlerin listelendiği alandır.
