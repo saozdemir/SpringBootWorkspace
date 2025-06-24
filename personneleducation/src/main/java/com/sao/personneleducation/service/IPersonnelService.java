@@ -30,4 +30,8 @@ public interface IPersonnelService {
     List<Personnel> searchPersonnel(String name, String surname);
 
     PersonnelDto getPersonnelDtoById(Long personnelId);
+
+    List<PersonnelDto> getPersonnelListWithAllDetails();
+
+    List<PersonnelDto>  getPersonnelListWithAllDetailsVirtualThread();
 }

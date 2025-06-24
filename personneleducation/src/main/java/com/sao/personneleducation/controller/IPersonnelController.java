@@ -27,4 +27,8 @@ public interface IPersonnelController {
     List<Personnel> searchPersonnel(String name, String surname);
 
     PersonnelDto getPersonnelDtoById(Long id);
+
+    List<PersonnelDto> getPersonnelListWithAllDetails();
+
+    List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread();
 }

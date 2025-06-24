@@ -34,7 +34,7 @@ public class TaskServiceImpl implements ITaskService {
     public String generateLoadTestData() {
         Faker faker = new Faker(new Locale("tr"));
         List<Task> assignedTasks = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 1; i <= 1000; i++) {
             // Assign 40 or 50 random educations to each personnel
             int minTask = 20;
             int maxTask = 50;

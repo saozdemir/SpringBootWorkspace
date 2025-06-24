@@ -101,4 +101,16 @@ public class PersonnelControllerImpl implements IPersonnelController {
     public PersonnelDto getPersonnelDtoById(@PathVariable Long personnelId) {
         return personnelService.getPersonnelDtoById(personnelId);
     }
+
+    @GetMapping("/list/details")
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetails(){
+        return personnelService.getPersonnelListWithAllDetails();
+    }
+
+    @GetMapping("/list/details-virtual")
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread() {
+        return personnelService.getPersonnelListWithAllDetailsVirtualThread();
+    }
 }

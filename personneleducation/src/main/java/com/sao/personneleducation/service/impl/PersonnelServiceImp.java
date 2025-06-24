@@ -11,9 +11,13 @@ import com.sao.personneleducation.service.IPersonnelService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @author saozdemir
@@ -54,7 +58,7 @@ public class PersonnelServiceImp implements IPersonnelService {
     public PersonnelDto getEducationsByPersonnelId(Long personnelId) {
         Personnel personnel = personnelRepository.findById(personnelId).orElse(null);
         PersonnelDto personnelDto = new PersonnelDto();
-        if(personnel != null) {
+        if (personnel != null) {
             List<Education> educations = personnelRepository.findEducationsByPersonnelId(personnelId);
             List<EducationDto> educationDtoList = new ArrayList<>();
             BeanUtils.copyProperties(personnel, personnelDto);
@@ -84,5 +88,80 @@ public class PersonnelServiceImp implements IPersonnelService {
         }
 
         return personnelDto;
+    }
+
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetails() {
+        List<Personnel> personnelList = getAllPersonnel();
+        List<PersonnelDto> personnelDtoList = new ArrayList<>();
+
+        for (Personnel personnel : personnelList) {
+            PersonnelDto personnelDto = new PersonnelDto();
+            BeanUtils.copyProperties(personnel, personnelDto);
+
+
+            // Get educations
+            List<Education> educations = personnelRepository.findEducationsByPersonnelId(personnel.getId());
+            List<EducationDto> educationDtoList = new ArrayList<>();
+            for (Education education : educations) {
+                EducationDto educationDto = new EducationDto();
+                BeanUtils.copyProperties(education, educationDto);
+                educationDtoList.add(educationDto);
+            }
+            personnelDto.setEducations(educationDtoList);
+
+            // Get tasks
+            List<TaskDto> tasks = taskWebService.getTaskByPersonnelId(personnel.getId());
+            personnelDto.setTasks(tasks);
+
+            personnelDtoList.add(personnelDto);
+        }
+
+        return personnelDtoList;
+    }
+
+    @Transactional
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread() {
+        List<Personnel> personnelList = getAllPersonnel();
+        List<PersonnelDto> personnelDtoList = new ArrayList<>();
+
+        ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+        try {
+            List<Future<PersonnelDto>> futures = new ArrayList<>();
+
+            for (Personnel personnel : personnelList) {
+                futures.add(executorService.submit(() -> {
+                    PersonnelDto personnelDto = new PersonnelDto();
+                    BeanUtils.copyProperties(personnel, personnelDto);
+
+                    // Get educations
+                    List<Education> educations = personnelRepository.findEducationsByPersonnelId(personnel.getId());
+                    List<EducationDto> educationDtoList = new ArrayList<>();
+                    for (Education education : educations) {
+                        EducationDto educationDto = new EducationDto();
+                        BeanUtils.copyProperties(education, educationDto);
+                        educationDtoList.add(educationDto);
+                    }
+                    personnelDto.setEducations(educationDtoList);
+
+                    // Get tasks
+                    List<TaskDto> tasks = taskWebService.getTaskByPersonnelId(personnel.getId());
+                    personnelDto.setTasks(tasks);
+
+                    return personnelDto;
+                }));
+            }
+
+            for (Future<PersonnelDto> future : futures) {
+                personnelDtoList.add(future.get()); // Collect results
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error processing personnel details", e);
+        } finally {
+            executorService.close();
+        }
+
+        return personnelDtoList;
     }
 }
