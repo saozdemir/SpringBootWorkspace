@@ -1,7 +1,7 @@
-package com.sao.personneleducation.controller.impl;
+package com.sao.personnel.controller.impl;
 
-import com.sao.personneleducation.controller.ITestDataController;
-import com.sao.personneleducation.service.ITestDataService;
+import com.sao.personnel.controller.ITestDataController;
+import com.sao.personnel.service.ITestDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class TestDataControllerImpl implements ITestDataController {
 
     @PostMapping("/generate-load-test-data")
     @Operation(summary = "Yük Testi verilerini oluştur",
-            description = "1000 Personnel, 100 Education ve 100 Experience kaydı oluşturur")
+            description = "1000 Personnel kaydı oluşturur")
     @Override
     public String generateLoadTestData() {
         return testDataService.generateLoadTestData();

@@ -1,6 +1,7 @@
 package com.sao.personneleducation.controller.impl;
 
 import com.sao.personneleducation.controller.IEducationController;
+import com.sao.personneleducation.dto.EducationDto;
 import com.sao.personneleducation.entity.Education;
 import com.sao.personneleducation.service.IEducationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,17 +25,17 @@ public class EducationControllerImpl implements IEducationController {
     @Autowired
     private IEducationService educationService;
 
-    @PostMapping(path = "/save")
-    @Operation(summary = "Yeni eğitim programı oluştur")
-    @Override
-    public Education saveEducation(@RequestBody Education education) {
-        return educationService.saveEducation(education);
-    }
 
     @GetMapping(path = "/list")
     @Operation(summary = "Tüm eğitim programlarını getir")
     @Override
-    public List<Education> getAllEducations() {
+    public List<EducationDto> getAllEducations() {
         return educationService.getAllEducations();
+    }
+
+    @GetMapping("/{personnelId}/educations")
+    @Override
+    public List<EducationDto> getEducationsByPersonnelId(@PathVariable Long personnelId) {
+        return educationService.getEducationsByPersonnelId(personnelId);
     }
 }

@@ -1,4 +1,4 @@
-package com.sao.personneleducation.entity;
+package com.sao.personnel.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Personnel entity model")
-@ToString(exclude = "educations")
+//@ToString(exclude = "educations")
 public class Personnel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,13 +38,13 @@ public class Personnel {
     @Schema(description = "Personel soyadı", example = "Özdemir")
     private String surname;
 
-    @Schema(description = "Personel Eğirim Programı listesi")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "personnel_education",
-            joinColumns = @JoinColumn(name = "personnel_id"),
-            inverseJoinColumns = @JoinColumn(name = "education_id")
-    )
-    @JsonManagedReference
-    private List<Education> educations;
+//    @Schema(description = "Personel Eğirim Programı listesi")
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinTable(
+//            name = "personnel_education",
+//            joinColumns = @JoinColumn(name = "personnel_id"),
+//            inverseJoinColumns = @JoinColumn(name = "education_id")
+//    )
+//    @JsonManagedReference
+//    private List<Education> educations;
 }

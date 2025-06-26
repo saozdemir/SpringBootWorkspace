@@ -1,6 +1,7 @@
 package com.sao.personneltask.service.impl;
 
 import com.github.javafaker.Faker;
+import com.sao.personneltask.dto.TaskDto;
 import com.sao.personneltask.entity.Task;
 import com.sao.personneltask.repository.TaskRepository;
 import com.sao.personneltask.service.ITaskService;
@@ -26,8 +27,19 @@ public class TaskServiceImpl implements ITaskService {
     private TaskRepository taskRepository;
 
     @Override
-    public List<Task> getTaskByPersonnelId(Long personnelId) {
-        return taskRepository.findByPersonnelId(personnelId);
+    public List<TaskDto> getTaskByPersonnelId(Long personnelId) {
+        List<Task> tasks = taskRepository.findByPersonnelId(personnelId);
+        List<TaskDto> taskDtoList = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskDto taskDto = new TaskDto();
+            taskDto.setId(task.getId());
+            taskDto.setPersonnelId(task.getPersonnelId());
+            taskDto.setName(task.getName());
+            taskDto.setDescription(task.getDescription());
+            taskDto.setStatus(task.getStatus());
+            taskDtoList.add(taskDto);
+        }
+        return taskDtoList;
     }
 
     @Override

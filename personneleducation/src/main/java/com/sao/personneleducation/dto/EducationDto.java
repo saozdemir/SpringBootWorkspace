@@ -25,5 +25,5 @@ public class EducationDto {
 
     private String name;
 
-    private List<Experience> experiences;
+    private List<ExperienceDto> experiences;
 }

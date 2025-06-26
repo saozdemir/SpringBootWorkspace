@@ -1,6 +1,7 @@
 package com.sao.personneltask.controller.impl;
 
 import com.sao.personneltask.controller.ITaskController;
+import com.sao.personneltask.dto.TaskDto;
 import com.sao.personneltask.entity.Task;
 import com.sao.personneltask.service.ITaskService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +28,7 @@ public class TaskControllerImpl implements ITaskController {
 
     @GetMapping(path = "/{personnelId}/tasks")
     @Override
-    public List<Task> getTaskByPersonnelId(@PathVariable Long personnelId) {
+    public List<TaskDto> getTaskByPersonnelId(@PathVariable Long personnelId) {
         return taskService.getTaskByPersonnelId(personnelId);
     }
 

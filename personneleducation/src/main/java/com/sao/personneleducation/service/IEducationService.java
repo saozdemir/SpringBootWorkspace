@@ -1,5 +1,6 @@
 package com.sao.personneleducation.service;
 
+import com.sao.personneleducation.dto.EducationDto;
 import com.sao.personneleducation.entity.Education;
 
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
  */
 public interface IEducationService {
 
-    Education saveEducation(Education education);
-
-    List<Education> getAllEducations();
+    List<EducationDto> getAllEducations();
 
     List<Education> saveAllEducations(List<Education> educations);
+
+    List<EducationDto> getEducationsByPersonnelId(Long personnelId);
 }

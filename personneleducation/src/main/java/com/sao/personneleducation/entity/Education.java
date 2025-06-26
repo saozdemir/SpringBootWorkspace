@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Education entity model")
+@ToString(exclude = "experiences")
 public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +39,8 @@ public class Education {
     @JsonManagedReference
     private List<Experience> experiences;
 
-    @ManyToMany(mappedBy = "educations")
-    @Schema(description = "İlgili Ödev Listesi")
-    @JsonBackReference
-    private List<Personnel> personnelList;
+    @Column(name = "personnel_id")
+    @Schema(description = "Personel ID", example = "Personel ID")
+    private Long personnelId;
+
 }

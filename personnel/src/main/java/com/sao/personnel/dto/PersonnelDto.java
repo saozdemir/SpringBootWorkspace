@@ -1,8 +1,7 @@
-package com.sao.personneleducation.dto;
+package com.sao.personnel.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
+import com.sao.personnel.dto.EducationDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

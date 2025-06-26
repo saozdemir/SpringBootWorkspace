@@ -1,10 +1,10 @@
-package com.sao.personneleducation.dto;
+package com.sao.personnel.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author saozdemir
@@ -16,14 +16,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskDto {
+public class EducationDto {
     private Long id;
 
     private String name;
 
-    private String status;
-
-    private String description;
-
-    private Long personnelId;
+    private List<ExperienceDto> experiences;
 }

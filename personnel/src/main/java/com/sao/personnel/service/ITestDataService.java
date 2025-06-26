@@ -1,4 +1,4 @@
-package com.sao.personneleducation.controller;
+package com.sao.personnel.service;
 
 /**
  * @author saozdemir
@@ -7,7 +7,7 @@ package com.sao.personneleducation.controller;
  * <p>
  * @description:
  */
-public interface ITestDataController {
+public interface ITestDataService {
 
     String generateLoadTestData();
 

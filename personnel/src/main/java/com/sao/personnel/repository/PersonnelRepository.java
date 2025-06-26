@@ -1,7 +1,6 @@
-package com.sao.personneleducation.repository;
+package com.sao.personnel.repository;
 
-import com.sao.personneleducation.entity.Education;
-import com.sao.personneleducation.entity.Personnel;
+import com.sao.personnel.entity.Personnel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,8 +18,8 @@ import java.util.List;
 @Repository
 public interface PersonnelRepository extends JpaRepository<Personnel, Long> {
 
-    @Query("SELECT p.educations FROM Personnel p WHERE p.id = :personnelId")
-    List<Education> findEducationsByPersonnelId(@Param("personnelId") Long personnelId);
+//    @Query("SELECT p.educations FROM Personnel p WHERE p.id = :personnelId")
+//    List<Education> findEducationsByPersonnelId(@Param("personnelId") Long personnelId);
 
     @Query("SELECT p FROM Personnel p WHERE " +
             "(:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +

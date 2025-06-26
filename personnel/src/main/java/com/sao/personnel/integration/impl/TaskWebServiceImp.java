@@ -1,8 +1,7 @@
-package com.sao.personneleducation.integration.impl;
+package com.sao.personnel.integration.impl;
 
-import com.sao.personneleducation.dto.TaskDto;
-import com.sao.personneleducation.integration.ITaskWebService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sao.personnel.dto.TaskDto;
+import com.sao.personnel.integration.ITaskWebService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -21,16 +20,18 @@ import java.util.List;
  */
 @Component
 public class TaskWebServiceImp implements ITaskWebService {
-
-    private final RestTemplate restTemplate;
-    private final String baseUrl = "http://localhost:8090/api/task";
+    private final RestTemplateBuilder builder;
+//    private final RestTemplate restTemplate;
+    private final String baseUrl = "http://localhost:8091/api/task";
 
     public TaskWebServiceImp(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
+        this.builder = builder;
+//        this.restTemplate = builder.build();
     }
 
     @Override
     public List<TaskDto> getTaskByPersonnelId(Long personnelId) {
+        RestTemplate restTemplate = builder.build();
         String url = baseUrl + "/" + personnelId + "/tasks";
         ResponseEntity<List<TaskDto>> response = restTemplate.exchange(
                 url,

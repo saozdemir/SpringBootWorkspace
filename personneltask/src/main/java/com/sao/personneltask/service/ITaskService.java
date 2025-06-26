@@ -1,5 +1,6 @@
 package com.sao.personneltask.service;
 
+import com.sao.personneltask.dto.TaskDto;
 import com.sao.personneltask.entity.Task;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface ITaskService {
 
-    List<Task> getTaskByPersonnelId(Long personnelId);
+    List<TaskDto> getTaskByPersonnelId(Long personnelId);
 
     String generateLoadTestData();
 

@@ -9,8 +9,6 @@ package com.sao.personneleducation.service;
  */
 public interface ITestDataService {
 
-    String generateTestData();
-
     String generateLoadTestData();
 
 }

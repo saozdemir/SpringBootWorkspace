@@ -1,4 +1,4 @@
-package com.sao.personneleducation.controller;
+package com.sao.personnel.controller;
 
 /**
  * @author saozdemir

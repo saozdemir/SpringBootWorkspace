@@ -1,7 +1,6 @@
-package com.sao.personneleducation.integration;
+package com.sao.personnel.integration;
 
-import com.sao.personneleducation.dto.TaskDto;
-import org.springframework.web.client.RestTemplate;
+import com.sao.personnel.dto.TaskDto;
 
 import java.util.List;
 
