@@ -39,6 +39,11 @@ public class TaskServiceImpl implements ITaskService {
             taskDto.setStatus(task.getStatus());
             taskDtoList.add(taskDto);
         }
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return taskDtoList;
     }
 

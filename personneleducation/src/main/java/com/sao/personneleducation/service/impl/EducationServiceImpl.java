@@ -54,6 +54,11 @@ public class EducationServiceImpl implements IEducationService {
             educationDto.setExperiences(experienceDtoList);
             educationDtoList.add(educationDto);
         }
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return educationDtoList;
     }
 }

@@ -6,6 +6,7 @@ import com.sao.personnel.dto.TaskDto;
 import com.sao.personnel.entity.Personnel;
 import com.sao.personnel.integration.IEducationWebService;
 import com.sao.personnel.integration.ITaskWebService;
+import com.sao.personnel.performance.PerformanceTracker;
 import com.sao.personnel.performance.ResourceTracker;
 import com.sao.personnel.performance.ResourceTracker1;
 import com.sao.personnel.performance.ResourceTracker2;
@@ -45,6 +46,9 @@ public class PersonnelServiceImp implements IPersonnelService {
     @Autowired
     private IEducationWebService educationWebService;
 
+    @Autowired
+    private PerformanceTracker tracker;
+
 
     @Override
     public List<PersonnelDto> getAllPersonnel() {
@@ -67,6 +71,8 @@ public class PersonnelServiceImp implements IPersonnelService {
 
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetails() {
+        ResourceTracker1 tracker1 = new ResourceTracker1();
+        tracker1.start();
         //Todo: Öncelikle burada 1000 personel için sorgulama yapılacak şekilde altyapı kurulacak.
         List<PersonnelDto> personnelList = getAllPersonnel();
         for (PersonnelDto personnelDto : personnelList) {
@@ -78,35 +84,31 @@ public class PersonnelServiceImp implements IPersonnelService {
             List<TaskDto> taskDtoList = taskWebService.getTaskByPersonnelId(personnelDto.getId());
             personnelDto.setTasks(taskDtoList);
         }
-
+        tracker1.stop("Personnel Details Fetch");
         return personnelList;
     }
 
     @Transactional
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread() {
-        // Todo: burada entegrasyon ile alınan verilerde zaman kaybını önlemek için virtual thread kullanılarak
+//        ResourceTracker1 tracker1 = new ResourceTracker1();
+//        tracker1.start();
+        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
         List<PersonnelDto> personnelDtoList = new ArrayList<>();
         ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+        ExecutorService subExecutorService = Executors.newVirtualThreadPerTaskExecutor(); // Java 19 ile gelen sanal thread havuzu
         try {
             List<Future<PersonnelDto>> futures = new ArrayList<>();
 
             for (PersonnelDto personnel : personnelList) {
                 futures.add(executorService.submit(() -> {
 
-//                    // Eğitimleri al
-//                    List<EducationDto> educationDtoList = educationWebService.getEducationByPersonnelId(personnel.getId());
-//
-//                    // Görevleri al
-//                    List<TaskDto> tasks = taskWebService.getTaskByPersonnelId(personnel.getId());
-                    // Aynı personel için servis çağrılarını paralel başlat
-
-                    // Web servis çağrılarını ayrı thread'lerde başlatacak böylece hız artışı sağlamış olacak.
-                    Future<List<EducationDto>> educationFuture = executorService.submit(
+//                    // Web servis çağrılarını ayrı thread'lerde başlatacak böylece hız artışı sağlamış olacak.
+                    Future<List<EducationDto>> educationFuture = subExecutorService.submit(
                             () -> educationWebService.getEducationByPersonnelId(personnel.getId())
                     );
-                    Future<List<TaskDto>> taskFuture = executorService.submit(
+                    Future<List<TaskDto>> taskFuture = subExecutorService.submit(
                             () -> taskWebService.getTaskByPersonnelId(personnel.getId())
                     );
 
@@ -116,6 +118,9 @@ public class PersonnelServiceImp implements IPersonnelService {
 
                     personnel.setEducations(educations);
                     personnel.setTasks(tasks);
+
+//                    personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId()));
+//                    personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId()));
 
                     return personnel;
                 }));
@@ -128,26 +133,33 @@ public class PersonnelServiceImp implements IPersonnelService {
             throw new RuntimeException(e);
         } finally {
             executorService.close(); // Kaynak sızıntısını önlemek için kapatılıyor
+            subExecutorService.close();
         }
+        tracker.stop("Virtual Thread Personnel Details Fetch");
+//        tracker1.stop("Virtual Thread Personnel Details Fetch");
         return personnelDtoList;
     }
 
     @Transactional
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread() {
+//        ResourceTracker1 tracker1 = new ResourceTracker1();
+//        tracker1.start();
+        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
         List<PersonnelDto> personnelDtoList = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(50); // platform thread havuzu
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10); // platform thread havuzu
+        ExecutorService subExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 10); // Java 19 ile gelen sanal thread havuzu
 
         try {
             List<Future<PersonnelDto>> futures = new ArrayList<>();
 
             for (PersonnelDto personnel : personnelList) {
                 futures.add(executorService.submit(() -> {
-                    Future<List<EducationDto>> educationFuture = executorService.submit(
+                    Future<List<EducationDto>> educationFuture = subExecutorService.submit(
                             () -> educationWebService.getEducationByPersonnelId(personnel.getId())
                     );
-                    Future<List<TaskDto>> taskFuture = executorService.submit(
+                    Future<List<TaskDto>> taskFuture = subExecutorService.submit(
                             () -> taskWebService.getTaskByPersonnelId(personnel.getId())
                     );
 
@@ -156,6 +168,9 @@ public class PersonnelServiceImp implements IPersonnelService {
 
                     personnel.setEducations(educations);
                     personnel.setTasks(tasks);
+
+//                    personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId()));
+//                    personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId()));
 
                     return personnel;
                 }));
@@ -171,19 +186,22 @@ public class PersonnelServiceImp implements IPersonnelService {
             executorService.shutdown();
         }
 
+        tracker.stop("Platform Thread Personnel Details Fetch");
+//        tracker1.stop("Plaform Thread Personnel Details Fetch");
         return personnelDtoList;
     }
 
 
     @Override
     public PersonnelDto getPersonnelDetails(Long personnelId) {
-        ResourceTracker tracker = new ResourceTracker();
-        ResourceTracker1 tracker1 = new ResourceTracker1();
-        ResourceTracker2 tracker2 = new ResourceTracker2();
-        // Metrik ölçümüne başlanıyor
+//        ResourceTracker tracker = new ResourceTracker();
+//        ResourceTracker1 tracker1 = new ResourceTracker1();
+//        ResourceTracker2 tracker2 = new ResourceTracker2();
+//        // Metrik ölçümüne başlanıyor
+//        tracker.start();
+//        tracker1.start();
+//        tracker2.start();
         tracker.start();
-        tracker1.start();
-        tracker2.start();
 
         PersonnelDto personnelDto = new PersonnelDto();
         Personnel personnel = getPersonnelById(personnelId);
@@ -198,9 +216,10 @@ public class PersonnelServiceImp implements IPersonnelService {
             personnelDto.setTasks(taskDto);
         }
         // Metrik ölçümü bitiriliyor
+//        tracker.stop("Single Personnel Details Fetch");
+//        tracker1.stop("Single Personnel Details Fetch1");
+//        tracker2.stop("Single Personnel Details Fetch2");
         tracker.stop("Single Personnel Details Fetch");
-        tracker1.stop("Single Personnel Details Fetch1");
-        tracker2.stop("Single Personnel Details Fetch2");
         return personnelDto;
     }
 

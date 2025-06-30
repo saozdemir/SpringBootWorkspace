@@ -78,4 +78,10 @@ public class PersonnelControllerImpl implements IPersonnelController {
     public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread() {
         return personnelService.getPersonnelListWithAllDetailsVirtualThread();
     }
+
+    @GetMapping("/list/details-platform")
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread() {
+        return personnelService.getPersonnelListWithAllDetailsPlatformThread();
+    }
 }

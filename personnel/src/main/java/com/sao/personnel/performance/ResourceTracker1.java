@@ -10,6 +10,7 @@ import java.time.Instant;
  * <p>
  * @description:
  */
+@Deprecated(since = "Use PerformanceTracker instead for more accurate CPU usage tracking.")
 public class ResourceTracker1 {
     private final Runtime runtime = Runtime.getRuntime();
     private final OperatingSystemMXBean osBean =
@@ -42,7 +43,7 @@ public class ResourceTracker1 {
         long ramUsedBytes = memoryAfter - memoryBefore;
         double ramUsedMB = ramUsedBytes / (1024.0 * 1024);
 
-        System.out.printf("▶ [%s] işlem süresi boyunca %.2f MB RAM ve %.2f%% CPU kullanılmıştır.%n",
-                label, ramUsedMB, cpuUsagePercent);
+        System.out.printf("▶ [%s] Süre: %d ms işlem süresi boyunca %.2f MB RAM ve %.2f%% CPU kullanılmıştır.%n",
+                label, elapsedMillis, ramUsedMB, cpuUsagePercent);
     }
 }
