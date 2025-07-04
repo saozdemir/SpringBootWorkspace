@@ -3,6 +3,7 @@ package com.sao.personnel.integration.impl;
 import com.sao.personnel.dto.EducationDto;
 import com.sao.personnel.dto.TaskDto;
 import com.sao.personnel.integration.IEducationWebService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -21,26 +22,37 @@ import java.util.List;
  */
 @Component
 public class EducationWebServiceImpl implements IEducationWebService {
-    private final RestTemplateBuilder builder;
-//    private final RestTemplate restTemplate;
+
+    // Spring tarafından yönetilen tek bir RestTemplate nesnesini enjekte ediyoruz.
+    // Bu, bağlantı havuzunun verimli kullanılmasını sağlar.
+    private final RestTemplate restTemplate;
     private final String baseUrl = "http://localhost:8090/api/education";
 
-    public EducationWebServiceImpl(RestTemplateBuilder builder) {
-        this.builder = builder;
-//        this.restTemplate = builder.build();
+    @Autowired
+    public EducationWebServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     @Override
     public List<EducationDto> getEducationByPersonnelId(Long personnelId) {
-        RestTemplate restTemplate = builder.build();
+        // Her çağrıda yeni bir RestTemplate oluşturmak yerine, enjekte edilen nesneyi kullanıyoruz.
         String url = baseUrl + "/" + personnelId + "/educations";
+
+        // Yapay bir gecikme ekleyerek I/O beklemesini simüle ediyoruz.
+        // Bu, sanal thread'lerin avantajını daha net görmenizi sağlar.
+        try {
+            Thread.sleep(200); // 200 milisaniye bekle
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         ResponseEntity<List<EducationDto>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<EducationDto>>() {
-                }
+                new ParameterizedTypeReference<List<EducationDto>>() {}
         );
         return response.getBody();
     }
 }
+

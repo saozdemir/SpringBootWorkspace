@@ -59,6 +59,27 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.nls/orai18n -->
+        <dependency>
+            <groupId>com.oracle.database.nls</groupId>
+            <artifactId>orai18n</artifactId>
+            <version>23.7.0.25.01</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.xml/xdb6 -->
+        <dependency>
+            <groupId>com.oracle.database.xml</groupId>
+            <artifactId>xdb6</artifactId>
+            <version>18.3.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.oracle.database.xml/xmlparserv2 -->
+        <dependency>
+            <groupId>com.oracle.database.xml</groupId>
+            <artifactId>xmlparserv2</artifactId>
+            <version>23.7.0.25.01</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,6 +2,7 @@ package com.sao.personnel.integration.impl;
 
 import com.sao.personnel.dto.TaskDto;
 import com.sao.personnel.integration.ITaskWebService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -20,25 +21,34 @@ import java.util.List;
  */
 @Component
 public class TaskWebServiceImp implements ITaskWebService {
-    private final RestTemplateBuilder builder;
-//    private final RestTemplate restTemplate;
+
+    // Spring tarafından yönetilen tek bir RestTemplate nesnesini enjekte ediyoruz.
+    private final RestTemplate restTemplate;
     private final String baseUrl = "http://localhost:8091/api/task";
 
-    public TaskWebServiceImp(RestTemplateBuilder builder) {
-        this.builder = builder;
-//        this.restTemplate = builder.build();
+    @Autowired
+    public TaskWebServiceImp(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     @Override
     public List<TaskDto> getTaskByPersonnelId(Long personnelId) {
-        RestTemplate restTemplate = builder.build();
+        // Her çağrıda yeni bir RestTemplate oluşturmak yerine, enjekte edilen nesneyi kullanıyoruz.
         String url = baseUrl + "/" + personnelId + "/tasks";
+
+        // Yapay bir gecikme ekleyerek I/O beklemesini simüle ediyoruz.
+        // Bu, sanal thread'lerin avantajını daha net görmenizi sağlar.
+        try {
+            Thread.sleep(300); // 300 milisaniye bekle
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         ResponseEntity<List<TaskDto>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<TaskDto>>() {
-                }
+                new ParameterizedTypeReference<List<TaskDto>>() {}
         );
         return response.getBody();
     }

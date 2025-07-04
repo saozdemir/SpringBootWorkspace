@@ -1,0 +1,29 @@
+Durumu özetleyelim:
+
+Platform Thread Testi Başarılı: Bu, hedef servislerinizin (EducationService, TaskService) ve veritabanı gibi altyapılarınızın temel olarak doğru çalıştığını gösterir.
+
+Virtual Thread Testi Başarısız: Hata, çok düşük yükte bile sanal thread'li metodun çalışması sırasında ortaya çıkıyor.
+
+Hata Türü: ClosedChannelException, istemcinin (sizin uygulamanız) bağlantı kurmaya çalıştığı sunucunun (bu sefer TaskService) bağlantıyı anında kapattığı anlamına gelir.
+
+Bu üç ipucu bir araya geldiğinde, en olası sebep şudur: Spring'in RestTemplate'inin kullandığı varsayılan HTTP istemcisi (genellikle JDK'nın kendi HttpClient'ı) ile sanal thread'lerin çalışma şekli arasında bir uyumsuzluk veya hassas bir durum oluşuyor. Platform thread'ler daha "geleneksel" bir şekilde çalıştığı için bu sorunu tetiklemiyor.
+
+Kesin Çözüm: HTTP İstemcisini Değiştirmek
+Bu tür bir sorunu çözmenin en etkili ve endüstri standardı yolu, RestTemplate'in kullandığı altyapıyı değiştirmektir. Varsayılan istemci yerine, bu tür senaryolar için daha sağlam ve kendini kanıtlamış olan Apache HttpClient kütüphanesini kullanacağız.
+
+Bu değişiklik, uygulamanızın ağ isteklerini daha sağlam bir bağlantı havuzu ve yaşam döngüsü yönetimi ile yapmasını sağlayacak ve sanal thread'lerin neden olduğu bu istisnai durumu çözecektir.
+
+Aşağıdaki iki adımı uygulamanız gerekiyor:
+
+Adım 1: pom.xml Dosyasına Bağımlılık Ekleme
+Projenizin pom.xml dosyasına girip <dependencies> etiketleri arasına aşağıdaki bağımlılığı ekleyin. Bu, projenize Apache HttpClient 5 kütüphanesini dahil eder.
+
+XML
+
+<dependency>
+    <groupId>org.apache.httpcomponents.client5</groupId>
+    <artifactId>httpclient5</artifactId>
+    <version>5.3.1</version> <!-- En güncel sürümü kontrol edebilirsiniz -->
+</dependency>
+Adım 2: RestTemplateConfig Sınıfını Güncelleme
+Daha önce oluşturduğumuz RestTemplateConfig sınıfını, RestTemplate'in Apache HttpClient'ı kullanmasını sağlayacak şekilde güncelleyin.

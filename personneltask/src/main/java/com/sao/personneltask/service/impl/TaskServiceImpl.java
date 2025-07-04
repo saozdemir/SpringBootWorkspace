@@ -40,7 +40,7 @@ public class TaskServiceImpl implements ITaskService {
             taskDtoList.add(taskDto);
         }
         try {
-            Thread.sleep(800);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
