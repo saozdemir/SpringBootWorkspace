@@ -1,5 +1,6 @@
 package com.sao.galleria.config;
 
+import com.sao.galleria.handler.AuthEntryPoint;
 import com.sao.galleria.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,19 +39,28 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Autowired
+    private AuthEntryPoint authEntryPoint;
+
     /**
      * Yukarıda tanımlanan REGISTER, AUTHENTICATE ve REFRESH_TOKEN endpoint'lerine erişim izni verir.
      * Diğer tüm istekler için kimlik doğrulama gerektirir ve controller katmanına erişim için JWT doğrulaması yapar.
+     *
      * @param http
      * @return
      * @throws Exception
      */
     @Bean
-    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(request -> request.requestMatchers(REGISTER, AUTHENTICATE, REFRESH_TOKEN).permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers(REGISTER, AUTHENTICATE, REFRESH_TOKEN)
+                                .permitAll()
+                                .anyRequest().authenticated())
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(authEntryPoint)) //Token süresi dolmuş veya geçersiz ise 401 hata mesajı döner.
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

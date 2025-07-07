@@ -1,3 +1,0 @@
-Numberof Threads: 200
-Ramp-Up: 30
-Loop:1

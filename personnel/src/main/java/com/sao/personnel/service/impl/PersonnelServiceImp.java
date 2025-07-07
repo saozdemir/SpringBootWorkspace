@@ -6,10 +6,7 @@ import com.sao.personnel.dto.TaskDto;
 import com.sao.personnel.entity.Personnel;
 import com.sao.personnel.integration.IEducationWebService;
 import com.sao.personnel.integration.ITaskWebService;
-import com.sao.personnel.performance.PerformanceTracker;
-import com.sao.personnel.performance.ResourceTracker;
-import com.sao.personnel.performance.ResourceTracker1;
-import com.sao.personnel.performance.ResourceTracker2;
+import com.sao.personnel.performance.*;
 import com.sao.personnel.repository.PersonnelRepository;
 import com.sao.personnel.service.IPersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +42,8 @@ public class PersonnelServiceImp implements IPersonnelService {
     @Autowired
     private IEducationWebService educationWebService;
 
-    @Autowired
-    private PerformanceTracker tracker;
+//    @Autowired
+//    private PerformanceTracker tracker;
 
     // ... diğer metotlar (getAllPersonnel, getPersonnelById vb.) burada yer alıyor ...
     @Override
@@ -69,7 +66,7 @@ public class PersonnelServiceImp implements IPersonnelService {
 
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetails() {
-        tracker.start();
+//        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
         for (PersonnelDto personnelDto : personnelList) {
             List<EducationDto> educationDtoList = educationWebService.getEducationByPersonnelId(personnelDto.getId());
@@ -78,7 +75,7 @@ public class PersonnelServiceImp implements IPersonnelService {
             List<TaskDto> taskDtoList = taskWebService.getTaskByPersonnelId(personnelDto.getId());
             personnelDto.setTasks(taskDtoList);
         }
-        tracker.stop("Sequential Personnel Details Fetch");
+//        tracker.stop("Sequential Personnel Details Fetch");
         return personnelList;
     }
 
@@ -88,9 +85,10 @@ public class PersonnelServiceImp implements IPersonnelService {
      * personellerin detaylarını paralel olarak çeker. Bu, kaynakların tükenmesini engeller.
      */
     @Transactional(readOnly = true)
+//    @ResourceProfiled
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread() {
-        tracker.start();
+//        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
 
         // Aynı anda en fazla 200 isteğin aktif olmasına izin veriyoruz.
@@ -137,7 +135,7 @@ public class PersonnelServiceImp implements IPersonnelService {
                             .collect(Collectors.toList()))
                     .join();
         } finally {
-            tracker.stop("Virtual Thread Personnel Details Fetch");
+//            tracker.stop("Virtual Thread Personnel Details Fetch");
         }
     }
 
@@ -146,9 +144,10 @@ public class PersonnelServiceImp implements IPersonnelService {
      * Deadlock'u önlemek için ana ve alt görevler için ayrı havuzlar kullanılır.
      */
     @Transactional(readOnly = true)
+//    @ResourceProfiled
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread() {
-        tracker.start();
+//        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
 
         int poolSize = Runtime.getRuntime().availableProcessors() * 10;
@@ -177,13 +176,13 @@ public class PersonnelServiceImp implements IPersonnelService {
         } finally {
             mainExecutor.shutdown();
             subTaskExecutor.shutdown();
-            tracker.stop("Platform Thread Personnel Details Fetch");
+//            tracker.stop("Platform Thread Personnel Details Fetch");
         }
     }
 
     @Override
     public PersonnelDto getPersonnelDetails(Long personnelId) {
-        tracker.start();
+//        tracker.start();
         Personnel personnel = getPersonnelById(personnelId);
         if (personnel == null) {
             return null;
@@ -200,7 +199,7 @@ public class PersonnelServiceImp implements IPersonnelService {
         personnelDto.setEducations(educationDto);
         personnelDto.setTasks(taskDto);
 
-        tracker.stop("Single Personnel Details Fetch");
+//        tracker.stop("Single Personnel Details Fetch");
         return personnelDto;
     }
 }

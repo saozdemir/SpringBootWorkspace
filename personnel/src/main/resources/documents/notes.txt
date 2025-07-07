@@ -27,3 +27,10 @@ XML
 </dependency>
 Adım 2: RestTemplateConfig Sınıfını Güncelleme
 Daha önce oluşturduğumuz RestTemplateConfig sınıfını, RestTemplate'in Apache HttpClient'ı kullanmasını sağlayacak şekilde güncelleyin.
+
+
+
+PostreSQL FATAL Too Many Clients Hatası
+DBVEAVER SQL editöründe : SHOW config_file; komutunu çalıştırarak PostgreSQL yapılandırma dosyasının konumunu öğren.
+C:/Program Files/PostgreSQL/14/data/postgresql.conf
+max_connections = 500 olarak değiştir.

@@ -1,6 +1,7 @@
 package com.sao.galleria.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @description:
  */
 @MappedSuperclass
+@Data
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

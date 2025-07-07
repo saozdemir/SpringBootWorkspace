@@ -6,3 +6,7 @@ This generated password is for development use only. Your security configuration
 2- JwtAuthenticationFilter.java yazıldı
 3- AppConfig.java yazıldı
 4- SecurityConfig.java yazıldı
+5- AuthenticationController.java yazıldı
+6- BaseController.java yazıldı
+7- AuthRequest.java yazıldı
+8- RootEntity.java yazıldı

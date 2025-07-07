@@ -1,5 +1,7 @@
 package com.sao.galleria.jwt;
 
+import com.sao.galleria.model.RefreshToken;
+import com.sao.galleria.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -29,7 +32,7 @@ public class JwtService {
      * @param userDetails Kullanıcı bilgileri
      * @return Oluşturulan JWT token
      */
-    private String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
@@ -37,6 +40,16 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, getKey())
                 .compact();
     }
+
+    public RefreshToken generateRefreshToken(User user) {
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setUser(user);
+        refreshToken.setCreateTime(new Date());
+        refreshToken.setExpiredDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 4));// 4 hours expiration
+        refreshToken.setRefreshToken(UUID.randomUUID().toString());
+        return refreshToken;
+    }
+
 
     /**
      * Güvenli anahtar oluşturur. Bu anahtar JWT imzalamada kullanılır.

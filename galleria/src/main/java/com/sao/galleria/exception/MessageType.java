@@ -14,6 +14,7 @@ public enum MessageType {
     NO_RECORD_EXIST("1000", "No record exists for the given criteria."),
     TOKEN_IS_EXPIRED("1001", "The token has expired. Please log in again."),
     USERNAME_NOT_FOUND("1002", "Username not found."),
+    USERNAME_OR_PASSWORD_INCORRECT("1003", "Username or password is incorrect."),
     GENERAL_EXCEPTION("9999", "An unexpected error occurred. Please try again later.");
 
 
