@@ -1,0 +1,8 @@
+Using generated security password: ed2e0532-35a1-467b-ab15-bb3636edf7f5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+1- JwtService.java yazıldı
+2- JwtAuthenticationFilter.java yazıldı
+3- AppConfig.java yazıldı
+4- SecurityConfig.java yazıldı

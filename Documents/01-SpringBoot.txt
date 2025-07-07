@@ -82,6 +82,46 @@
             @JsonInclude(JsonInclude.Include.NON_NULL)  : Bu anotasyon ile bir dataclass(dto) da boş alanlar varsa bunları dönmez.
 
 ------------------------------------------------------------------------------------------------------------------------
+        Annotations
+------------------------------------------------------------------------------------------------------------------------
+        @MappedSuperclass           : Bu anotasyon ile sınıfın bir entity olmadığını, sadece diğer entity sınıflarının miras alacağı bir sınıf olduğunu belirtiriz.
+        @Entity                     : Bu anotasyon ile sınıfın bir entity olduğunu belirtiriz.
+        @Table(name = "student")    : Bu anotasyon ile sınıfın veritabanında hangi tabloya karşılık geldiğini belirtiriz.
+        @Table(name = "gallerist_car", uniqueConstraints = {@UniqueConstraint(columnNames = {"gallerist_id", "car_id"}, name = "uq_gallerist_car")})
+                                    : Bu anotasyon ile sınıfın veritabanında hangi tabloya karşılık geldiğini belirtiriz. Ayrıca unique constraint ekleriz.
+                                    gallerist_id ve car_id sütunlarının birleşiminin unique olmasını sağlar.
+        @Id                         : Bu anotasyon ile sınıfın primary key alanını belirtiriz.
+        @GeneratedValue(strategy = GenerationType.IDENTITY) : Bu anotasyon ile primary key alanının otomatik artan bir alan olduğunu belirtiriz.
+            strategy = GenerationType.IDENTITY : Bu strateji ile veritabanı otomatik artan alanı kendisi yönetir.
+            strategy = GenerationType.AUTO : Bu strateji ile veritabanı otomatik artan alanı kendisi yönetir. (Hangi veritabanı kullanılıyorsa ona göre ayarlar.)
+            strategy = GenerationType.SEQUENCE : Bu strateji ile veritabanı otomatik artan alanı kendisi yönetir. (PostgreSQL için kullanılır.)
+            strategy = GenerationType.TABLE : Bu strateji ile veritabanı otomatik artan alanı kendisi yönetir. (Tablo kullanarak otomatik artan alanı yönetir.)
+            strategy = GenerationType.UUID : Bu strateji ile veritabanı otomatik artan alanı kendisi yönetir. (UUID kullanarak otomatik artan alanı yönetir.)
+            strategy = GenerationType.NONE : Bu strateji ile veritabanı otomatik artan alanı kendisi yönetmez. (Bu durumda primary key alanını kendimiz yönetmeliyiz.)
+        @Column(name = "name")      : Bu anotasyon ile sınıfın veritabanında hangi sütuna karşılık geldiğini belirtiriz.
+        @Transient                  : Bu anotasyon ile sınıfın veritabanında karşılık gelmediğini belirtiriz. (Bu alan veritabanında tutulmaz.)
+        @JsonIgnore                 : Bu anotasyon ile sınıfın veritabanında karşılık gelmediğini belirtiriz. (Bu alan veritabanında tutulmaz. JSON dönüşümünde bu alanı yok sayar.)
+        @JsonProperty("name")       : Bu anotasyon ile sınıfın veritabanında hangi sütuna karşılık geldiğini belirtiriz. (JSON dönüşümünde bu alanın ismini değiştirir.)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") : Bu anotasyon ile tarih alanının formatını belirtiriz. (JSON dönüşümünde bu alanın formatını değiştirir.)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) : Bu anotasyon ile Hibernate tarafından eklenen alanları yok sayarız. (Lazy loading kullanıldığında bu alanlar eklenir.)
+        @JsonInclude(JsonInclude.Include.NON_NULL) : Bu anotasyon ile JSON dönüşümünde null olan alanları yok sayarız. (Bu sayede JSON dönüşümünde boş alanlar dönmez.)
+        @JsonPropertyOrder({"id", "name", "surname"}) : Bu anotasyon ile JSON dönüşümünde alanların sırasını belirleriz. (JSON dönüşümünde alanların sırası değiştirilebilir.)
+        @JsonIgnoreType             : Bu anotasyon ile sınıfın JSON dönüşümünde yok sayılmasını sağlar. (Bu sınıfın JSON dönüşümünde kullanılmamasını sağlar.)
+        @JsonCreator                : Bu anotasyon ile sınıfın JSON dönüşümünde kullanılacak constructor'ı belirtiriz. (JSON dönüşümünde bu constructor kullanılır.)
+        @JsonValue                  : Bu anotasyon ile sınıfın JSON dönüşümünde kullanılacak metodu belirtiriz. (JSON dönüşümünde bu metot kullanılır.)
+        @JsonAnyGetter              : Bu anotasyon ile sınıfın JSON dönüşümünde kullanılacak metodu belirtiriz. (JSON dönüşümünde bu metot kullanılır. Bu metot ile dinamik alanlar eklenebilir.)
+        @JsonAnySetter              : Bu anotasyon ile sınıfın JSON dönüşümünde kullanılacak metodu belirtiriz. (JSON dönüşümünde bu metot kullanılır. Bu metot ile dinamik alanlar eklenebilir.)
+        @JsonIgnoreProperties(ignoreUnknown = true) : Bu anotasyon ile JSON dönüşümünde bilinmeyen alanları yok sayarız. (JSON dönüşümünde bilinmeyen alanlar yok sayılır.)
+        @JsonBackReference          : Bu anotasyon ile JSON dönüşümünde referans döngülerini yok sayarız. (JSON dönüşümünde referans döngüleri yok sayılır.)
+        @JsonManagedReference   : Bu anotasyon ile JSON dönüşümünde referans döngülerini yönetiriz. (JSON dönüşümünde referans döngüleri yönetilir. Bu anotasyon ile referans döngüleri yönetilebilir.)
+
+        @Enumerated(EnumType.STRING) : Bu anotasyon ile enum tipindeki alanların veritabanında nasıl saklanacağını belirtiriz. (Enum tipindeki alanlar veritabanında string olarak saklanır.)
+        @Enumerated(EnumType.ORDINAL) : Bu anotasyon ile enum tipindeki alanların veritabanında nasıl saklanacağını belirtiriz. (Enum tipindeki alanlar veritabanında ordinal (0, 1 gibi) olarak saklanır.)
+
+
+        Daha fazla anotasyon için: https://www.baeldung.com/jackson-annotations
+
+------------------------------------------------------------------------------------------------------------------------
         Spring Application Starter Settings
 ------------------------------------------------------------------------------------------------------------------------
     Spring uygulaması ayağa kaldırılırken kullandığımız yeteneklere göre @SpringBootApplication anotasyonu ile işaretlenmiş starter classına aşağıdaki tanımlamaların yapılması gereklidir.
