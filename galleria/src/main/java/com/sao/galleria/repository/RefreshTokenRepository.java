@@ -4,6 +4,8 @@ import com.sao.galleria.model.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * @author saozdemir
  * @project SpringBootWorkspace
@@ -13,4 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
+
+    Optional<RefreshToken> findByRefreshToken(String refreshToken);
 }

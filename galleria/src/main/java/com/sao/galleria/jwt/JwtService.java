@@ -29,6 +29,7 @@ public class JwtService {
     /**
      * Kullanıcı bilgilerini alır ve JWT token oluşturur.
      * getKey() metodu ile güvenli anahtar elde edilir.
+     *
      * @param userDetails Kullanıcı bilgileri
      * @return Oluşturulan JWT token
      */
@@ -53,6 +54,7 @@ public class JwtService {
 
     /**
      * Güvenli anahtar oluşturur. Bu anahtar JWT imzalamada kullanılır.
+     *
      * @return
      */
     public Key getKey() {
@@ -63,6 +65,7 @@ public class JwtService {
     /**
      * Bu metot, token'ı alır ve içinde bulunan bilgileri döner.
      * Claims, token içindeki verileri temsil eder. Bu veriler yetki, role gibi bilgileri içerebilir.
+     *
      * @param token
      * @return claims
      */
@@ -79,6 +82,7 @@ public class JwtService {
      * Ardından, dışarıdan verilen bir fonksiyonu (claimsFunction) bu Claims nesnesine uygular ve sonucu döndürür.
      * Böylece token içindeki verilere esnek şekilde erişim sağlar.
      * Örneğin, token'dan kullanıcı adını veya başka bir bilgiyi çekmek için kullanılabilir.
+     *
      * @param token
      * @return Kullanıcı adı
      */
@@ -90,6 +94,7 @@ public class JwtService {
     /**
      * Doğrudan kullanıcı adını almak için kullanılır.
      * generateToken() metodu içinde set edilen kullanıcı adı (setSubject) bilgisi kullanılır.
+     *
      * @param token
      * @return username
      */
@@ -100,11 +105,23 @@ public class JwtService {
     /**
      * Token'ın geçerliliğini kontrol eder.
      * generateToken() metodu içinde set edilen (setExpiration) son kullanma tarihini kullanır.
+     *
      * @param token
      * @return
      */
     public boolean isTokenValid(String token) {
         Date expireDate = exportToken(token, Claims::getExpiration);// Token'ın son kullanma tarihini alır.
+        return new Date().before(expireDate);
+    }
+
+    /**
+     * Refresh token'ın geçerliliğini kontrol eder.
+     * Bu metot, refresh token'ın süresinin dolup dolmadığını kontrol eder.
+     *
+     * @param expireDate
+     * @return true if valid, false otherwise
+     */
+    public boolean isRefreshTokenValid(Date expireDate) {
         return new Date().before(expireDate);
     }
 }

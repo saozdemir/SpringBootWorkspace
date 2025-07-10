@@ -1,9 +1,6 @@
 package com.sao.galleria.controller;
 
-import com.sao.galleria.dto.AuthRequest;
-import com.sao.galleria.dto.AuthResponse;
-import com.sao.galleria.dto.RootEntity;
-import com.sao.galleria.dto.UserDto;
+import com.sao.galleria.dto.*;
 
 /**
  * @author saozdemir
@@ -17,4 +14,6 @@ public interface IAuthenticationController {
     RootEntity<UserDto> register(AuthRequest input);
 
     RootEntity<AuthResponse> authenticate(AuthRequest input);
+
+    RootEntity<AuthResponse> refreshToken(RefreshTokenRequest refreshTokenRequest);
 }

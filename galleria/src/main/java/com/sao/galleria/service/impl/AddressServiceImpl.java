@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class AddressServiceImpl implements IAddressService {
 
     public void test() {
+        System.out.println("AddressServiceImpl test method called");
         // Test method implementation
         throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION,
                 "This is a test exception from AddressServiceImpl"));

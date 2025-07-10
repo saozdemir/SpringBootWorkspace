@@ -2,6 +2,7 @@ package com.sao.galleria.service;
 
 import com.sao.galleria.dto.AuthRequest;
 import com.sao.galleria.dto.AuthResponse;
+import com.sao.galleria.dto.RefreshTokenRequest;
 import com.sao.galleria.dto.UserDto;
 
 /**
@@ -15,5 +16,7 @@ public interface IAuthenticationService {
     UserDto register(AuthRequest authRequest);
 
     AuthResponse authenticate(AuthRequest authRequest);
+
+    AuthResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 
 }

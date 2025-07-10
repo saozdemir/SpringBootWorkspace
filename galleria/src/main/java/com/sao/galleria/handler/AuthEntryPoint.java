@@ -14,7 +14,7 @@ import java.io.IOException;
  * @project SpringBootWorkspace
  * @date 07 Tem 2025
  * <p>
- * @description:
+ * @description: Token süresi bittiğinde 403 hata kodu yerine 401 hata kodu döner.
  */
 @Component
 public class AuthEntryPoint implements AuthenticationEntryPoint {

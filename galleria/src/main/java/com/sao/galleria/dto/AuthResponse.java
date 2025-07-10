@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
  * <p>
  * @description:
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuthResponse {
-    private String accessToken;
-
-    private String refreshToken;
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+public record AuthResponse (String accessToken, String refreshToken){
+//    private String accessToken;
+//
+//    private String refreshToken;
 }
