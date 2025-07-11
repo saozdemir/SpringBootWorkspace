@@ -1,10 +1,14 @@
 package com.sao.galleria.service.impl;
 
-import com.sao.galleria.exception.BaseException;
-import com.sao.galleria.exception.ErrorMessage;
-import com.sao.galleria.exception.MessageType;
+import com.sao.galleria.dto.AddressDto;
+import com.sao.galleria.mapper.AddressMapper;
+import com.sao.galleria.model.Address;
+import com.sao.galleria.repository.AddressRepository;
 import com.sao.galleria.service.IAddressService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * @author saozdemir
@@ -16,10 +20,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressServiceImpl implements IAddressService {
 
-    public void test() {
-        System.out.println("AddressServiceImpl test method called");
-        // Test method implementation
-        throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION,
-                "This is a test exception from AddressServiceImpl"));
-        }
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private AddressMapper addressMapper;
+
+    private Address createAddressFromDto(AddressDto addressDto) {
+        Address address = addressMapper.toEntity(addressDto);
+        address.setCreateTime(new Date());
+        return address;
+    }
+
+    @Override
+    public AddressDto saveAddress(AddressDto addressDto) {
+        Address savedAddress = addressRepository.save(createAddressFromDto(addressDto));
+        return addressMapper.toDto(savedAddress);
+    }
 }

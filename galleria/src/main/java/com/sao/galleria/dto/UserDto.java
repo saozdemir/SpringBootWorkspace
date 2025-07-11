@@ -1,6 +1,8 @@
 package com.sao.galleria.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author saozdemir
@@ -10,6 +12,8 @@ import lombok.Data;
  * @description:
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto extends BaseDto {
     private String username;
 

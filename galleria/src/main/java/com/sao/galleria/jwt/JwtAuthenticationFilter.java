@@ -64,5 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, e.getMessage()));
         }
+        /** Filtre zincirini (süreci) devam ettir. */
+        filterChain.doFilter(request, response);
     }
 }

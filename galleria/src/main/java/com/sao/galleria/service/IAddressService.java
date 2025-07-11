@@ -1,5 +1,7 @@
 package com.sao.galleria.service;
 
+import com.sao.galleria.dto.AddressDto;
+
 /**
  * @author saozdemir
  * @project SpringBootWorkspace
@@ -8,5 +10,6 @@ package com.sao.galleria.service;
  * @description:
  */
 public interface IAddressService {
-    void test();
+
+    AddressDto saveAddress(AddressDto addressDto);
 }
