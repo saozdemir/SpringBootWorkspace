@@ -1,0 +1,17 @@
+package com.sao.galleria.repository;
+
+import com.sao.galleria.model.Car;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author saozdemir
+ * @project SpringBootWorkspace
+ * @date 14 Jul 2025
+ * <p>
+ * @description:
+ */
+@Repository
+public interface CarRepository extends JpaRepository<Car, Long> {
+
+}
