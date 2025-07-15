@@ -28,6 +28,10 @@ public class AccountControllerImpl extends BaseController implements IAccountCon
     @PostMapping(path = "/save")
     @Override
     public RootEntity<AccountDto> saveAccount(@Valid @RequestBody AccountDto accountDto) {
-        return ok(accountService.saveAccount(accountDto));
+        try {
+            return ok(accountService.saveAccount(accountDto));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 }

@@ -19,7 +19,7 @@ public final class RootEntity<T> {
 
     private T payload;
 
-    private T errorMessage;
+    private String errorMessage;
 
     public static <T> RootEntity<T> ok(T payload) {
         RootEntity<T> rootEntity = new RootEntity<>();
@@ -30,7 +30,7 @@ public final class RootEntity<T> {
     }
 
 
-    public static <T> RootEntity<T> error(T errorMessage) {
+    public static <T> RootEntity<T> error(String errorMessage) {
         RootEntity<T> rootEntity = new RootEntity<>();
         rootEntity.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         rootEntity.setPayload(null);

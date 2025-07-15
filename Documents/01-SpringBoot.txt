@@ -101,7 +101,7 @@
         @Column(name = "name")      : Bu anotasyon ile sınıfın veritabanında hangi sütuna karşılık geldiğini belirtiriz.
         @Transient                  : Bu anotasyon ile sınıfın veritabanında karşılık gelmediğini belirtiriz. (Bu alan veritabanında tutulmaz.)
         @JsonIgnore                 : Bu anotasyon ile sınıfın veritabanında karşılık gelmediğini belirtiriz. (Bu alan veritabanında tutulmaz. JSON dönüşümünde bu alanı yok sayar.)
-        @JsonProperty("name")       : Bu anotasyon ile sınıfın veritabanında hangi sütuna karşılık geldiğini belirtiriz. (JSON dönüşümünde bu alanın ismini değiştirir.)
+        @JsonProperty("name")       : Bu anotasyon ile sınıfın veritabanında hangi sütuna karşılık geldiğini belirtiriz. (JSON dönüşümünde bu alanın ismini değiştirir.)  @JsonProperty("Tarih")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") : Bu anotasyon ile tarih alanının formatını belirtiriz. (JSON dönüşümünde bu alanın formatını değiştirir.)
         @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) : Bu anotasyon ile Hibernate tarafından eklenen alanları yok sayarız. (Lazy loading kullanıldığında bu alanlar eklenir.)
         @JsonInclude(JsonInclude.Include.NON_NULL) : Bu anotasyon ile JSON dönüşümünde null olan alanları yok sayarız. (Bu sayede JSON dönüşümünde boş alanlar dönmez.)

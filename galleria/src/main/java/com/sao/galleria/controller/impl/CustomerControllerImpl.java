@@ -31,6 +31,10 @@ public class CustomerControllerImpl extends BaseController implements ICustomerC
     @PostMapping(path = "/save")
     @Override
     public RootEntity<CustomerDto> saveCustomer(@Valid @RequestBody CustomerDtoIU customerDtoIu) {
-        return ok(customerService.saveCustomer(customerDtoIu));
+        try {
+            return ok(customerService.saveCustomer(customerDtoIu));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 }

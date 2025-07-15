@@ -25,6 +25,10 @@ public class AddressControllerImpl extends BaseController implements IAddressCon
     @PostMapping(path = "/save")
     @Override
     public RootEntity<AddressDto> saveAddress(@Valid @RequestBody AddressDto addressDto) {
-        return ok(addressService.saveAddress(addressDto));
+        try {
+            return ok(addressService.saveAddress(addressDto));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 }

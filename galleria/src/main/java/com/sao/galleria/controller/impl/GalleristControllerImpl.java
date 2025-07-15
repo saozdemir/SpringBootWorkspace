@@ -30,6 +30,10 @@ public class GalleristControllerImpl extends BaseController implements IGalleris
     @PostMapping(path = "/save")
     @Override
     public RootEntity<GalleristDto> saveGallerist(@Valid @RequestBody GalleristDtoIU galleristDtoIu) {
-        return ok(galleristService.saveGallerist(galleristDtoIu));
+        try {
+            return ok(galleristService.saveGallerist(galleristDtoIu));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 }

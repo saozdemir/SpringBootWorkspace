@@ -26,18 +26,30 @@ public class AuthenticationControllerImpl extends BaseController implements IAut
     @PostMapping(path = "/register")
     @Override
     public RootEntity<UserDto> register(@Valid @RequestBody AuthRequest input) {
-        return ok(authenticationService.register(input));
+        try {
+            return ok(authenticationService.register(input));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 
     @PostMapping(path = "/authenticate")
     @Override
     public RootEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest input) {
-        return ok(authenticationService.authenticate(input));
+        try {
+            return ok(authenticationService.authenticate(input));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 
     @PostMapping(path = "/refresh-token")
     @Override
     public RootEntity<AuthResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return ok(authenticationService.refreshToken(refreshTokenRequest));
+        try {
+            return ok(authenticationService.refreshToken(refreshTokenRequest));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 }
