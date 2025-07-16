@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author saozdemir
@@ -50,7 +51,9 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> (GrantedAuthority) role::getName)
-                .toList();
+                .flatMap(role -> role.getPermissionGroups().stream())
+                .flatMap(group -> group.getPermissions().stream())
+                .map(permission -> (GrantedAuthority) () -> permission.getCode())
+                .collect(Collectors.toSet());
     }
 }

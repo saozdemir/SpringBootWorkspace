@@ -1,5 +1,6 @@
 package com.sao.usermanagement.dto.iu;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -8,18 +9,17 @@ import java.util.Set;
 /**
  * @author saozdemir
  * @project SpringBootWorkspace
- * @date 16 Jul 2025
+ * @date 16 Tem 2025
  * <p>
  * @description:
  */
 @Data
-public class PermissionDtoIU {
+public class PermissionGroupDtoIU {
 
     @NotNull
     private String name;
 
-    @NotNull
-    private String code;
-
     private String description;
+
+    private Set<Long> permissionIds;
 }

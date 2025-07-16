@@ -1,0 +1,17 @@
+package com.sao.usermanagement.controller;
+
+import com.sao.usermanagement.dto.RoleDto;
+import com.sao.usermanagement.dto.RootEntity;
+import com.sao.usermanagement.dto.iu.RoleDtoIU;
+
+/**
+ * @author saozdemir
+ * @project SpringBootWorkspace
+ * @date 16 Tem 2025
+ * <p>
+ * @description:
+ */
+public interface IRoleController {
+
+    RootEntity<RoleDto> saveRole(RoleDtoIU roleDtoIu);
+}
