@@ -1,6 +1,7 @@
 package com.sao.usermanagement.dto;
 
 import com.sao.usermanagement.entity.Role;
+import com.sao.usermanagement.enums.RoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class UserDto extends BaseDto{
     private String firstName;
 
     private String lastName;
+
+    private RoleType selectedRole;
 
     private Set<Role> roles;
 

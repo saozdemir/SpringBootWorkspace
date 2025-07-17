@@ -1,5 +1,6 @@
 package com.sao.usermanagement.dto;
 
+import com.sao.usermanagement.enums.RoleType;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
@@ -13,5 +14,8 @@ public record AuthRequest(
         @NotEmpty
         String username,
         @NotEmpty
-        String password) {
+        String password,
+
+        RoleType selectedRole) {
+
 }

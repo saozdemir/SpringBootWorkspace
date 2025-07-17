@@ -1,5 +1,6 @@
 package com.sao.usermanagement.entity;
 
+import com.sao.usermanagement.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +42,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Transient
+    @Enumerated(EnumType.STRING)
+    private RoleType selectedRole;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -50,10 +55,16 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
+        return roles.stream().filter(role -> role.getType().equals(selectedRole))
                 .flatMap(role -> role.getPermissionGroups().stream())
                 .flatMap(group -> group.getPermissions().stream())
                 .map(permission -> (GrantedAuthority) () -> permission.getCode())
                 .collect(Collectors.toSet());
+
+//        return roles.stream()
+//                .flatMap(role -> role.getPermissionGroups().stream())
+//                .flatMap(group -> group.getPermissions().stream())
+//                .map(permission -> (GrantedAuthority) () -> permission.getCode())
+//                .collect(Collectors.toSet());
     }
 }

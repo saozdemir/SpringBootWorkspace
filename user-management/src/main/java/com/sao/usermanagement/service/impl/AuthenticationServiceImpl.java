@@ -77,6 +77,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             authenticationProvider.authenticate(authenticationToken);
 
             Optional<User> optionalUser = userRepository.findByUsername(authRequest.username());
+            optionalUser.get().setSelectedRole(authRequest.selectedRole());
 
             String accessToken = jwtService.generateToken(optionalUser.get());
             RefreshToken refreshToken = jwtService.generateRefreshToken(optionalUser.get());

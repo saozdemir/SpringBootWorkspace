@@ -1,6 +1,7 @@
 package com.sao.usermanagement.dto.iu;
 
 import com.sao.usermanagement.entity.Role;
+import com.sao.usermanagement.enums.RoleType;
 import lombok.Data;
 
 import java.util.Set;
@@ -23,6 +24,8 @@ public class UserDtoIU {
     private String firstName;
 
     private String lastName;
+
+    private RoleType selectedRole;
 
     private Set<Role> roles;
 }
