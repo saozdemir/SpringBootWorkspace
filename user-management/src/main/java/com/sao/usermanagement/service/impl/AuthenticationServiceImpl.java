@@ -82,6 +82,9 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             String accessToken = jwtService.generateToken(optionalUser.get());
             RefreshToken refreshToken = jwtService.generateRefreshToken(optionalUser.get());
             refreshTokenRepository.save(refreshToken);
+            if(authRequest.selectedRole() != null) {
+                userRepository.save(optionalUser.get()); /** Kullanıcıyı seçilen role ile güncelle. */
+            }
             return new AuthResponse(accessToken, refreshToken.getRefreshToken());
         } catch (AuthenticationException e) {
             throw new BaseException(new ErrorMessage(MessageType.USERNAME_OR_PASSWORD_INCORRECT, e.getMessage()));

@@ -30,6 +30,7 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
+                .claim("authorities", userDetails.getAuthorities())
                 .setIssuedAt(new java.util.Date())
                 .setExpiration(new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2)) // 2 hours expiration
                 .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, getKey())

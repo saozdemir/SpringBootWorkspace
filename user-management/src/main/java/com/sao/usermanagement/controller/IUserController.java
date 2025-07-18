@@ -2,6 +2,7 @@ package com.sao.usermanagement.controller;
 
 import com.sao.usermanagement.dto.RootEntity;
 import com.sao.usermanagement.dto.UserDto;
+import com.sao.usermanagement.dto.iu.UserDtoIU;
 import com.sao.usermanagement.exception.BaseException;
 
 /**
@@ -14,5 +15,7 @@ import com.sao.usermanagement.exception.BaseException;
 public interface IUserController {
 
     RootEntity<UserDto> findUserById(Long id);
+
+    RootEntity<UserDto> addRoleToUser(UserDtoIU userDtoIu);
 
 }

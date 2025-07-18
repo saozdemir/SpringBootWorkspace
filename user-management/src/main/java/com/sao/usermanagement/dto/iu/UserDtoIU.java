@@ -27,5 +27,5 @@ public class UserDtoIU {
 
     private RoleType selectedRole;
 
-    private Set<Role> roles;
+    private Set<Long> roleIds;
 }

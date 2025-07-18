@@ -36,4 +36,6 @@ public class UserDto extends BaseDto{
 
     private Set<Role> roles;
 
+    private boolean isActive;
+
 }

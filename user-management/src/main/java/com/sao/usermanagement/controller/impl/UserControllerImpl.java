@@ -6,6 +6,8 @@ import com.sao.usermanagement.dto.RootEntity;
 import com.sao.usermanagement.dto.UserDto;
 //import static com.sao.usermanagement.security.authorization.PermissionConstants.*;//TODO: 1. Yöntem
 
+import com.sao.usermanagement.dto.iu.UserDtoIU;
+import com.sao.usermanagement.exception.BaseException;
 import com.sao.usermanagement.security.authorization.PermissionChecker;
 import com.sao.usermanagement.security.authorization.PermissionConstants;
 import com.sao.usermanagement.service.IUserService;
@@ -44,5 +46,15 @@ public class UserControllerImpl extends BaseController implements IUserControlle
         boolean tets =PermissionChecker.checkPermission(PermissionConstants.SEARCH_USER);
         return ok(userService.findUserById(id));
 
+    }
+
+    @PutMapping(path = "/add-role-to-user")
+    @Override
+    public RootEntity<UserDto> addRoleToUser(@RequestBody UserDtoIU userDtoIu) {
+        try {
+            return ok(userService.addRoleToUser(userDtoIu));
+        } catch (BaseException e) {
+            return error(e.getMessage());
+        }
     }
 }

@@ -42,7 +42,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Transient
+    @Column(name = "seleceted_role")
     @Enumerated(EnumType.STRING)
     private RoleType selectedRole;
 
@@ -52,6 +52,9 @@ public class User extends BaseEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
