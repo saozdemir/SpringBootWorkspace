@@ -38,9 +38,9 @@ public class AuthenticationControllerImpl extends BaseController implements IAut
 
     @PostMapping(path = "/authenticate")
     @Override
-    public RootEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest input, HttpServletResponse response) {
+    public RootEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest input, HttpServletRequest request, HttpServletResponse response) {
         try {
-            return ok(authenticationService.authenticate(input, response));
+            return ok(authenticationService.authenticate(input,request, response));
         } catch (Exception e) {
             return error(e.getMessage());
         }

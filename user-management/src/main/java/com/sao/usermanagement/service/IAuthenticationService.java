@@ -19,7 +19,7 @@ public interface IAuthenticationService {
 
     UserDto register(UserDtoIU userDtoIu);
 
-    AuthResponse authenticate(AuthRequest authRequest, HttpServletResponse response);
+    AuthResponse authenticate(AuthRequest authRequest, HttpServletRequest request, HttpServletResponse response);
 
-    AuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response);
+    AuthResponse refreshToken(HttpServletRequest request,  HttpServletResponse response);
 }

@@ -24,6 +24,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -74,7 +75,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     }
 
     @Override
-    public AuthResponse authenticate(AuthRequest authRequest, HttpServletResponse response) {
+    public AuthResponse authenticate(AuthRequest authRequest, HttpServletRequest request, HttpServletResponse response) {
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password());
@@ -92,6 +93,10 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
             /** Cookie ekleme adımı (YENİ)*/
             addRefreshTokenToCookie(refreshToken, response);
+
+            // YENİ: CSRF Token'ını Request'ten alıp response'a ekleme
+            // Spring Security, CSRF token'ını ürettikten sonra request'e bir attribute olarak ekler.
+            String csrfToken = generateCsrfToken(request, response);
 
             return new AuthResponse(accessToken);
         } catch (AuthenticationException e) {
@@ -148,5 +153,19 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             }
         }
         return null;
+    }
+
+    private String generateCsrfToken(HttpServletRequest request, HttpServletResponse response) {
+        String csrfToken = null;
+        try {
+            CsrfToken csrfTokenData = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+
+            if (csrfTokenData != null) {
+                csrfToken =  csrfTokenData.getToken();
+            }
+        } catch (Exception e) {
+            throw new BaseException(new ErrorMessage(MessageType.CSRF_TOKEN_NOT_FOUND, e.getMessage()));
+        }
+        return csrfToken;
     }
 }

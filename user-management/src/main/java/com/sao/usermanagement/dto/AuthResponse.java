@@ -1,5 +1,7 @@
 package com.sao.usermanagement.dto;
 
+import lombok.AllArgsConstructor;
+
 /**
  * @author saozdemir
  * @project SpringBootWorkspace

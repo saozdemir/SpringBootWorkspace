@@ -18,4 +18,6 @@ public interface IUserController {
 
     RootEntity<UserDto> addRoleToUser(UserDtoIU userDtoIu);
 
+    RootEntity<UserDto> testUserAuthentication(UserDtoIU userDtoIu) throws BaseException;
+
 }

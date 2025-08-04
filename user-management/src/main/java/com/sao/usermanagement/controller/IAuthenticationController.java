@@ -16,7 +16,7 @@ public interface IAuthenticationController {
 
     RootEntity<UserDto> register(UserDtoIU userDtoIu);
 
-    RootEntity<AuthResponse> authenticate(AuthRequest input, HttpServletResponse response);
+    RootEntity<AuthResponse> authenticate(AuthRequest input, HttpServletRequest request, HttpServletResponse response);
 
     RootEntity<AuthResponse> refreshToken(HttpServletRequest request, HttpServletResponse response);
 }

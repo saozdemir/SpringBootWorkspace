@@ -17,6 +17,7 @@ public enum MessageType {
     USERNAME_OR_PASSWORD_INCORRECT("1003", "Username or password is incorrect."),
     REFRESH_TOKEN_NOT_FOUND("1004", "Refresh token not found."),
     REFRESH_TOKEN_IS_EXPIRED("1005", "The refresh token has expired. Please log in again."),
+    CSRF_TOKEN_NOT_FOUND("1006", "CSRF token not found."),
 
     GENERAL_EXCEPTION("9999", "An unexpected error occurred. Please try again later.");
 

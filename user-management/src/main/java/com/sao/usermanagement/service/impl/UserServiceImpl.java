@@ -47,22 +47,36 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserDto addRoleToUser(UserDtoIU userDtoIU) throws BaseException {
-        Optional<User> optionalUser = userRepository.findByUsername(userDtoIU.getUsername());
-        if(optionalUser.isPresent() && !userDtoIU.getRoleIds().isEmpty()){
-            User user = optionalUser.get();
-            for (Long roleId : userDtoIU.getRoleIds()) {
-                Optional<Role> optionalRole = roleRepository.findById(roleId);
-                if (optionalRole.isPresent()) {
-                    Role role = optionalRole.get();
-                    user.getRoles().add(role);
-                } else {
-                    throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "Role: " + roleId));
+        try {
+            Optional<User> optionalUser = userRepository.findByUsername(userDtoIU.getUsername());
+            if (optionalUser.isPresent() && !userDtoIU.getRoleIds().isEmpty()) {
+                User user = optionalUser.get();
+                for (Long roleId : userDtoIU.getRoleIds()) {
+                    Optional<Role> optionalRole = roleRepository.findById(roleId);
+                    if (optionalRole.isPresent()) {
+                        Role role = optionalRole.get();
+                        user.getRoles().add(role);
+                    } else {
+                        throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "Role: " + roleId));
+                    }
                 }
+                User updatedUser = userRepository.save(user);
+                return userMapper.toDto(updatedUser);
+            } else {
+                throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "User: " + userDtoIU.getUsername()));
             }
-            User updatedUser = userRepository.save(user);
-            return userMapper.toDto(updatedUser);
-        } else {
-            throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "User: " + userDtoIU.getUsername()));
+        } catch (BaseException e) {
+            throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, e.getMessage()));
+        }
+    }
+
+    @Override
+    public UserDto testUserAuthentication(UserDtoIU userDtoIu) throws BaseException {
+        try {
+            Optional<User> optionalUser = userRepository.findByUsername(userDtoIu.getUsername());
+            return userMapper.toDto(optionalUser.orElse(null));
+        } catch (Exception e) {
+            throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, e.getMessage()));
         }
     }
 }

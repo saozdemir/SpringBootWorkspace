@@ -9,7 +9,7 @@ import com.sao.usermanagement.dto.RootEntity;
  * <p>
  * @description:
  */
-public abstract class BaseController {
+public abstract class BaseController implements IBaseController{
     public <T> RootEntity<T> ok(T payload) {
         return RootEntity.ok(payload);
     }

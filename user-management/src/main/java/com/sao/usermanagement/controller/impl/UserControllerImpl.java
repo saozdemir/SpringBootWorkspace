@@ -57,4 +57,16 @@ public class UserControllerImpl extends BaseController implements IUserControlle
             return error(e.getMessage());
         }
     }
+
+    @PostMapping(path = "/test-user-authentication")
+    @Override
+    public RootEntity<UserDto> testUserAuthentication(UserDtoIU userDtoIu) throws BaseException {
+        try {
+            return ok(userService.testUserAuthentication(userDtoIu));
+        } catch (BaseException e) {
+            return error(e.getMessage());
+        }
+    }
+
+
 }

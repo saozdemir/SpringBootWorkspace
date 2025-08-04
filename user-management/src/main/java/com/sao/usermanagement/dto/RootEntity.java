@@ -21,6 +21,8 @@ public final class RootEntity<T> {
 
     private String errorMessage;
 
+    private String csrfToken;
+
     public static <T> RootEntity<T> ok(T payload) {
         RootEntity<T> rootEntity = new RootEntity<>();
         rootEntity.setStatus(HttpStatus.OK.value());
