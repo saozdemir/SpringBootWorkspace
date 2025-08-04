@@ -5,6 +5,8 @@ import com.sao.usermanagement.controller.IAuthenticationController;
 import com.sao.usermanagement.dto.*;
 import com.sao.usermanagement.dto.iu.UserDtoIU;
 import com.sao.usermanagement.service.IAuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,9 +38,9 @@ public class AuthenticationControllerImpl extends BaseController implements IAut
 
     @PostMapping(path = "/authenticate")
     @Override
-    public RootEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest input) {
+    public RootEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest input, HttpServletResponse response) {
         try {
-            return ok(authenticationService.authenticate(input));
+            return ok(authenticationService.authenticate(input, response));
         } catch (Exception e) {
             return error(e.getMessage());
         }
@@ -46,9 +48,9 @@ public class AuthenticationControllerImpl extends BaseController implements IAut
 
     @PostMapping(path = "/refresh-token")
     @Override
-    public RootEntity<AuthResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+    public RootEntity<AuthResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         try {
-            return ok(authenticationService.refreshToken(refreshTokenRequest));
+            return ok(authenticationService.refreshToken(request, response));
         } catch (Exception e) {
             return error(e.getMessage());
         }

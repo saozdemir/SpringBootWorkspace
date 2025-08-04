@@ -8,7 +8,6 @@ package com.sao.usermanagement.dto;
  * @description:
  */
 public record AuthResponse(
-        String accessToken,
-        String refreshToken) {
+        String accessToken) {
 
 }

@@ -15,6 +15,9 @@ import com.sao.usermanagement.repository.RefreshTokenRepository;
 import com.sao.usermanagement.repository.UserRepository;
 import com.sao.usermanagement.security.jwt.JwtService;
 import com.sao.usermanagement.service.IAuthenticationService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author saozdemir
@@ -70,7 +74,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     }
 
     @Override
-    public AuthResponse authenticate(AuthRequest authRequest) {
+    public AuthResponse authenticate(AuthRequest authRequest, HttpServletResponse response) {
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password());
@@ -85,28 +89,64 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             if(authRequest.selectedRole() != null) {
                 userRepository.save(optionalUser.get()); /** Kullanıcıyı seçilen role ile güncelle. */
             }
-            return new AuthResponse(accessToken, refreshToken.getRefreshToken());
+
+            /** Cookie ekleme adımı (YENİ)*/
+            addRefreshTokenToCookie(refreshToken, response);
+
+            return new AuthResponse(accessToken);
         } catch (AuthenticationException e) {
             throw new BaseException(new ErrorMessage(MessageType.USERNAME_OR_PASSWORD_INCORRECT, e.getMessage()));
         }
     }
 
     @Override
-    public AuthResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByRefreshToken(refreshTokenRequest.refreshToken());
+    public AuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        String refreshTokenFromCookie = getRefreshTokenFromCookie(request);
+        if (refreshTokenFromCookie == null) {
+            throw new BaseException(new ErrorMessage(MessageType.REFRESH_TOKEN_NOT_FOUND, "Refresh token not found in cookie"));
+        }
+
+        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByRefreshToken(refreshTokenFromCookie);
         if (optionalRefreshToken.isEmpty()) {
-            throw new BaseException(new ErrorMessage(MessageType.REFRESH_TOKEN_NOT_FOUND, refreshTokenRequest.refreshToken()));
+            throw new BaseException(new ErrorMessage(MessageType.REFRESH_TOKEN_NOT_FOUND, refreshTokenFromCookie));
         }
 
         if (!jwtService.isRefreshTokenValid(optionalRefreshToken.get().getExpiredDate())) {
-            throw new BaseException(new ErrorMessage(MessageType.REFRESH_TOKEN_IS_EXPIRED, refreshTokenRequest.refreshToken()));
+            throw new BaseException(new ErrorMessage(MessageType.REFRESH_TOKEN_IS_EXPIRED, refreshTokenFromCookie));
         }
 
-        /** Eğer refresh token geçerli ise yeni accessToken ve refreshTonek oluşturur. */
         User user = optionalRefreshToken.get().getUser();
         String accessToken = jwtService.generateToken(user);
-        RefreshToken refreshToken = jwtService.generateRefreshToken(user);
-        refreshTokenRepository.save(refreshToken);
-        return new AuthResponse(accessToken, refreshToken.getRefreshToken());
+        RefreshToken newRefreshToken = jwtService.generateRefreshToken(user);
+        refreshTokenRepository.save(newRefreshToken);
+
+        // YENİ EKLENEN KISIM: Yeni RefreshToken'ı HttpOnly Cookie'ye ekleme
+        addRefreshTokenToCookie(newRefreshToken, response);
+
+        // Sadece yeni accessToken'ı body'de döndür.
+        return new AuthResponse(accessToken);
+    }
+
+    private void addRefreshTokenToCookie(RefreshToken refreshToken, HttpServletResponse response) {
+        Cookie cookie = new Cookie("refresh-token", refreshToken.getRefreshToken());
+        cookie.setHttpOnly(true); // JavaScript erişimini engeller
+        cookie.setSecure(true); // Sadece HTTPS üzerinden gönderilir (Production için önemlidir)
+        cookie.setPath("/"); // Tüm path'lerde geçerli
+        long duration = refreshToken.getExpiredDate().getTime() - System.currentTimeMillis();
+        cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(duration)); // Cookie'nin ömrünü ayarla
+        response.addCookie(cookie);
+    }
+
+    // Cookie'den refresh token okumak için yardımcı metod
+    private String getRefreshTokenFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("refresh-token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
