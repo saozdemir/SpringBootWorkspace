@@ -135,7 +135,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     private void addRefreshTokenToCookie(RefreshToken refreshToken, HttpServletResponse response) {
         Cookie cookie = new Cookie("refresh-token", refreshToken.getRefreshToken());
         cookie.setHttpOnly(true); // JavaScript erişimini engeller
-        cookie.setSecure(true); // Sadece HTTPS üzerinden gönderilir (Production için önemlidir)
+//TODO:        cookie.setSecure(true); // Sadece HTTPS üzerinden gönderilir (Production için önemlidir)
         cookie.setPath("/"); // Tüm path'lerde geçerli
         long duration = refreshToken.getExpiredDate().getTime() - System.currentTimeMillis();
         cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(duration)); // Cookie'nin ömrünü ayarla

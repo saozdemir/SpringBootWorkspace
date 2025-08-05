@@ -39,4 +39,12 @@ public final class RootEntity<T> {
         rootEntity.setErrorMessage(errorMessage);
         return rootEntity;
     }
+
+    public static <T> RootEntity<T> error(String errorMessage, Integer status) {
+        RootEntity<T> rootEntity = new RootEntity<>();
+        rootEntity.setStatus(status);
+        rootEntity.setPayload(null);
+        rootEntity.setErrorMessage(errorMessage);
+        return rootEntity;
+    }
 }

@@ -14,6 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 /**
  * @author saozdemir
@@ -49,6 +54,8 @@ public class SecurityConfig {
         requestAttributeHandler.setCsrfRequestAttributeName("_csrf");
 
         http
+                /** YENİ EKLENEN KISIM: CORS yapılandırmasını Security filtresine dahil ediyoruz. */
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // YENİ: CSRF Konfigürasyonu
                 .csrf(csrf -> csrf
                         // CSRF token'ını saklamak için CookieCsrfTokenRepository kullanılır.
@@ -67,7 +74,7 @@ public class SecurityConfig {
                          * GÜNCELLENEN SATIR:
                          * /refresh-token endpoint'i, CSRF korumasına tabi olması gerektiği için
                          * permitAll() listesinden çıkarıldı. Artık yetkilendirme gerektiren
-                         * bir endpoint olarak kabul ediliyor.
+                         * bir endpoint olarak kabul ediliyor. Yani, bu endpoint'e erişim access token'ı olmayan kullancılar için istisna bırakıldı.
                          */
                         request.requestMatchers(REGISTER, AUTHENTICATE, REFRESH_TOKEN)
                                 .permitAll()
@@ -81,6 +88,36 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    /**
+     * YENİ EKLENEN BEAN: CORS ayarlarını merkezi olarak yönetir.
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // İzin verilen kaynak (React uygulamanızın çalıştığı adres)
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173","http://127.0.0.1:5173"));
+
+        // İzin verilen HTTP metotları
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // İzin verilen HTTP başlıkları (Authorization ve CSRF başlıkları dahil)
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
+
+        // Cookie'lerin ve kimlik bilgilerinin gönderilmesine izin ver.
+        // React'teki "withCredentials: true" ayarı için bu ZORUNLUDUR!
+        configuration.setAllowCredentials(true);
+
+        // Tarayıcının ön kontrol (preflight) cevaplarını ne kadar süreyle cache'lemesi gerektiğini belirtir.
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Tüm yollar (/**) için yukarıdaki CORS yapılandırmasını geçerli kıl.
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
 
