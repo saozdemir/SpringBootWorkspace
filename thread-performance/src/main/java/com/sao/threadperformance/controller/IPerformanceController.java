@@ -8,6 +8,9 @@ package com.sao.threadperformance.controller;
  * @description: Bu arayüz, performans testi için gerekli olan metotları tanımlar.
  */
 public interface IPerformanceController {
+
+    String ioTestSingle() throws Exception;
+
     String ioTestVirtual() throws Exception;
 
     String ioTestPlatform() throws Exception;

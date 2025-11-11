@@ -1,0 +1,16 @@
+20_000
+Total time taken for Platform Thread: 63323 ms
+Total time taken for Virtual Thread: 60508 ms
+
+
+40_000
+Total time taken for Platform Thread: 97077 ms
+Total time taken for Virtual Thread: 61068 ms
+
+100_000
+Total time taken for Platform Thread: 176605 ms
+Total time taken for Virtual Thread: 61911 ms
+
+200_000
+Total time taken for Platform Thread: 420849 ms
+Total time taken for Virtual Thread: 69885 ms

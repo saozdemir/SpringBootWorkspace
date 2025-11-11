@@ -22,6 +22,11 @@ public class PerformanceController implements IPerformanceController {
     @Autowired
     private IPerformanceService performanceService;
 
+    @Override
+    public String ioTestSingle() throws Exception {
+        return "";
+    }
+
     @GetMapping("/io-test/virtual")
     public String ioTestVirtual() throws Exception {
         return performanceService.simulateIOVirtual();

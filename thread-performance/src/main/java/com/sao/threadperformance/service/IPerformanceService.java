@@ -8,6 +8,9 @@ package com.sao.threadperformance.service;
  * @description:
  */
 public interface IPerformanceService {
+
+    String simulateIOSingle() throws Exception;
+
     String simulateIOVirtual() throws Exception;
 
     String simulateIOPlatform() throws Exception;

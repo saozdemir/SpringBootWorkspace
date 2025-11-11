@@ -19,14 +19,24 @@ import java.util.concurrent.Executors;
 
 @Service
 public class PerformanceService implements IPerformanceService {
-    private final ExecutorService platformExecutor = Executors.newFixedThreadPool(50);
+    private final ExecutorService platformExecutor = Executors.newFixedThreadPool(200);
     private final ExecutorService virtualExecutor = Executors.newVirtualThreadPerTaskExecutor();
+
+    @Override
+    public String simulateIOSingle() throws Exception {
+        try {
+            Thread.sleep(1000); // I/O simulasyonu (veritabanı bekleme gibi)
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return "";
+    }
 
     public String simulateIOVirtual() throws Exception {
         Instant start = Instant.now();
         virtualExecutor.submit(() -> {
             try {
-                Thread.sleep(200); // I/O simulasyonu (veritabanı bekleme gibi)
+                Thread.sleep(1000); // I/O simulasyonu (veritabanı bekleme gibi)
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -40,7 +50,7 @@ public class PerformanceService implements IPerformanceService {
         Instant start = Instant.now();
         platformExecutor.submit(() -> {
             try {
-                Thread.sleep(200); // I/O simulasyonu (veritabanı bekleme gibi)
+                Thread.sleep(1000); // I/O simulasyonu (veritabanı bekleme gibi)
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
