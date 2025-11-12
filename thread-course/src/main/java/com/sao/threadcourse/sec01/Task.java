@@ -17,9 +17,9 @@ public class Task {
 
     public static void ioIntensive (int i) {
         try {
-            logger.info("Starting IO Task: {}", i);
-            Thread.sleep(Duration.ofSeconds(60));
-            logger.info("Ending IO Task: {}", i);
+            logger.info("Starting IO Task: {} Thread Info: {}", i, Thread.currentThread());
+            Thread.sleep(Duration.ofSeconds(10));
+            logger.info("Ending IO Task: {} Thread Info: {}", i, Thread.currentThread());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

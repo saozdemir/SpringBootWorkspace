@@ -11,8 +11,8 @@ import java.util.concurrent.CountDownLatch;
  */
 public class TaskDemo {
 
-    private static final int MAX_PLATFORM_THREADS = 200_000;
-    private static final int MAX_VIRTUAL_THREADS = 200_000;
+    private static final int MAX_PLATFORM_THREADS = 10;
+    private static final int MAX_VIRTUAL_THREADS = 20;
 
 
     public static void main(String[] args) throws InterruptedException {
