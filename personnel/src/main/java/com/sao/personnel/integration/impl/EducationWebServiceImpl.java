@@ -26,7 +26,8 @@ public class EducationWebServiceImpl implements IEducationWebService {
     // Spring tarafından yönetilen tek bir RestTemplate nesnesini enjekte ediyoruz.
     // Bu, bağlantı havuzunun verimli kullanılmasını sağlar.
     private final RestTemplate restTemplate;
-    private final String baseUrl = "http://localhost:8090/api/education";
+//    private final String baseUrl = "http://localhost:8090/api/education";
+    private final String baseUrl = "http://ahmetpc1:8090/api/education";
 
     @Autowired
     public EducationWebServiceImpl(RestTemplate restTemplate) {
@@ -40,11 +41,11 @@ public class EducationWebServiceImpl implements IEducationWebService {
 
         // Yapay bir gecikme ekleyerek I/O beklemesini simüle ediyoruz.
         // Bu, sanal thread'lerin avantajını daha net görmenizi sağlar.
-        try {
-            Thread.sleep(200); // 200 milisaniye bekle
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+//        try {
+//            Thread.sleep(200); // 200 milisaniye bekle
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
 
         ResponseEntity<List<EducationDto>> response = restTemplate.exchange(
                 url,

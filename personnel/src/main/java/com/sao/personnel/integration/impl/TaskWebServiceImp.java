@@ -24,7 +24,8 @@ public class TaskWebServiceImp implements ITaskWebService {
 
     // Spring tarafından yönetilen tek bir RestTemplate nesnesini enjekte ediyoruz.
     private final RestTemplate restTemplate;
-    private final String baseUrl = "http://localhost:8091/api/task";
+//    private final String baseUrl = "http://localhost:8091/api/task";
+    private final String baseUrl = "http://ahmetpc1:8091/api/task";
 
     @Autowired
     public TaskWebServiceImp(RestTemplate restTemplate) {
@@ -38,11 +39,11 @@ public class TaskWebServiceImp implements ITaskWebService {
 
         // Yapay bir gecikme ekleyerek I/O beklemesini simüle ediyoruz.
         // Bu, sanal thread'lerin avantajını daha net görmenizi sağlar.
-        try {
-            Thread.sleep(300); // 300 milisaniye bekle
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+//        try {
+//            Thread.sleep(300); // 300 milisaniye bekle
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
 
         ResponseEntity<List<TaskDto>> response = restTemplate.exchange(
                 url,

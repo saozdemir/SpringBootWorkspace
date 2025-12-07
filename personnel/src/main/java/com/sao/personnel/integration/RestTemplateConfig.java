@@ -1,9 +1,11 @@
 package com.sao.personnel.integration;
 
 
+import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,14 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
+
+        Timeout connectTimeout = Timeout.ofSeconds(60); // 20 saniye
+        Timeout readTimeout = Timeout.ofSeconds(120);
+
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(connectTimeout)
+                .setResponseTimeout(readTimeout)
+                .build();
         // Apache HttpClient 5 tabanlı bir bağlantı havuzu yöneticisi oluşturuyoruz.
         // Bu, bağlantıların verimli bir şekilde yeniden kullanılmasını sağlar.
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
@@ -33,6 +43,7 @@ public class RestTemplateConfig {
         // Bağlantı yöneticisini kullanarak HttpClient'ı oluşturuyoruz.
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setConnectionManager(connectionManager)
+                .setDefaultRequestConfig(requestConfig)
                 .build();
 
         // RestTemplate'in Apache HttpClient'ı kullanmasını sağlıyoruz.

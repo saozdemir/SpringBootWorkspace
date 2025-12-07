@@ -32,7 +32,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .claim("authorities", userDetails.getAuthorities())
                 .setIssuedAt(new java.util.Date())
-                .setExpiration(new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 2)) // 2 hours expiration
+                .setExpiration(new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 1)) // 2 hours expiration
                 .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, getKey())
                 .compact();
     }
@@ -41,7 +41,7 @@ public class JwtService {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);
         refreshToken.setCreateTime(new Date());
-        refreshToken.setExpiredDate(new Date(System.currentTimeMillis() + 1000 * 60 * 4));// 4 hours expiration:1000 * 60 * 60 * 4
+        refreshToken.setExpiredDate(new Date(System.currentTimeMillis() + 1000 * 60 * 2));// 4 hours expiration:1000 * 60 * 60 * 4
         refreshToken.setRefreshToken(UUID.randomUUID().toString());
         return refreshToken;
     }
