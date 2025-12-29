@@ -5,6 +5,7 @@ import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -25,8 +26,8 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
 
-        Timeout connectTimeout = Timeout.ofSeconds(60); // 20 saniye
-        Timeout readTimeout = Timeout.ofSeconds(120);
+        Timeout connectTimeout = Timeout.ofSeconds(600); // 20 saniye
+        Timeout readTimeout = Timeout.ofSeconds(600);
 
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectTimeout(connectTimeout)
@@ -36,14 +37,20 @@ public class RestTemplateConfig {
         // Bu, bağlantıların verimli bir şekilde yeniden kullanılmasını sağlar.
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         // Toplamda aynı anda açık olabilecek maksimum bağlantı sayısı.
-        connectionManager.setMaxTotal(400);
+        connectionManager.setMaxTotal(10000);//400
         // Her bir hedef sunucu (route) için aynı anda açık olabilecek maksimum bağlantı sayısı.
-        connectionManager.setDefaultMaxPerRoute(200);
+        connectionManager.setDefaultMaxPerRoute(20000);//200
+
+        connectionManager.setValidateAfterInactivity(TimeValue.ofSeconds(5));
 
         // Bağlantı yöneticisini kullanarak HttpClient'ı oluşturuyoruz.
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setConnectionManager(connectionManager)
                 .setDefaultRequestConfig(requestConfig)
+                // --- ---
+                .evictExpiredConnections() // Süresi dolanları at
+                .evictIdleConnections(TimeValue.ofSeconds(10)) // 10 saniyedir iş yapmayanı at
+                // --- ---
                 .build();
 
         // RestTemplate'in Apache HttpClient'ı kullanmasını sağlıyoruz.
@@ -51,7 +58,7 @@ public class RestTemplateConfig {
 
         // RestTemplate'i bu yeni konfigürasyon ve zaman aşımları ile oluşturuyoruz.
         return builder
-                .requestFactory(() -> requestFactory).connectTimeout(Duration.ofSeconds(200)).readTimeout(Duration.ofSeconds(400))
+                .requestFactory(() -> requestFactory)
                 .build();
     }
 

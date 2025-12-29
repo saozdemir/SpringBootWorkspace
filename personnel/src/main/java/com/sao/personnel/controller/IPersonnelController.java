@@ -28,4 +28,6 @@ public interface IPersonnelController {
     List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread();
 
     List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread();
+
+    List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThreadWithSemaphore();
 }

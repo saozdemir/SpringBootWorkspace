@@ -25,7 +25,7 @@ public class TaskWebServiceImp implements ITaskWebService {
     // Spring tarafından yönetilen tek bir RestTemplate nesnesini enjekte ediyoruz.
     private final RestTemplate restTemplate;
 //    private final String baseUrl = "http://localhost:8091/api/task";
-    private final String baseUrl = "http://ahmetpc1:8091/api/task";
+    private final String baseUrl = "http://192.168.1.113:8091/api/task";
 
     @Autowired
     public TaskWebServiceImp(RestTemplate restTemplate) {

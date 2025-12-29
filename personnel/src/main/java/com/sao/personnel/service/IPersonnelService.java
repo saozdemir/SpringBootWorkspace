@@ -24,5 +24,7 @@ public interface IPersonnelService {
 
     List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread();
 
+    List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThreadWithSemaphore();
+
     PersonnelDto getPersonnelDetails(Long personnelId);
 }

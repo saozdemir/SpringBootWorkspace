@@ -27,7 +27,7 @@ public class EducationWebServiceImpl implements IEducationWebService {
     // Bu, bağlantı havuzunun verimli kullanılmasını sağlar.
     private final RestTemplate restTemplate;
 //    private final String baseUrl = "http://localhost:8090/api/education";
-    private final String baseUrl = "http://ahmetpc1:8090/api/education";
+    private final String baseUrl = "http://192.168.1.113:8090/api/education";
 
     @Autowired
     public EducationWebServiceImpl(RestTemplate restTemplate) {

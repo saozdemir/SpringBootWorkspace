@@ -49,7 +49,7 @@ public class TaskService implements ITaskService {
         for (int i = 0; i < count; i++) {
             int t = i;
             Thread thread = builder.unstarted(() -> {
-                com.sao.thread.common.Task.runTask(t);
+                Task.runTask(t);
                 latch.countDown();
             });
             thread.start();

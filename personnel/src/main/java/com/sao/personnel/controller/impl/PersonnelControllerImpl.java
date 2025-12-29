@@ -84,4 +84,10 @@ public class PersonnelControllerImpl implements IPersonnelController {
     public List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread() {
         return personnelService.getPersonnelListWithAllDetailsPlatformThread();
     }
+
+    @GetMapping("/list/details-virtual-semaphore")
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThreadWithSemaphore() {
+        return personnelService.getPersonnelListWithAllDetailsVirtualThreadWithSemaphore();
+    }
 }

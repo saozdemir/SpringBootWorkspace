@@ -46,6 +46,9 @@ public class PersonnelServiceImp implements IPersonnelService {
 //    private PerformanceTracker tracker;
 
     // ... diğer metotlar (getAllPersonnel, getPersonnelById vb.) burada yer alıyor ...
+
+    private final Semaphore semaphore = new Semaphore(800);
+
     @Override
     public List<PersonnelDto> getAllPersonnel() {
         return personnelRepository.findAll().stream()
@@ -81,102 +84,140 @@ public class PersonnelServiceImp implements IPersonnelService {
 
 
     /**
-     * Sanal thread'ler ve Semaphore kullanarak, eşzamanlılığı kontrol altında tutarak
-     * personellerin detaylarını paralel olarak çeker. Bu, kaynakların tükenmesini engeller.
+     * SENARYO 1: VIRTUAL THREAD (Sanal İş Parçacıkları)
+     * Semaphore kaldırıldı. Sistem kaynakları elverdiği ölçüde sınırsız paralellik sağlar.
+     * Connection Pool limiti (10.000) sayesinde I/O bloklamasında beklemez.
      */
-    @Transactional(readOnly = true)
-//    @ResourceProfiled
+//    @Transactional(readOnly = true)
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThread() {
-//        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
+        long startTime = System.currentTimeMillis();
+        System.out.println("--> VIRTUAL Thread İşlemi Başladı. Adet: " + personnelList.size());
 
-        // Aynı anda en fazla 200 isteğin aktif olmasına izin veriyoruz.
-        // Bu "trafik polisi", işletim sistemi kaynaklarının tükenmesini engeller.
-        // Bu sayıyı sisteminizin ve hedef servislerin kapasitesine göre artırıp azaltabilirsiniz.
-        final Semaphore semaphore = new Semaphore(200);
-
+        // Try-with-resources bloğu executor'ı işlem bitince otomatik kapatır.
         try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
+
             List<CompletableFuture<PersonnelDto>> futures = personnelList.stream()
-                    .map(personnel -> {
-                        try {
-                            // Görevi başlatmadan önce semafor'dan bir "izin" alıyoruz.
-                            // Eğer 200 izin de kullanımdaysa, bu satırda yeni bir izin boşalana kadar bekler.
-                            semaphore.acquire();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            throw new RuntimeException(e);
-                        }
+                    .map(personnel -> CompletableFuture.supplyAsync(() -> {
+                        // Her personel için 2 işlemi PARALEL başlatıyoruz (Virtual Thread içinde)
+                        CompletableFuture<Void> educationFuture = CompletableFuture.runAsync(() ->
+                                personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId())), executorService);
 
-                        return CompletableFuture.supplyAsync(() -> {
-                            try {
-                                // Her personel için iki web servisi çağrısını aynı anda başlatıyoruz.
-                                CompletableFuture<Void> educationFuture = CompletableFuture.runAsync(() ->
-                                        personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId())), executorService);
+                        CompletableFuture<Void> taskFuture = CompletableFuture.runAsync(() ->
+                                personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId())), executorService);
 
-                                CompletableFuture<Void> taskFuture = CompletableFuture.runAsync(() ->
-                                        personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId())), executorService);
-
-                                CompletableFuture.allOf(educationFuture, taskFuture).join();
-                                return personnel;
-                            } finally {
-                                // Görev başarıyla tamamlansa da, hata alsa da,
-                                // aldığımız "izni" mutlaka geri veriyoruz ki başka bir görev kullanabilsin.
-                                semaphore.release();
-                            }
-                        }, executorService);
-                    })
+                        // İkisinin de bitmesini bekle (Non-blocking wait)
+                        CompletableFuture.allOf(educationFuture, taskFuture).join();
+                        return personnel;
+                    }, executorService))
                     .collect(Collectors.toList());
 
-            // Tüm personeller için başlatılan asenkron işlemlerin tamamlanmasını bekleyip sonuçları topluyoruz.
-            return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+            // Tüm personellerin işlemi bitene kadar bekle ve sonucu topla
+            List<PersonnelDto> result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                     .thenApply(v -> futures.stream()
                             .map(CompletableFuture::join)
                             .collect(Collectors.toList()))
                     .join();
-        } finally {
-//            tracker.stop("Virtual Thread Personnel Details Fetch");
+
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("<-- VIRTUAL Thread Bitti. Süre: " + duration + " ms");
+            return result;
         }
     }
 
     /**
-     * Platform thread'leri kullanarak personellerin detaylarını paralel olarak çeker.
-     * Deadlock'u önlemek için ana ve alt görevler için ayrı havuzlar kullanılır.
+     * SENARYO 2: PLATFORM THREAD (Geleneksel Model)
+     * Standart bir Tomcat sunucusunu simüle etmek için 200 thread'lik sabit bir havuz kullanıyoruz.
+     * Bu havuz dolduğunda diğer işler kuyrukta bekler (Latency artışı burada gözlemlenir).
      */
-    @Transactional(readOnly = true)
-//    @ResourceProfiled
+//    @Transactional(readOnly = true)
     @Override
     public List<PersonnelDto> getPersonnelListWithAllDetailsPlatformThread() {
-//        tracker.start();
         List<PersonnelDto> personnelList = getAllPersonnel();
+        long startTime = System.currentTimeMillis();
+        System.out.println("--> PLATFORM Thread İşlemi Başladı. Adet: " + personnelList.size());
 
-        int poolSize = Runtime.getRuntime().availableProcessors() * 10;
-        ExecutorService mainExecutor = Executors.newFixedThreadPool(poolSize);
-        ExecutorService subTaskExecutor = Executors.newFixedThreadPool(poolSize);
+        // Baseline (Taban) Karşılaştırma için Sabit Havuz (Tomcat Default: 200)
+        ExecutorService mainExecutor = Executors.newFixedThreadPool(200);
 
         try {
             List<CompletableFuture<PersonnelDto>> futures = personnelList.stream()
                     .map(personnel -> CompletableFuture.supplyAsync(() -> {
-                        CompletableFuture<Void> educationFuture = CompletableFuture.runAsync(() ->
-                                personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId())), subTaskExecutor);
-
-                        CompletableFuture<Void> taskFuture = CompletableFuture.runAsync(() ->
-                                personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId())), subTaskExecutor);
-
-                        CompletableFuture.allOf(educationFuture, taskFuture).join();
+                        // Alt görevleri de aynı havuzda veya main thread'de yapabiliriz.
+                        // Adil olması için burada bloklayarak yapıyoruz (Sequential within thread),
+                        // çünkü Platform thread'ler pahalıdır, her alt işe yeni thread açılmaz.
+                        try {
+                            personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId()));
+                            personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         return personnel;
                     }, mainExecutor))
                     .collect(Collectors.toList());
 
-            return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+            List<PersonnelDto> result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                     .thenApply(v -> futures.stream()
                             .map(CompletableFuture::join)
                             .collect(Collectors.toList()))
                     .join();
+
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("<-- PLATFORM Thread Bitti. Süre: " + duration + " ms");
+            return result;
         } finally {
-            mainExecutor.shutdown();
-            subTaskExecutor.shutdown();
-//            tracker.stop("Platform Thread Personnel Details Fetch");
+            mainExecutor.shutdown(); // Havuzu mutlaka kapatıyoruz
+        }
+    }
+
+
+    /**
+     * SENARYO 3: VIRTUAL THREAD (Semaphore ile Sınırlama)
+     * Semaphore ile aynı anda çalışan sanal thread sayısını sınırlıyoruz. Kaynak Çekişmesi önlemek için.
+     */
+
+    @Override
+    public List<PersonnelDto> getPersonnelListWithAllDetailsVirtualThreadWithSemaphore() {
+        List<PersonnelDto> personnelList = getAllPersonnel();
+
+        long startTime = System.currentTimeMillis();
+        System.out.println("--> VIRTUAL(Semaphore) Thread İşlemi Başladı. Adet: " + personnelList.size());
+
+        try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
+            List<CompletableFuture<PersonnelDto>> futures = personnelList.stream()
+                    .map(personnel -> CompletableFuture.supplyAsync(() -> {
+                        try {
+                            // İzin İste (Bloklanmadan bekle)
+                            semaphore.acquire();
+
+                            // --- KRİTİK BÖLGE (İşlem) ---
+                            // Education ve Task çağrıları burada yapılır
+                            personnel.setEducations(educationWebService.getEducationByPersonnelId(personnel.getId()));
+                            personnel.setTasks(taskWebService.getTaskByPersonnelId(personnel.getId()));
+                            // -----------------------------
+
+                            return personnel;
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            throw new RuntimeException(e);
+                        } finally {
+                            // İşi biten izni mutlaka iade eder
+                            semaphore.release();
+                        }
+                    }, executorService))
+                    .collect(Collectors.toList());
+
+            // Tüm personellerin işlemi bitene kadar bekle ve sonucu topla
+            List<PersonnelDto> result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                    .thenApply(v -> futures.stream()
+                            .map(CompletableFuture::join)
+                            .collect(Collectors.toList()))
+                    .join();
+
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("<-- VIRTUAL(Semaphore) Thread Bitti. Süre: " + duration + " ms");
+            return result;
         }
     }
 
