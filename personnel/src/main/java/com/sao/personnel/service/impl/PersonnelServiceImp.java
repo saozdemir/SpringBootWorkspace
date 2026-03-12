@@ -6,21 +6,16 @@ import com.sao.personnel.dto.TaskDto;
 import com.sao.personnel.entity.Personnel;
 import com.sao.personnel.integration.IEducationWebService;
 import com.sao.personnel.integration.ITaskWebService;
-import com.sao.personnel.performance.*;
 import com.sao.personnel.repository.PersonnelRepository;
 import com.sao.personnel.service.IPersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 /**
