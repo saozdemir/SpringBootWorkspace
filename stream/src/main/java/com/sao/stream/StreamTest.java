@@ -29,15 +29,23 @@ public class StreamTest {
         trainingList.add(new AssignedTraining(1L, "Java"));
         trainingList.add(new AssignedTraining(2L, "Python"));
         trainingList.add(new AssignedTraining(3L, "JavaScript"));
+        trainingList.add(new AssignedTraining(6L, "Go"));
+        trainingList.add(new AssignedTraining(null, "Go"));
 
         /** Önce iki listeyi birleştir. Sonra stream ile Set e dönüştür.*/
         trainingList.addAll(selectedTrainingList);
 
+//        assignedTrainingsSet = trainingList.stream()
+//                .filter(at -> at.getId() != null)
+//                .collect(Collectors.toMap(AssignedTraining::getName, assignedTraining -> assignedTraining, (existing, replacement) -> existing))
+//                .values()
+//                .stream()
+//                .collect(Collectors.toSet());
+
+        final Set<Long> seenIds = new HashSet<>();
+        final Set<String> seenNames = new HashSet<>();
         assignedTrainingsSet = trainingList.stream()
-                .filter(at -> at.getId() != null)
-                .collect(Collectors.toMap(AssignedTraining::getName, assignedTraining -> assignedTraining, (existing, replacement) -> existing))
-                .values()
-                .stream()
+                .filter(at -> seenIds.add(at.getId()) && seenNames.add(at.getName()))
                 .collect(Collectors.toSet());
 
 
